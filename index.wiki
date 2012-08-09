@@ -4,7 +4,7 @@
 这里是[https://twitter.com/ktmud @ktmud] 的Wiki World。基于[[tips/vim/vimwiki-guide|Vimwiki]]搭建的维基世界。一切从简，侧边栏什么就不要了。如果你迷路了，可以看看[[SiteMap|站点地图]]。
 
 <div id="whats-special" class="lesser" style="width: 45em">
-<div class="hd">whats-special<div>
+<div class="hd">Any Special?</div>
 <div class="cont">
 # 本页面完全通过Vim手写，配色也是全凭自己感觉输的数字。
 # 用到很多 rgba 和 -webkit-gradient ，所以用 IE 的同学悲剧啦！
@@ -46,7 +46,6 @@
 * [[tips/Git|Git]]
 
 * [[tips/CouchDB|CoudhDB]]
-<!--* [[tips/Nodejs|Nodejs]]-->
 
 === 脚本片段 ===
 *最新*
