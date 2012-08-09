@@ -1,10 +1,10 @@
-= 丘迟的维基世界 =
-%toc 
+= The Pure Ousia of Librae =
+%toc
 === 这是什么？ ===
 这里是[https://twitter.com/ktmud @ktmud] 的Wiki World。基于[[tips/vim/vimwiki-guide|Vimwiki]]搭建的维基世界。一切从简，侧边栏什么就不要了。如果你迷路了，可以看看[[SiteMap|站点地图]]。
 
 <div id="whats-special" class="lesser" style="width: 45em">
-<div class="hd">有什么特别的？</div>
+<div class="hd">whats-special<div>
 <div class="cont">
 # 本页面完全通过Vim手写，配色也是全凭自己感觉输的数字。
 # 用到很多 rgba 和 -webkit-gradient ，所以用 IE 的同学悲剧啦！
@@ -32,7 +32,7 @@
 
 === 知识参考整理 ===
 # [[ref/http-header|深入浅出 http header]]
-# [[ref/encoding-issue|有关文件编码的一些常识]] 
+# [[ref/encoding-issue|有关文件编码的一些常识]]
 
 [[ref/index|更多...]]
 
@@ -82,4 +82,4 @@
 - 本页面支持评论，基于[http://diqus.com DISQUS]实现。但DISQUS有时候实在慢得可以，评论输入框里居然还有iframe。各位如果恰巧不幸赶上DISQUS抽风，又正好想留言的话，还望多一点耐心。
 - 右上角搜索的结果还不完全。这是Google对本站索引太慢造成的。如果你希望有更强力的搜索，就赶快给俺加个友链吧！
 
-%title 欢迎来到丘迟的维基世界 - a site build with Vim, Vimwiki and Git
+%title The Pure Ousia of Librae

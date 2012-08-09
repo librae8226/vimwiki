@@ -1,0 +1,320 @@
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css" />
+<title>丘迟的维基世界 - Vim 小贴士</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<h1 id="toc_1">Vim 经验与技巧</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_1">Vim 经验与技巧</a></li>
+<ul>
+<li><a href="#toc_1.1">教程</a></li>
+<li><a href="#toc_1.2">准备工作</a></li>
+<li><a href="#toc_1.3">你知道吗？</a></li>
+<ul>
+<li><a href="#toc_1.3.1">Vim7.3 的持久撤销</a></li>
+</ul>
+<li><a href="#toc_1.4">颤抖吧！IDE！</a></li>
+<ul>
+<li><a href="#toc_1.4.1">编辑状态的保存</a></li>
+<li><a href="#toc_1.4.2">介绍 Vim 中的批量查找替换</a></li>
+<li><a href="#toc_1.4.3">在 Vim 中启用 JSLint</a></li>
+<ul>
+<li><a href="#toc_1.4.3.1">试试 Google Closure Linter</a></li>
+</ul>
+</ul>
+<li><a href="#toc_1.5">Vim Tips</a></li>
+<ul>
+<li><a href="#toc_1.5.1">插件与配置</a></li>
+<li><a href="#toc_1.5.2">编辑</a></li>
+<li><a href="#toc_1.5.3">使用 Vim Script</a></li>
+</ul>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_1.1">教程</h2>
+<ol>
+<li>
+<a href="vim/vimwiki-guide.html">用Vimwiki建一个维基世界</a>
+</li>
+<li>
+<a href="vim/ways-to-sync-vimwiki.html">自动同步你的 vimwiki 到线上网站</a>
+</li>
+</ol>
+
+<h2 id="toc_1.2">准备工作</h2>
+<p>
+请先在你的 vimrc 里定义变量 $VIMFILES 。比如说 Windows 下，我把 vimfiles 放在了 Vim 安装目录的 <code>vimfiles</code> 目录下，而在其他操作系统是放在了用户主目录的 <code>.vim</code> 目录下：
+</p>
+<pre>
+if has("win32")
+    let $VIMFILES = $VIM.'/vimfiles'
+    let $V = $VIM.'/_vimrc'
+else
+    let $VIMFILES = $HOME.'/.vim'
+    let $V = $HOME.'/.vimrc'
+endif
+</pre>
+
+<h2 id="toc_1.3">你知道吗？</h2>
+<h3 id="toc_1.3.1">Vim7.3 的持久撤销</h3>
+<p>
+Vim 7.3 提供 <strong>持久撤销</strong> (Persistent Undo) 功能，即使文件关闭后，再次打开时仍然可以撤销文件关闭之前的编辑历史。要使用这一功能，在 vimrc 中添加
+</p>
+<pre>
+" 重启后撤销历史可用 persistent undo 
+set undofile
+set undodir=$VIMFILES/\_undodir
+set undolevels=1000 "maximum number of changes that can be undone
+</pre>
+<p>
+<strong>set undofile</strong> - 开启本功能。开启之后会默认在文件当前目录下建立一个 filename.ext.un~ 的文件，自然是会给我们带来麻烦的。所以配置一个 undodir 集中放置所有undofile。
+</p>
+
+<p>
+<strong>$VIMFILES/\_undodir</strong> - $VIMFILES 是我们之前在 vimrc 中定义的环境变量， windows 下是 $VIM/vimfiles/ 。请注意，为了和其他目录区分，undodir前面有下划线 _undodir 。因为有下划线，前面的反斜杠又不可少了。而且这个目录必须自己手动建立。如果不存在，Vim 是不会帮你自动建立的。
+</p>
+
+<h2 id="toc_1.4">颤抖吧！IDE！</h2>
+<h3 id="toc_1.4.1">编辑状态的保存</h3>
+<p>
+大部分IDE都提供记录文件关闭前的状态的功能，个别考虑比较全面的还可以记住软件关闭前都打开了哪些文件。这些功能Vim都能做到。
+</p>
+
+<p>
+记录文件状态（包括独立于该文件的键盘映射、代码折叠状态等）：
+</p>
+<pre>
+autocmd BufWinLeave * if expand('%') != '' &amp;&amp; &amp;buftype == '' | mkview | endif
+autocmd BufRead     * if expand('%') != '' &amp;&amp; &amp;buftype == '' | silent loadview | syntax on | endif
+</pre>
+<p>
+那些 if 判断是为了避免进入新建文件的缓冲区时，出现文件名不存在的错误。
+</p>
+
+<p>
+如果参数为空，记录/载入 Vim 关闭时的状态。
+</p>
+
+<p>
+一般来说，上面的代码就够用了。最大的缺陷可能就是时间长了 <strong>$VIMFILES/views</strong> 目录下就会有很多垃圾文件，有些文件你可能一辈子也不会打开了，但它们的状态文件仍然存在。你可以写一段删除过老文件的脚本，在 Linux 下就像这样：
+</p>
+<pre>
+function! RemoveOldViewFiles
+    exe 'find '.$VIMFILES.'/view* -mtime +90 -exec rm {} \;'
+endfunction
+nmap &lt;leader&gt;.cl :call RemoveOldViewFiles&lt;cr&gt;
+</pre>
+<p>
+删除 90 天以前的文件。
+</p>
+
+<p>
+至于类似于“恢复工作区”这样的功能，则可以通过session文件来实现：
+</p>
+
+<p>
+编辑你的 vimrc :
+</p>
+<pre>
+" Session files Vim关闭时保存会话状态
+set sessionoptions+=unix
+set sessionoptions-=blank
+"set sessionoptions-=options
+autocmd VimEnter * call LoadSession()
+autocmd VimLeave * call MakeSession() 
+
+function! MakeSession()
+    if !has('gui_running')
+        hi clear
+    endif
+    if bufname('')  == ''
+        exe 'bdelete '.bufnr('')
+    endif
+    let l:count = 0
+    let l:i = 0
+    while l:i &lt;= bufnr('$')
+        if buflisted(count)
+            let l:count += 1
+        endif
+        let l:i+=1
+    endwhile
+    if l:count &gt;= 4
+        mksession! ~/.last_session.vim
+    endif
+endfunction
+
+function! LoadSession()
+    "if exists('g:SessionLoaded')
+    "return
+    "endif
+    if expand('%') == '' &amp;&amp; filereadable($HOME.'/.last_session.vim') &amp;&amp; !&amp;diff
+        silent so ~/.last_session.vim
+    endif
+
+    let l:buftotal = bufnr('$')
+    let l:i = 0
+    let l:crtpath = getcwd() 
+    while l:i &lt;= l:buftotal
+        " 列表中还未载入的buffer，如果不在当前工作目录，会被删除
+        if !bufloaded(l:i) &amp;&amp; buflisted(l:i) &amp;&amp; expand('%:p') !~ l:crtpath
+            exe 'bdelete '.l:i
+            echo expand('%:p') .' !~ '. l:crtpath
+        endif
+        let l:i += 1
+    endwhile
+endfunction
+</pre>
+<p>
+这段代码应该很好读懂，我就不解释了～ 有什么问题，请<a href="http://wiki.ktmud.com/tips/Vim.html#disqus_thread">留言</a>！
+</p>
+
+<h3 id="toc_1.4.2">介绍 Vim 中的批量查找替换</h3>
+<p>
+1. <strong>vimgrep</strong> 命令
+试用 <code>:vimgrep word *</code> 可以在当前目录的任意文件下查找“word”，并生成 quickfix 列表。试用 <code>:cl</code> 可以查看所有匹配结果。使用 <code>:cn</code> 到下一个， <code>:cp</code> 到上一个。
+</p>
+
+<p>
+使用 <code>:vimgrep /pattern/gj *.php</code> 可以在当前目录的php文件中按搜索模式 pattern 查找。标志位 g 代表每次匹配都加入匹配结果列表，否则每行只匹配一次。标志位 j 表示只更新 quickfix 列表，否则 vim 会跳到第一个匹配上。
+</p>
+
+<p>
+更多说明，请 <code>:h vimgrep</code> 或者 <a href="http://www.vimer.cn/2009/10/vimgvim%E5%AE%9E%E7%8E%B0%E5%A4%9A%E6%96%87%E4%BB%B6%E7%9A%84%E6%9F%A5%E6%89%BE%E5%92%8C%E6%9B%BF%E6%8D%A2.html">点这里</a>。
+</p>
+
+<p>
+2. arguments 参数列表
+参数列表就是一系列文件列表。在上面链接的文章已有介绍，不细讲。
+</p>
+
+<h3 id="toc_1.4.3">在 Vim 中启用 JSLint</h3>
+<p>
+明爷(gracecode.com)曾介绍过<a href="http://www.gracecode.com/archives/2902/">如何在Vim中使用JSLint</a>，他写这篇文章时还没有诞生我今天要介绍的插件：<a href="http://www.vim.org/scripts/script.php?script_id=2729">jslint.vim</a>。
+</p>
+
+<p>
+事实证明，这个插件是很好用的。不过最初安装时要花点功夫。Linux下按照README的说明来，应该不会遇到什么问题，我这里讲一下在Windows下的注意事项。
+</p>
+
+<p>
+1. 这个插件只能装在系统用户目录下（<code>$HOME</code>），即你在Vim里执行 <code>:cd ~</code> 所到的目录。（Win7下是 C:\Users\Username ）
+</p>
+
+<p>
+要突破上面的限制，修改 <code>ftplugin/javascript/jslint.vim</code> 第16行定义 install_dir 的部分：
+</p>
+<pre>
+if has("win32")
+	let s:install_dir = '"' . expand($VIMFILES."/ftplugin/javascript") . '"'
+else
+</pre>
+
+<p>
+2. 对于带中文的JS文件，容易出现行定位错误的问题。原因和小明那篇文章里说的一样。我们同样在关键地方添加 iconv 转一下字符即可。
+</p>
+
+<p>
+修改定义 <code>b:jslint_output</code> 的地方：
+</p>
+<blockquote>
+let b:jslint_output = system(s:cmd, iconv(join(s:jslintrc + getline(b:firstline, b:lastline), "\n") . "\n", &amp;enc, "gbk"))
+</blockquote>
+
+<p>
+这么简单的问题，我折腾了两个小时。之前以为是换行符的问题。唉...
+</p>
+
+<h4 id="toc_1.4.3.1">试试 Google Closure Linter</h4>
+<p>
+<a href="http://www.jslint.com/">JSLint</a> 默认的规则在有些情况下不太实用，比如说<a href="http://docs.jquery.com/JQuery_Core_Style_Guidelines">jQuery就会无视一些JSLint的错误</a>。基于 Google 的<a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml">编码风格</a>，有一个 *<a href="http://code.google.com/closure/utilities/">Closure Linter</a>*，我们可以试着把它集成到 Vim 中。
+</p>
+
+<p>
+我修改了上面的 Vim 插件，有需要的可以<a href="https://github.com/ktmud/vim-unix/raw/master/.vim/ftplugin/javascript/jslint.vim">点击这里</a>下载。
+</p>
+
+<p>
+gjslint 唯一的遗憾就是“字数过多”这个限制太严格了，对于我们宽屏用户来说，80个字符远远不够啊。暂时没有找到解决办法。
+</p>
+
+<h2 id="toc_1.5">Vim Tips</h2>
+<h3 id="toc_1.5.1">插件与配置</h3>
+<ol>
+<li>
+在Vimwiki中，可以用 %title 自定义输出的 HTML 的 title ，但是最好写在文件最末尾，不然如果同时使用了 %toc （自动目录）， 就会产生嵌套错误。这个bug将来可能会修正，但保持习惯是没错的。
+</li>
+<li>
+把 _vimrc 和 vimfiles 拷到 msysgit 的安装目录下( <code>C:\Program Files\Git\share\vim</code> )，可以让 Git Bash 里的 vim 也符合你平时的操作习惯。
+</li>
+<li>
+NERDTree Explorer 里带星号的文件代表这个文件是可执行文件
+</li>
+<li>
+安装新插件后，如果插件提供了帮助文档（help doc），你可能需要重建帮助文件索引，命令如下：
+    :helptags $VIMFILES/doc
+</li>
+</ol>
+
+<h3 id="toc_1.5.2">编辑</h3>
+<ol>
+<li>
+除了普通模式，可视模式，插入模式，你是否还知道有一个替换模式？正如在普通编辑器里按 <kbd>Insert</kbd> 键所切换入的那样，输入的文本会逐字替换光标下的字符。
+</li>
+<li>
+要在 Vim 里跨行匹配，可以用 <code>\_.</code> 匹配包括换行符在内的任意字符。
+</li>
+<li>
+使用 <code>\{-}</code> 实现类似常见 perl 正则里的 <code>?</code> 之作用的懒惰匹配，尽量少的匹配前面的匹配元。
+</li>
+<li>
+使用 <code>:s</code> (替换)命令时，添加标志位 <strong>e</strong> 可以忽略找不到 pattern 的错误，这在函数或键盘映射命令中非常有用。如，下面的代码可以格式化CSS（虽然并不完美）：
+    map &lt;leader&gt;css :%s/;\s*\([a-z*_-}]\)/;\r\1/ge&lt;cr&gt;:%s/\(\w\)\s*{\([^\r]\)/\1\ {\r\2/ge&lt;cr&gt;:%s/:\(\w\)/:\ \1/ge&lt;cr&gt;:%s/}\(\w\\|#\\|\.\)/}\r\1/ge&lt;cr&gt;,=
+</li>
+<li>
+还剩 <code>:s</code> 命令，一般我们都喜欢用 <code>/</code> 做分隔符，事实上，这个斜杠，可用是任意字符。对于匹配HTML代码时，可用使用分号（<code>;</code>） ，这样就能避免总是需要用反斜杠转义HTML里面的斜杠了。
+    :'&lt;,'&gt;s;&lt;span&gt;\(.*\)&lt;/span&gt;;\1;g
+</li>
+</ol>
+<blockquote>
+上面的代码可用去掉选中区域的&lt;span&gt;标签。
+</blockquote>
+
+<p>
+<strong>你可能不知道的快速编辑快捷键：</strong>
+<code>gv</code>          选中之前选中过的内容
+<code>g~{motion}</code>  切换{motion}跨越的文本的大小写
+<code>g~~</code>         切换当前行的大小写
+<code>gU{motion}</code>  切换为大写   
+<code>gu{motion}</code>  切换为小写
+</p>
+
+<p>
+不小心打开了一个需要 sudo 权限才能保存的文件，但是编辑了一大半才发现？下面的命令可以救急：
+</p>
+<blockquote>
+:w !sudo tee %
+</blockquote>
+
+<p>
+也可以做一个命令映射，安静地保存：
+</p>
+<blockquote>
+command W w !sudo tee % &gt; /dev/null
+</blockquote>
+
+<h3 id="toc_1.5.3">使用 Vim Script</h3>
+<ol>
+<li>
+获取当前buffer的总行数的函数：  <code>line("$")</code>
+</li>
+<li>
+静默执行shell：   <code>:silent !cmd</code>
+</li>
+</ol>
+
+</body>
+</html>

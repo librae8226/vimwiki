@@ -1,0 +1,364 @@
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../style.css" />
+<title>在 VPS 上用 nginx + php-fpm + mysql 快速搭建Web服务器 - 丘迟的维基世界</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<h1 id="toc_1">在 VPS 上用 nginx + php-fpm + mysql 搭建网络服务</h1>
+<p>
+最近在折腾 VPS ，实在厌倦了每次配置时都要 google 一下，把配置步骤记录下来，也欢迎高手们指教。
+</p>
+
+<p>
+以下步骤参照了这篇文章： <a href="http://blog.s135.com/nginx_php_v6/">http://blog.s135.com/nginx_php_v6/</a>  在 Fedora 下编译通过， CentOS 应该也没问题， Ubuntu 和 Archlinux 之类，只要把相关依赖软件包装好，应该也没什么问题。由于各家 VPS 商提供的系统镜像模板不一样，有些必要的包你可能没有，可能有，这就只能视具体情况而定了。
+</p>
+
+<h2 id="toc_1.1">准备</h2>
+<p>
+首先当然是要买一个 VPS ，新手推荐 <a href="http://www.yardvps.com/billing/aff.php?aff=122">YardVPS</a> ，它家的 Xen 主机性价比很高。速度是我用过最快的，完成下面所有步骤基本上只需要半小时（不过最近貌似有点抽风…）。
+</p>
+
+<p>
+安装依赖，对于 Fedora ：
+</p>
+<pre class="brush: bash">
+yum -y install gcc gcc-c++ autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers
+</pre>
+
+<pre class="brush: bash">
+yum -y install pcre-devel perl-devel subversion git bison cmake ccmake gmp-devel pam-devel libc-client-devel automake libevent libevent-devel
+</pre>
+
+<p>
+对于 Debian lenny：
+</p>
+<pre class="brush: bash">
+apt-get install libpcre3 libpcre3-dev libssl-dev bison cmake gawk flex gcc g++ autoconf make libpng12-dev libjpeg62-dev libfreetype6-dev ncurses-bin libncurses5-dev libncurses5 subversion git zlib1g-dev curl libcurl4-openssl-dev libxml2-dev bzip2 libbz2-dev libgmp3-dev libgmp3c2 libc-client-dev libsasl2-dev
+</pre>
+
+<p>
+先主机上建立存放安装包的目录：
+</p>
+<pre>
+mkdir ~/packa
+cd ~/packa
+</pre>
+
+<p>
+下载安装包：
+</p>
+<pre class="brush: bash">
+wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+wget http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.17.tar.gz/from/http://mysql.he.net/
+wget http://nginx.org/download/nginx-1.0.8.tar.gz
+wget http://cn.php.net/get/php-5.3.8.tar.bz2/from/us2.php.net/mirror
+svn checkout http://code.taobao.org/svn/nginx_concat_module/trunk/ nginx_concat_module
+</pre>
+
+<h2 id="toc_1.2">安装 nginx</h2>
+<p>
+为了装逼，我们修改一下 nginx 源码，使其发出的 Header 里的 server 信息带上我们自己的个性化烙印。
+</p>
+<pre>
+vim src/core/nginx.h
+</pre>
+
+<p>
+修改 <code>#define NGINX_VER</code> 这一行为你想要的！ Like :
+</p>
+<blockquote>
+#define NGINX_VER          "Peace in Heart (nginx/" NGINX_VERSION ")"
+</blockquote>
+
+<p>
+或者： <a href="http://stackoverflow.com/questions/246227/how-do-you-change-server-tag-for-nginx">http://stackoverflow.com/questions/246227/how-do-you-change-server-tag-for-nginx</a>
+</p>
+
+<h3 id="toc_1.2.1">更装逼的自动索引页</h3>
+<p>
+对于没有 index.html 之类默认首页的目录， Nginx 也可以提供自动索引。只需在配置文件里面加以局 <code>autoindex on;</code> 即可。
+</p>
+
+<p>
+我们可以修改默认的索引页，让它变得漂亮一点。打开 <strong>src/http/modules/ngx_http_autoindex_module.c</strong> ， 从第118行开始修改：
+</p>
+<pre class="brush: cpp">
+static u_char title[] =
+"&lt;!doctype html&gt;" CRLF
+"&lt;html&gt;" CRLF
+"&lt;head&gt;&lt;title&gt;来看看这个目录： "
+;
+
+static u_char header[] =
+"&lt;/title&gt;" CRLF
+"&lt;style type=\"text/css\"&gt; body {    width: 86%;    min-width: 750px;    max-width: 1120px;    margin: 20px auto;    font: 100 17px/1 'Courier New','Consolas','方正博雅宋_GBK','方正博雅宋','Yahei Mono',        '微软雅黑',sans-serif;    overflow: hidden;}h1{    font-size: 26px;    text-align: center;    color: #555;    background: -webkit-gradient(linear, 0 10%, 0 100%, from(#fff), to(#f9f8f7));;    text-           shadow: 0 2px 4px rgba(160,160,160,0.5);    border: 1px solid #9abc5f;    border-bottom: 3px double #e8e8e3;    border-radius: 8px 8px 0 0;    -moz-border-radius: 8px 8px 0 0;    padding: 18px 0 15px;        margin: 0;    -webkit-box-shadow: 0 -4px 12px #f0f0f0;    -moz-box-shadow: 0 -4px 12px #f0f0f0;}hr {    display: none;}pre {    margin: 0;    font: 100 15px/1.8 'Courier New','Consolas','方正博雅宋_GBK',     '方正博雅宋','Yahei Mono','微软雅黑',sans-serif;    border: solid #a7c56f;    border-width: 0 1px;    height: 3000px;    padding: 30px;    -webkit-box-shadow: 0 10px 16px #e6e6e6;    -moz-box-shadow: 0       10px 16px #e6e6e6;}a {    color: #207210;    text-shadow: 0 1px 0 #efefe0;    text-decoration: none;    padding: 0.2em 0.4em;    border: 1px solid transparent;}a:hover {    background: #290;    color:        #fff;    text-shadow: 0 0 0;    border: 1px solid #370;    border-radius: 2px;    -moz-border-radius: 2px;}#footer {    position: fixed;    width: 50%;    padding: 15px 0;    left: 25%;    bottom:            20px;    color: #666;    background: rgba(255,255,255,0.8);    text-align: center;    border: 1px solid #ccc;    border-radius: 2px 2px 6px 6px;    -moz-border-radius: 2px 2px 6px 6px;    -webkit-box-        shadow: 0 1px 4px #ccc;    -moz-box-shadow: 0 1px 4px #ccc;}&lt;/style&gt;" CRLF
+"&lt;/head&gt;" CRLF
+"&lt;body&gt;" CRLF
+"\&lt;h1\&gt;索引："
+;
+
+static u_char tail[] =
+"&lt;p id=\"footer\"&gt;&amp;copy; &lt;a href=\"https://twitter.com/ktmud\"&gt;@ktmud&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;" CRLF
+"&lt;/html&gt;" CRLF
+;
+</pre>
+<p>
+那个 footer 里的版权信息你可以自己根据需要修改哈。
+</p>
+
+<p>
+然后，根据 <a href="http://wiki.nginx.org/NginxChsInstallOptions">nginx 官方维基</a> 的介绍以及自己的需求，使用如下编译选项：
+</p>
+<pre class="brush: bash">
+./configure \
+  --prefix=/usr/local/webserver/nginx \
+  --user=www \
+  --group=www \
+  --conf-path=/etc/nginx/nginx.conf \
+  --http-log-path=/srv/log/nginx/access_log \
+  --error-log-path=/srv/log/nginx/error_log \
+  --pid-path=/var/run/nginx.pid \
+  --http-client-body-temp-path=/var/tmp/nginx_client \
+  --http-proxy-temp-path=/var/tmp/nginx_proxy \
+  --http-fastcgi-temp-path=/var/tmp/nginx_fastcgi \
+  --with-md5-asm \
+  --with-sha1-asm \
+  --with-sha1=/usr/include \
+  --with-http_realip_module \
+  --with-http_ssl_module \
+  --with-http_flv_module \
+  --with-http_gzip_static_module \
+  --with-http_stub_status_module \
+  --add-module=../nginx_concat_module
+</pre>
+
+<p>
+注意最后一行， add-module ，这里添加的是淘宝的文件combo模块(之前我们有通过 svn 命令checkout出来)。详细了解请点此： <a href="http://code.taobao.org/project/view/59/">http://code.taobao.org/project/view/59/</a>
+</p>
+
+<p>
+然后就可以 <code>make &amp;&amp; make install</code> 。
+</p>
+
+<p>
+接下来就可以编辑 <code>/etc/nginx/nginx.conf</code> ，修改你的 nginx 配置了。
+</p>
+
+<h2 id="toc_1.3">安装 MySQL</h2>
+
+<p>
+二话不说，先把 libiconv 装了（解压 ./configure  make install 即可）。
+</p>
+
+<p>
+我们下载的是 MYSQL 5.5.8 ，需要使用 cmake 安装。 cmake 在 fedora 里面可以直接 yum ，但对于 CentOS ， yum 一般是找不到它的，需要<a href="http://www.cmake.org/cmake/resources/software.html">自己下载</a>。
+</p>
+<pre>
+wget http://www.cmake.org/files/v2.8/cmake-2.8.3-Linux-i386.tar.gz
+tar zxf cmake-2.8.3-Linux-i386.tar.gz
+cd
+</pre>
+
+<p>
+解压 mysql 后，在其目录下首先执行 <code>ccmake .</code> ，调整一些配置选项，比如安装目录之类。第一次运行 ccmake , 需要按 <kbd>g</kbd> 执行一次生成配置文件的操作。然后才可以更改选项。按 Enter 修改，具体选项请参考[MySQL官方文档 <a href="http://dev.mysql.com/doc/refman/5.5/en/source-configuration-options.html">http://dev.mysql.com/doc/refman/5.5/en/source-configuration-options.html</a>]。
+</p>
+
+<p>
+修改完成后，按 <kbd>c</kbd> 再次 configure， configure 成功后按 e 退出提示信息，然后按 g 生成配置并退出。退出后还需要执行 <code>cmake .</code> 才能 <code>make</code> 。
+</p>
+
+<h2 id="toc_1.4">安装 php</h2>
+
+<p>
+php 编译选项如下
+</p>
+<pre class="brush: bash">
+./configure \
+ '--prefix=/usr/local/webserver/php'\
+ '--sysconfdir=/etc/php'\
+ '--localstatedir=/var'\
+ '--with-layout=GNU'\
+ '--with-config-file-path=/etc/php'\
+ '--with-config-file-scan-dir=/etc/php/conf.d'\
+ '--enable-inline-optimization'\
+ '--disable-debug'\
+ '--disable-rpath'\
+ '--disable-static'\
+ '--enable-shared'\
+ '--mandir=/usr/share/man'\
+ '--without-pear'\
+ '--disable-cli'\
+ '--enable-fpm'\
+ '--with-fpm-user=www'\
+ '--with-fpm-group=www'\
+ '--enable-cli'\
+ '--enable-mbregex'\
+ '--enable-session'\
+ '--enable-bcmath=shared'\
+ '--enable-calendar=shared'\
+ '--enable-exif=shared'\
+ '--enable-ftp=shared'\
+ '--enable-json=shared'\
+ '--enable-mbstring=shared'\
+ '--enable-pdo=shared'\
+ '--enable-phar=shared'\
+ '--enable-posix=shared'\
+ '--enable-shmop=shared'\
+ '--enable-soap=shared'\
+ '--enable-sockets=shared'\
+ '--enable-sysvmsg=shared'\
+ '--enable-sysvsem=shared'\
+ '--enable-sysvshm=shared'\
+ '--enable-xml'\
+ '--enable-zip=shared'\
+ '--with-bz2=shared'\
+ '--with-curl=shared'\
+ '--with-freetype-dir=shared,/usr'\
+ '--with-mcrypt=shared'\
+ '--with-gd=shared'\
+ '--enable-gd-native-ttf'\
+ '--with-gettext=shared'\
+ '--with-gmp=shared'\
+ '--with-iconv=shared'\
+ '--with-iconv-dir=/usr/local/lib'\
+ '--with-imap-ssl=shared'\
+ '--with-imap=shared'\
+ '--with-kerberos'\
+ '--with-jpeg-dir=shared,/usr'\
+ '--with-ldap=shared'\
+ '--with-ldap-sasl'\
+ '--with-mhash'\
+ '--with-mysql=shared,mysqlnd'\
+ '--with-mysqli=shared,mysqlnd'\
+ '--with-sqlite=shared'\
+ '--with-pdo-mysql=shared,mysqlnd'\
+ '--with-pdo-sqlite=shared'\
+ '--with-openssl=shared'\
+ '--with-pcre-regex=/usr'\
+ '--with-png-dir=shared,/usr'\
+ '--with-regex=php'\
+ '--with-xmlrpc=shared'\
+ '--with-zlib=shared'
+
+make ZEND_EXTRA_LIBS='-liconv'
+</pre>
+
+<p>
+安装完成后， 链接可执行文件
+</p>
+<pre>
+ln -sf /usr/local/webserver/nginx/sbin/nginx /usr/sbin/nginx
+ln -sf /usr/local/webserver/php/bin/phpize /usr/sbin/phpize
+ln -sf /usr/local/webserver/php/bin/php-config /usr/sbin/php-config
+ln -sf /usr/local/webserver/php/sbin/php-fpm /usr/sbin/php-fpm
+</pre>
+
+<h3 id="toc_1.4.1">编译 PHP 的疑难解答</h3>
+
+<p>
+1. 遭遇  error while loading shared libraries: libiconv.so.2: cannot open shared object file: No such file or directory
+</p>
+
+<p>
+<strong>解决办法</strong>:
+</p>
+<ol>
+<li>
+在 <code>/etc/ld.so.conf</code> 中加一行 <code>/usr/local/lib</code>
+</li>
+<li>
+运行 <code>/sbin/ldconfig</code>
+</li>
+</ol>
+
+<p>
+2. 遇到 mcrypt 的错误：
+</p>
+<pre>
+/usr/bin/ld: cannot find -lltdl
+collect2: ld returned 1 exit status
+make: *** [ext/mcrypt/mcrypt.la] 错误 1
+</pre>
+
+<p>
+<strong>解决办法</strong>:
+</p>
+<pre>
+wget "http://downloads.sourceforge.net/mcrypt/libmcrypt-2.5.8.tar.gz?modtime=1171868460&amp;big_mirror=0"
+tar zxvf libmcrypt-2.5.8.tar.gz
+cd libmcrypt-2.5.8/
+./configure
+make
+make install
+/sbin/ldconfig
+cd libltdl/
+./configure --enable-ltdl-install
+make
+make install
+cd ../../
+</pre>
+
+<h2 id="toc_1.5">安装 eaccelerator 等 php 加速模块</h2>
+<pre>
+wget http://pecl.php.net/get/memcache-2.2.6.tgz
+wget http://bart.eaccelerator.net/source/0.9.6.1/eaccelerator-0.9.6.1.tar.bz2
+</pre>
+
+<p>
+然后分别解压，在各自目录里执行：
+</p>
+<pre>
+phpize
+./configure
+make
+make install
+</pre>
+
+<p>
+需要注意的是，  eaccelerator 的编译选项需要为：
+</p>
+<pre>
+./configure --enable-eaccelerator=shared --with-php-config=/usr/local/webserver/php/bin/php-config
+</pre>
+
+<h2 id="toc_1.6">运行前的准备工作</h2>
+<p>
+添加用户
+</p>
+<pre>
+useradd git -d /srv/git
+useradd mysql -d /srv/mysql
+useradd www -d /srv/http
+</pre>
+<p>
+搭配运行环境
+</p>
+<pre>
+mkdir /var/tmp/nginx
+mkdir /var/run/nginx
+mkdir /var/run/php-fpm
+mkdir /tmp/eaccelerator_cache
+chown www -R /tmp/eaccelerator_cache
+</pre>
+
+<p>
+为方便管理，在 .bashrc 里面添加 shorcut：
+</p>
+<pre>
+alias s='service'
+alias ll='ls -al'
+alias la='ls -a'
+alias phpf='/root/rc/rc.d/php-fpm'
+alias msq='/srv/mysql/mysqld'
+alias ephpi='vim /etc/php/php.ini'
+alias ephpf='vim /etc/php/php-fpm.conf'
+</pre>
+
+<h2 id="toc_1.7">更多</h2>
+<p>
+For more nginx tips, go for my <a href="Nginx.html">nginx tips</a>.
+</p>
+
+</body>
+</html>

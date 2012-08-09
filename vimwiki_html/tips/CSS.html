@@ -1,0 +1,29 @@
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css" />
+<title>丘迟的维基 - CSS</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<h1 id="toc_1">CSS</h1>
+<p>
+IE8不认 .selecto, .sel, {} 这样的CSS，注意最后多出来的那个逗号。
+</p>
+
+<h2 id="toc_1.1">IE6 的最大宽度最大高度</h2>
+<p>
+利用 Expression , 并且只执行一次，完美性能。
+</p>
+<pre>
+#shopinfo img {
+  /* 'clear' is a dummy property */
+  _clear: expression( 
+     width &gt; 180 ? width = 180 : true, 
+     height &gt; 90 ? height = 90 : true,
+     style.clear = "none", 0
+  );
+}
+</pre>
+
+</body>
+</html>
