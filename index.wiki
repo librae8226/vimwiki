@@ -2,8 +2,10 @@
 = The Pure Ousia of Librae =
 <hr>
 %toc
-=== 这是什么？ ===
-这里是[https://twitter.com/ktmud @ktmud] 的Wiki World。基于[[tips/vim/vimwiki-guide|Vimwiki]]搭建的维基世界。一切从简，侧边栏什么就不要了。如果你迷路了，可以看看[[SiteMap|站点地图]]。
+=== What Is This? ===
+Here is Librae's rough site, based on vimwiki, see [[http://code.google.com/p/vimwiki|vimwiki - google code]] or [[http://www.vim.org/scripts/script.php?script_id=2226|vim.org]].<br>
+Refer to this page for [[tips/vim/vimwiki-guide|vimwiki simple guide]]<br>
+一切从简，侧边栏什么就不要了。如果你迷路了，可以看看[[SiteMap|站点地图]]。<br>
 
 <div id="whats-special" class="lesser" style="width: 45em">
 <div class="hd">Any Special?</div>

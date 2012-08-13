@@ -1,0 +1,4 @@
+%template header-footer
+
+= Finally, Vimwiki Template Settled Down =
+It can be set forth now! Work on it!
