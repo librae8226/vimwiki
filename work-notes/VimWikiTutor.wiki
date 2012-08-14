@@ -1,0 +1,148 @@
+Now this is the [[VimWikiTutor]] page.
+And HOME is in *HERE* [[index]].
+
+*This is bold text.*
+
+_This is italic text._
+
+WikiWord -- linkto WikiWord (now it's not available anymore)
+
+* bullet item
+* bullet 2
+* bullet 3
+
+# numbered list item
+# num 2
+# num 3
+
+= Header1 =
+biggest
+== Header2 ==
+less big
+=== Header3 ===
+third big
+==== Header4 ====
+fourth
+===== Header5 =====
+fifth
+
+NOTE! From Header7 on, the format would not take effects.
+
+{{{
+/* This is a block of code */
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void) {
+	return 0;
+}
+}}}
+
+=== Vimwiki 1.1.1 Quick Reference *TEST!* ===
+
+==== Headers, lists, tables, diary ====
+===== Generated Links =====
+- FslAndroid
+- MrvlBug
+- SonyMarlin
+- WikiWord
+- [[index]]
+===== Text styles =====
+strikeout ~~text~~
+,,sub,,text^super^
+monospaced `code`
+
+===== Headings and breaks =====
+
+(empty_line) paragraph break
+
+<br> line break
+
+---- horizontal line
+
+===== Lists, tables, quotations and code blocks =====
+- item 1
+- item 2
+- item 3
+
+term:: definition
+
+table row:<br>
+|text 1|text 2|text 3|
+
+table header seperator:
+|--+--+--|
+
+comment, not shown in HTML:
+
+(four_spaces)block of quoted text:
+    #include <stdio.h>
+
+
+===== Internal links, external links and images =====
+
+SonyMarlin  WikiWord link
+
+!TextText not a WikiWord link
+
+[[VimWikiTutor]] link with an arbitrary name
+
+with descr.<br>
+[[MrvlBug| Desc 1]]
+[[MrvlBug][Desc 2]]
+
+link to a local file:<br>
+[[/home/yliao/Documents/Object-oriented_Programming_with_ANSI-C.pdf]]<br>
+and a local picture:<br>
+[[/home/yliao/Documents/Android_System_Frame.jpg]]
+
+plain link to a URL:<br>
+http://www.baidu.com
+
+[http://leafgrass.tk my home page]  with descr.
+
+local image:<br>
+[[res/img/ies.jpg||width:263px;height:170px;]]
+
+external image:<br>
+http://source.android.com/images/home-bugdroid.png
+OR<br>
+[[http://source.android.com/images/home-bugdroid.png]]
+
+image with description:<br>
+[[http://android.git.kernel.org/pub/android-banner1.gif| desc]]
+
+with alternate text:<br>
+[[http://android.git.kernel.org/pub/android-banner1.gif| comment|]]
+
+with alt. text and size:<br>
+[[http://android.git.kernel.org/pub/android-banner1.gif| text|width:150px;]]
+
+without alternate text<br>
+[[http://android.git.kernel.org/pub/android-banner1.gif||height:40px;]]
+
+thumbnail link:<br>
+[http://android.git.kernel.org/pub/android-banner1.gif http://android.git.kernel.org/pub/android-banner1.gif]
+OR<br>
+[[http://android.git.kernel.org/pub/android-banner1.gif| http://android.git.kernel.org/pub/android-banner1.gif]]
+
+===== Placeholders affecting HTML output =====
+
+table of contents with optional title:
+%toc Text
+<!--
+use this title instead of the filename:
+%title Text
+-->
+<!--
+do not convert to HTML:
+-%nohtml
+-->
+
+===== Folding, text objects and operators =====
+===== Vimwiki options and additional wikis =====
+[.vimrc]
+
+Help and information:<br>
+:he vimwiki
+

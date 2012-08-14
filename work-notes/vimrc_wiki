@@ -1,0 +1,436 @@
+
+  set guifont=Luxi\ Mono\ 9   "设置gvim字体，字体名称和字号
+
+  set encoding=UTF-8 	"设定字符编码
+
+  set fileencodings=utf8,gb2312,gb18030,gbk,cp936,ucs-bom,latin1 	"若你要打开的文件编码不在此列，那就添加进去
+
+  set termencoding=utf-8
+
+  set tabstop=4       " 设置tab键的宽度
+
+  set backspace=2     " 设置退格键可用
+
+  set nu              " 显示行号
+
+  "set wrap           " 自动换行
+
+  "set nowrap         " 不自动换行
+
+  set linebreak       " 整词换行
+
+  set whichwrap=b,s,<,>,[,]       " 光标从行首和行末时可以跳到另一行去
+
+  "set list                       " 显示制表符
+
+  "set listchars = tab:>-,trail:- " 将制表符显示为'>---',将行尾空格显示为'-'
+
+  set listchars=tab:.\ ,trail:.   " 将制表符显示为'.   '
+
+  "set autochdir                   " 自动设置目录为正在编辑的文件所在的目录
+
+  set hidden          " 没有保存的缓冲区可以自动被隐藏
+
+  set scrolloff=5
+  
+  "--------------------------------------------------------------------------------
+
+  " 查找/替换相关的设置
+
+  "--------------------------------------------------------------------------------
+
+  set noic 			  "查找时不乎略大小写
+
+  set nohlsearch        " 高亮显示搜索结果
+
+  set incsearch       " 查询时非常方便，如要查找book单词，当输入到/b时，会自动找到
+
+                      " 第一个b开头的单词，当输入到/bo时，会自动找到第一个bo开头的
+
+                      " 单词，依次类推，进行查找时，使用此设置会快速找到答案，当你
+
+                      " 找要匹配的单词时，别忘记回车
+
+  set gdefault        " 替换时所有的行内匹配都被替换，而不是只有第一个
+  
+  "--------------------------------------------------------------------------------
+
+  " 状态栏相关的设置
+
+  "--------------------------------------------------------------------------------
+
+  set statusline=[%F]%y%r%m%*%=[Line:%l/%L,Column:%c][%p%%]
+
+  set laststatus=2    " always show the status line
+
+  set ruler           " 在编辑过程中，在右下角显示光标位置的状态行
+
+  
+
+  "--------------------------------------------------------------------------------
+
+  " 编程相关的设置
+
+  "--------------------------------------------------------------------------------
+  
+  colorscheme desert
+
+  syntax on 	" open syntax high light
+
+  set completeopt=longest,menu    " 关掉智能补全时的预览窗口
+
+  filetype plugin indent on       " 加了这句才可以用智能补全
+
+  set showmatch       " 设置匹配模式，类似当输入一个左括号时会匹配相应的那个右括号
+
+  set smartindent     " 智能对齐方式
+
+  set shiftwidth=4    " 换行时行间交错使用4个空格
+
+  set autoindent      " 自动对齐
+
+  set ai!             " 设置自动缩进
+
+  "--------------------------------------------------------------------------------
+
+  " 代码折叠
+
+  "--------------------------------------------------------------------------------
+
+  "set foldmarker={,}
+
+  "set foldmethod=marker
+
+  "set foldmethod=syntax
+
+  "set foldlevel=100       " Don't autofold anything (but I can still fold manually)
+
+  "set foldopen-=search   " don't open folds when you search into them
+
+  "set foldopen-=undo     " don't open folds when you undo stuff
+
+  "set foldcolumn=4
+
+   "--------------------------------------------------------------------------------
+
+    " 模仿MS Windows中的快捷键
+
+  "--------------------------------------------------------------------------------
+
+ "vmap <C-c> "yy
+
+ "vmap <C-x> "yd
+
+ "nmap <C-v> "yp
+
+ "vmap <C-v> "yp
+
+ "nmap <C-a> ggvG$
+  "--------------------------------------------------------------------------------
+
+  " 窗口操作的快捷键
+
+  "--------------------------------------------------------------------------------
+
+ nmap wv     <C-w>v     " 垂直分割当前窗口
+
+ nmap wc     <C-w>c     " 关闭当前窗口
+
+ nmap ws     <C-w>s     " 水平分割当前窗口
+
+  "--------------------------------------------------------------------------------
+
+  " 模仿MS Windows中的保存命令: Ctrl+S
+
+  "--------------------------------------------------------------------------------
+
+  "imap <C-s> <Esc>:wa<cr>i<Right>
+
+  "nmap <C-s> :wa<cr>
+ 
+ 
+"###############################################################################
+
+  " The following is the Plugins' setting
+
+"###############################################################################
+
+  
+
+  "--------------------------------------------------------------------------------
+
+  " TagList :Tlist
+
+  "--------------------------------------------------------------------------------
+  :map <F2> :Tlist<CR>	" 按下F2为显示Tlist窗口，再按一次表示关闭
+  :imap <F2> :Tlist<CR>i
+  
+  :map <F3> :cw<CR>	"
+  :imap <F3> :cw<CR>i
+  
+  :map <F4> :make install<CR>	
+  
+ let Tlist_Show_One_File=1
+
+ let Tlist_Exit_OnlyWindow = 1
+
+ "let Tlist_Use_Right_Window=1
+
+
+
+ "--------------------------------------------------------------------------------
+
+ " netrw 文件浏览器 :e <PATH>
+
+ "--------------------------------------------------------------------------------
+
+ "let g:netrw_winsize = 30       " 浏览器宽度
+
+ 
+
+ "--------------------------------------------------------------------------------
+
+ " QuickFix
+
+ "--------------------------------------------------------------------------------
+
+ nmap <F5> :cp<cr>   " 切换到上一个结果
+
+ nmap <F6> :cn<cr>   " 切换到下一个结果
+
+ 
+
+ "--------------------------------------------------------------------------------
+
+ " WinManager :WMToggle
+
+ "--------------------------------------------------------------------------------
+
+ let g:winManagerWindowLayout='FileExplorer|TagList'
+
+ "let g:winManagerWidth = 30
+
+ "let g:defaultExplorer = 0
+
+ "nmap <C-w><C-b> :BottomExplorerWindow<cr> " 切换到最下面一个窗格
+
+ "nmap <C-w><C-f> :FirstExplorerWindow<cr>   " 切换到最上面一个窗格
+
+ nmap wm :WMToggle<cr> " 是nomal模式的命令，不是Ex模式的
+
+ 
+
+ "--------------------------------------------------------------------------------
+
+ " MiniBufExp
+
+ "--------------------------------------------------------------------------------
+
+ "let g:miniBufExplMapWindowNavVim = 1
+
+ let g:miniBufExplMapWindowNavArrows = 1
+
+ let g:miniBufExplMapCTabSwitchBufs = 1
+
+ "let g:miniBufExplModSelTarget = 1
+
+ 
+
+ "--------------------------------------------------------------------------------
+
+ " ctags
+
+ "--------------------------------------------------------------------------------
+
+ "ctags -R --fields=+lS
+ 
+ "设置索引文件
+ set tags=$PWD/tags
+ "set tags=/usr/local/src/wine-1.0-orig/tags
+ 
+ "定位到函数或变量定义的地方
+ "tag func_name
+ 
+
+ "--------------------------------------------------------------------------------
+
+ " cscope
+
+ "--------------------------------------------------------------------------------
+ "进入源码的根目录
+
+ "cscope -Rbq
+
+ "cs add /home/nfs/microwindows/src/cscope.out /home/nfs/microwindows/src
+ 
+ "cs f X func_name
+ "cs find c func_name 查找谁调用了func_name()这个函数 
+ "cs find g var_name  查找变量var_name的定义
+ "cs find d func_name 查找本函数调用的函数
+ "cs reset 重新初始化所有链接
+ "
+ "查看所有命令作用
+ "cs help
+
+ :set cscopequickfix=s-,c-,d-,i-,t-,e-
+
+ :set cscopetag
+
+ " 按下面这种组合键有技巧,按了<C-_>后要马上按下一个键,否则屏幕一闪
+
+ " 就回到nomal状态了
+
+ " <C-\>s的按法是先按"Ctrl+\",然后很快再按"s"
+
+ nmap <C-\>s :cs find s <C-R>=expand("<cword>")<cr><cr> :cw<cr>
+
+ nmap <C-\>g :cs find g <C-R>=expand("<cword>")<cr><cr> :cw<cr>
+
+ nmap <C-\>c :cs find c <C-R>=expand("<cword>")<cr><cr> :cw<cr>
+
+ nmap <C-\>t :cs find t <C-R>=expand("<cword>")<cr><cr> :cw<cr>
+
+ nmap <C-\>e :cs find e <C-R>=expand("<cword>")<cr><cr> :cw<cr>
+
+ nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<cr><cr>
+
+ nmap <C-\>i :cs find i <C-R>=expand("<cfile>")<cr><cr> :cw<cr>
+
+ nmap <C-\>d :cs find d <C-R>=expand("<cword>")<cr><cr> :cw<cr>
+
+ 
+
+ "--------------------------------------------------------------------------------
+
+ " Grep
+
+ "--------------------------------------------------------------------------------
+
+ "直接按下<F3>键来查找光标所在的字符串
+
+ "nnoremap <silent> <F3> :Rgrep<CR>
+
+ 
+
+ "--------------------------------------------------------------------------------
+
+ " A
+
+ "--------------------------------------------------------------------------------
+
+ "nnoremap <silent> <F12> :A<CR>
+
+ 
+
+ "--------------------------------------------------------------------------------
+
+ " NERD_commenter
+
+ "--------------------------------------------------------------------------------
+
+ "let NERD_c_alt_style = 1    " 将C语言的注释符号改为//, 默认是/**/
+
+ "nmap <F5> ,cc
+
+ 
+
+ "--------------------------------------------------------------------------------
+
+ " SuperTab :SuperTabHelp
+
+ "--------------------------------------------------------------------------------
+
+ let g:SuperTabRetainCompletionType = 1
+ " 0 - 不记录上次的补全方式
+ " 1 - 记住上次的补全方式,直到用其他的补全命令改变它
+ " 2 - 记住上次的补全方式,直到按ESC退出插入模式为止
+
+ let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
+
+ 
+
+ "--------------------------------------------------------------------------------
+
+ " CVim :help csupport
+
+ "--------------------------------------------------------------------------------
+
+ let g:C_Comments = "no"         " 用C++的注释风格
+
+ let g:C_BraceOnNewLine = "no"   " '{'是否独自一行
+
+ let g:C_AuthorName = "Liu Hongcong"
+
+ let g:C_Project="F9"
+
+ let g:Cpp_Template_Function = "c-function-description-wuyin"
+
+ let g:C_TypeOfH = "c"           " *.h文件的文件类型是C还是C++
+
+ 
+ "--------------------------------------------------------------------------------
+
+ " vimwiki support
+
+ "--------------------------------------------------------------------------------
+
+ set nocompatible
+
+ filetype plugin on
+
+ "syntax on
+ 
+ map <S-F7> :VimwikiAll2HTML<cr>
+
+ map <F7> :Vimwiki2HTML<cr>
+
+ " 我们并不怎么需要驼峰英文成为维基词条
+ let g:vimwiki_camel_case = 0
+
+ " 标记为完成的 checklist 项目会有特别的颜色
+ let g:vimwiki_hl_cb_checked = 1
+
+ let g:vimwiki_list = [{'path_html': '~/vimwiki/vimwiki_html/',}]
+
+ " 是否在词条文件保存时就输出html  这个会让保存大词条比较慢
+ " 所以我默认没有启用  有需要的话就把这一行复制到下面去
+ " \ 'auto_export': 1,
+ "            
+ " 多个维基项目的配置
+ " let g:vimwiki_list = [{'path': 'E:/My Dropbox/vimwiki/',
+ "       \ 'html_header': 'E:/My Dropbox/Public/vimwiki_template/header.htm',
+ "       \ 'html_footer': 'E:/My Dropbox/Public/vimwiki_template/footer.htm',
+ "       \ 'diary_link_count': 5},
+ "       \{'path': 'Z:\demo\qiuchi\wiki'}]
+ "                                     
+ " 对中文用户来说，我们并不怎么需要驼峰英文成为维基词条
+ " let g:vimwiki_camel_case = 0
+ "                                      
+ " 标记为完成的 checklist 项目会有特别的颜色
+ " let g:vimwiki_hl_cb_checked = 1
+ "                                       
+ " 我的 vim 是没有菜单的，加一个 vimwiki 菜单项也没有意义
+ " let g:vimwiki_menu = ''
+ "                                        
+ " 是否开启按语法折叠  会让文件比较慢
+ " let g:vimwiki_folding = 1
+ "                                         
+ " 是否在计算字串长度时用特别考虑中文字符
+ " let g:vimwiki_CJK_length = 1
+ "                                          
+ " 详见下文...
+ " let g:vimwiki_valid_html_tags='b,i,s,u,sub,sup,kbd,del,br,hr,div,code,h1'
+
+"##################################################################
+
+"########################## End Of Vimrc ##########################
+
+"##################################################################
+
+ 
+
+" if filetype is C
+
+"   TODO
+
+" fi

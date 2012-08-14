@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>Android</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+
+<h3 id="toc_0.0.1"><a href="index.html">Home Page</a></h3>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.0.1">Home Page</a>
+</ul>
+<li><a href="#toc_0.1">Setup Build Environment (java)</a>
+<li><a href="#toc_0.2">Setup a new build environment for GTV on a 64-bit machine</a>
+<li><a href="#toc_0.3">Android KeyEvent mapping</a>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">Setup Build Environment (java)</h2>
+<p>
+if haven't installed yet,<br>
+	<code>sudo update-alternatives --install /usr/bin/java java /home/yliao/workspace/toolchains/marvell/bg2/jdk1.5.0_22/bin/java 300</code><br>
+	<code>sudo update-alternatives --install /usr/bin/javac javac /home/yliao/workspace/toolchains/marvell/bg2/jdk1.5.0_22/bin/javac 300</code><br>
+<br>
+then, we can use these to change java version:<br>
+	<code>sudo update-alternatives --config java</code><br>
+	<code>sudo update-alternatives --config javac</code><br>
+<br>
+there will create a link like:<br>
+	<code>/usr/bin/java -&gt; /etc/alternatives/java /home/yliao/workspace/toolchains/marvell/bg2/jdk1.5.0_22/bin/java</code><br>
+OR<br>
+	<code>/usr/bin/java -&gt; /etc/alternatives/java/usr/lib/jvm/java-6-sun/jre/bin/java</code><br>
+</p>
+
+<h2 id="toc_0.2">Setup a new build environment for GTV on a 64-bit machine</h2>
+<p>
+Refer to:<br>
+<a href="http://blog.csdn.net/lqf20013/article/details/6362267<br>">http://blog.csdn.net/lqf20013/article/details/6362267<br></a>
+</p>
+
+<h2 id="toc_0.3">Android KeyEvent mapping</h2>
+<p>
+<code>./frameworks/base/core/java/android/view/KeyEvent.java</code><br>
+</p>
+
+</body>
+</html>

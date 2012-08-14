@@ -1,0 +1,46 @@
+[[index|Hame Page]]
+
+%toc index
+
+== Format source code ==
+    gg=G<br>
+
+== Colorscheme ==
+    colorscheme is in "/usr/share/vim/vimXX/colors/"<br>
+
+== jeffy's vim plugin ==
+	http://code.google.com/p/jeffy-vim/
+
+== fx OR Fx ==
+	The former will move cursor to first 'x' rightside of current position.<br>
+	The latter will move cursor to first 'x' leftside of current position.<br>
+
+== Screen Scroll ==
+	<C-E> <C-Y> | <C-D> <C-U> | <C-F> <C-B><br>
+	zz, zt, zb<br>
+
+== Enable mouse select and copy to clipboard ==
+	set mouse=v<br>
+
+== (Block) Indent ==
+	< or ><br>
+
+== Switch windows ==
+	<C-h, j, k, OR l><br>
+
+== Jump to the matching bracket ==
+	%<br>
+
+== substitute word(s) ==
+`:s/vivian/sky/`<br>
+Replace the first "vivian" of current line with "sky"<br>
+`:s/vivian/sky/g`<br>
+Replace all "vivian" of current line with "sky"<br>
+`:n,$s/vivian/sky/`<br>
+Replace the first "vivian" in each line from the nth line to the last with "sky"<br>
+`:n,$s/vivian/sky/g`<br>
+Replace all "vivian" in each line from the nth line to the last with "sky"<br>
+(n is a numeric, if n is ".", means from the current line to the last.)<br>
+
+== Change DOS ending to UNIX ==
+`:%s/\r//g`<br>

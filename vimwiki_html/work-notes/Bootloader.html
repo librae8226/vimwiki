@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>Bootloader</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">Burn U-Boot</a>
+<li><a href="#toc_0.2">Burn Specific Image(s)</a>
+<li><a href="#toc_0.3">Burn Specific Image(s)</a>
+</ul>
+</ul>
+</div>
+
+
+<h2 id="toc_0.1">Burn U-Boot</h2>
+<pre>
+MV88DE3100|&gt; spinit; erase f0000000 f00fffff; tftpboot 0xf0000000 $PATH_TO_UBOOT
+</pre>
+<p>
+<strong>NOTE!</strong> Step above is legacy. Refer to Yongsen's trac.<br>
+<a href="http://10.38.54.84/trac/Baseline/wiki/uboot<br>">http://10.38.54.84/trac/Baseline/wiki/uboot<br></a>
+</p>
+<pre>
+spinit; erase f0000000 f00fffff; tftpboot 0xf0000000 uboot/spi_secure_uboot_CPU1200_A.bin
+</pre>
+
+
+<h2 id="toc_0.2">Burn Specific Image(s)</h2>
+<pre>
+cd $(TREE)/MRVL/MV88DE3100_SDK/MV88DE3100_Tools
+make help
+make u2nandimg u2nandimglst='bootimgs'
+</pre>
+<p>
+u2nandimglst can be:
+block0 bootloader bootimgs kernel boot recovery system cache userdata sysconf<br>
+Image is in $(TREE)/MRVL/Release_image/u2nandimg/<br>
+</p>
+
+
+<h2 id="toc_0.3">Burn Specific Image(s)</h2>
+<p>
+img2sd cc/bootloader.subimg b1<br>
+img2sd cc/bootimgs.subimg 1<br>
+</p>
+
+</body>
+</html>

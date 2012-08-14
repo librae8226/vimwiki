@@ -1,0 +1,39 @@
+[[index|Hame Page]]
+
+%toc index
+
+== List Files' Change of Specific Directroy ==
+`git ls-files -t -o -m DIRECTORY_NAME`<br>
+NOTE! This command cannot trace the changed files which has been added by `git add`<br>
+
+== Rename Exist Tag ==
+The original question was how to rename a tag, which is easy.<br>
+First create NEW as an alias of OLD:<br>
+`git tag NEW OLD`<br>
+Then delete OLD:<br>
+`git tag -d OLD.`<br>
+
+== Reset Added File ==
+`git reset FILE`<br>
+
+== Difference Between Two Specific Version for Specific file(s)/folder(s) ==
+`git diff VER1 VER2 FILE/DIR`<br>
+OR to show what has been changed:<br>
+`git diff VER --stat FILE/DIR`<br>
+
+== Generate Patch and Apply patch ==
+cd into specific directory:<br>
+`git diff --no-prefix BRANCH/TAG FILE/DIR > PATCH_NAME`<br>
+`patch -p0 < PATCH_NAME`<br>
+
+== Rename A Local Branch ==
+`git branch -m OLD_BRANCH NEW_BRANCH`<br>
+
+== Modify Last Git Commit ==
+`git commit --amend`<br>
+
+== Push Specific Commit/Branch/Tag to Github ==
+`git push origin HEAD:refs/heads/REMOTE_BRANCH_NAME`<br>
+
+== Check Those Changes Which Have Been Added ==
+`git diff --cached`<br>

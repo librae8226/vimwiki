@@ -1,0 +1,47 @@
+[[index|Hame Page]]
+
+%toc index
+
+== Maple Board ==
+`./stm32loader.py -p/dev/ttyUSB0 -evw maple_boot.bin`<br>
+`./stm32loader.py -a0x08005000 -p/dev/ttyUSB0 -evw maple.bin`<br>
+`./support/scripts/reset.py && sleep 1 && dfu-util -a1 -d 1EAF:0003 -D ousia.bin -R`<br>
+
+
+== HTC Phone ==
+*HTC Linux Project*<br>
+http://htc-linux.org/wiki/index.php?title=Main_Page<br>
+
+
+== Respberry Pi ==
+=== Arch Linux Hack ===
+*Update Image*<br>
+Installed from official website, use dd to burn img to sdcard directly.<br>
+*Update Packages*<br>
+Use `pacman` to update. See this page https://wiki.archlinux.org/index.php/Offline_Installation_of_Packages<br>
+*Steps* (e.g. install gcc)<br>
+# `mkdir -p /var/lib/pacman/sync/{alarm,aur,community,core,extra}`
+# `rm -r /var/lib/pacman/sync/{alarm,aur,core,extra,community}/*`
+# `tar xzf /path/to/alarm.db.tar.gz -C /var/lib/pacman/sync/alarm`
+# `tar xzf /path/to/aur.db.tar.gz -C /var/lib/pacman/sync/aur`
+# `tar xzf /path/to/core.db.tar.gz -C /var/lib/pacman/sync/core`
+# `tar xzf /path/to/community.db.tar.gz -C /var/lib/pacman/sync/community`
+# `tar xzf /path/to/extra.db.tar.gz -C /var/lib/pacman/sync/extra`
+# `rm -r /var/lib/pacman/sync/*.db`
+# `cp /path/to/alarm.db /var/lib/pacman/sync/`
+# `cp /path/to/aur.db /var/lib/pacman/sync/`
+# `cp /path/to/community.db /var/lib/pacman/sync/`
+# `cp /path/to/core.db /var/lib/pacman/sync/`
+# `cp /path/to/extra.db /var/lib/pacman/sync/`
+# `pacman -Sup gcc > /path/to/gcc.list` (used to check how many libs are there to install in total)
+# `wget -P /path/to/gcc/ -i /path/to/gcc.list` (this list may need to update manuelly before use wget)
+Then<br>
+Choice 1:<br>
+# `cd /path/to/gcc`
+# `repo-add gcc.db.tar.gz *.pkg.tar.gz`
+# `update pacman.conf`
+Choice 2 [suggested]:<br>
+# `cp /path/to/gcc/CORRESPONDING_FILE /path/to/ca.us.mirror.archlinuxarm.org/arm/$CORRESPONDING_DIR`
+# update /etc/pacman.d/mirrorlist, set `Server = file:///path/to/ca.us.mirror.archlinuxarm.org/arm/$CORRESPONDING_DIR`
+# `pacman -S gcc`
+

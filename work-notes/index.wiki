@@ -1,27 +1,19 @@
-%template header-footer
-= Work Notes of Librae =
-<hr>
-%toc
-=== What Is This? ===
-Here is Librae's rough site, based on vimwiki, see [[http://code.google.com/p/vimwiki|vimwiki - google code]] or [[http://www.vim.org/scripts/script.php?script_id=2226|vim.org]].<br>
-Refer to this page for [[tips/vim/vimwiki-guide|vimwiki simple guide]]<br>
-一切从简，侧边栏什么就不要了。如果你迷路了，可以看看[[SiteMap|站点地图]]。<br>
+= NOTES =
 
-<div id="whats-special" class="lesser" style="width: 45em">
-<div class="hd">Any Special?</div>
-<div class="cont">
-# 本页面完全通过Vim手写，配色也是全凭自己感觉输的数字。
-# 用到很多 rgba 和 -webkit-gradient ，所以用 IE 的同学悲剧啦！
-# 底部火焰一样的红色边框，充分展示了 border-image 的强大。
-# 如果你运气好，应该能看到右上角的自定义Google搜索，马上试一试吧！
-# 我觉得那个Table of Contents还是很漂亮的哈（快捷键 Shift + Z 可以显示和隐藏哦）。
-# 集成DISQUS评论服务，有啥话请尽管向楼主说。
-# 毫无疑问，这个页面在Webkit内核的浏览器里显示效果是最好的（快来试一试[http://www.google.com/chrome/?hl=zh-CN Chrome]或[http://www.apple.com.cn/safari/ Safari]）。
-</div>
-</div>
+== Content ==
+| [[F.S]]                | F.S                                |
+| [[M.V]]                | M.V                                |
+| [[Git]]                | Everyday Git                       |
+| [[EditorVI]]           | VI related                         |
+| [[BSDManagement]]      | FreeBSD Notes                      |
+| [[LinuxManagement]]    | Stuffs related to Linux Management |
+| [[LinuxProgramming]]   | Linux Programming                  |
+| [[Android]]            | Android Related                    |
+| [[GeneralProgramming]] | General Programming                |
+| [[Debugging]]          | General Debugging                  |
+| [[Projects]]           | emh...                             |
+| [[ExpGathering]]       | emh...                             |
 
-== 各种注意 ==
-- 本页面支持评论，基于[http://diqus.com DISQUS]实现。但DISQUS有时候实在慢得可以，评论输入框里居然还有iframe。各位如果恰巧不幸赶上DISQUS抽风，又正好想留言的话，还望多一点耐心。
-- 右上角搜索的结果还不完全。这是Google对本站索引太慢造成的。如果你希望有更强力的搜索，就赶快给俺加个友链吧！
 
-%title Work Notes of Librae
+First of all, I need a newpage - [[VimWikiTutor]],<br>
+and a manuel page - vimwiki_hotoo(should see in VI view).<br>

@@ -1,0 +1,800 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>Marlin</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">To-Do list:</a>
+<li><a href="#toc_0.2">1. HMMP (HyperMedia Management Protocol)</a>
+<li><a href="#toc_0.3">2. DRM (Digital Rights Management)</a>
+<li><a href="#toc_0.4">3. PE (see "~/workspace/marvell/88DE3010 Software API User Manual.pdf")</a>
+<li><a href="#toc_0.5">4. GStreamer(see "http://en.wikipedia.org/wiki/GStreamer")</a>
+<li><a href="#toc_0.6">5. FFMPEG (see "http://www.ffmpeg.org/")</a>
+<li><a href="#toc_0.7">6. JNI (Java Native Interface)</a>
+<li><a href="#toc_0.8">7. SOLS Playback Steps</a>
+<li><a href="#toc_0.9">8. MPEG-4 (see "http://en.wikipedia.org/wiki/MPEG-4")</a>
+<li><a href="#toc_0.10">9. Marlin (See "http://www.marlin-community.com/")</a>
+<li><a href="#toc_0.11">10. MPEG-4 Part 14</a>
+<li><a href="#toc_0.12">11. Some terminology</a>
+<li><a href="#toc_0.13">12. Building steps</a>
+<li><a href="#toc_0.14">13. Add busybox for android.</a>
+<li><a href="#toc_0.15">14. Post Build Android</a>
+<li><a href="#toc_0.16">15. Some paths.</a>
+<li><a href="#toc_0.17">16. URI &amp; URL</a>
+<li><a href="#toc_0.18">17. Write C application and build into Android system</a>
+<li><a href="#toc_0.19">18. mp4 file format</a>
+<li><a href="#toc_0.20">19. Byte Order</a>
+<li><a href="#toc_0.21">20. mrvl_media_player</a>
+<li><a href="#toc_0.22">21. ffmpeg demux</a>
+<li><a href="#toc_0.23">22. Octopus</a>
+<li><a href="#toc_0.24">23. some make errors</a>
+<li><a href="#toc_0.25">24. back into demux packet</a>
+<li><a href="#toc_0.26">25. Build SOLSPlayer at Marvell</a>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">To-Do list:</h2>
+<blockquote>
+@ How to build code into Library. (.a or .so) [ok]<br>
+@ What is mp4 format. [ok]<br>
+@ How to process Marlin File Formats (understand the Specification). [ok]<br>
+@ Know about PE APIs.i [ok]<br>
+@ Understand the ffmpeg demuxers and create a demuxer for marlin. [ok]<br>
+@ How to parse. [ok]<br>
+</blockquote>
+
+<h2 id="toc_0.2">1. HMMP (HyperMedia Management Protocol)</h2>
+<p>
+Already WBEM has developed three Web-based standards:
+</p>
+<ul>
+<li>
+HyperMedia Management Protocol (HMMP) allows browsers to access and receive systems and network management data, such as alerts and event reports, from devices and applications.
+
+<li>
+HyperMedia Management Schema (HMMS), or Common Information Model (CIM), provides a common way to describe and share management information across the enterprise.
+
+<li>
+HyperMedia Object Manager (HMOM) gathers management data from applications to be displayed on consoles.
+
+</ul>
+
+<hr />
+
+<h2 id="toc_0.3">2. DRM (Digital Rights Management)</h2>
+<p>
+related link:<br>
+	<a href="http://en.wikipedia.org/wiki/Digital_rights_management">http://en.wikipedia.org/wiki/Digital_rights_management</a>
+</p>
+	
+<hr />
+
+<h2 id="toc_0.4">3. PE (see "~/workspace/marvell/88DE3010 Software API User Manual.pdf")</h2>
+<p>
+	PE (Presentation Engine) manages the playing back of the media streams. PE 
+provides the following services:<br>
+</p>
+<ul>
+<li>
+Audio codec and post processing
+
+<li>
+Video decoder and post processing
+
+<li>
+GFX engine
+
+<li>
+Demux engine
+
+<li>
+Security engine
+
+</ul>
+<hr />
+
+<h2 id="toc_0.5">4. GStreamer(see "<a href="http://en.wikipedia.org/wiki/GStreamer")</h2>">http://en.wikipedia.org/wiki/GStreamer")</h2></a>
+<p>
+	A pipeline-based multimedia framework written in the C programming language 
+with the type system based on GObject.
+</p>
+
+<hr />
+
+<h2 id="toc_0.6">5. FFMPEG (see "<a href="http://www.ffmpeg.org/")</h2>">http://www.ffmpeg.org/")</h2></a>
+<p>
+	FFmpeg(Fast Foward MPEG) is a complete, cross-platform solution to record, convert and stream 
+audio and video. It includes libavcodec - the leading audio/video codec library.
+</p>
+
+<hr />
+
+<h2 id="toc_0.7">6. JNI (Java Native Interface)</h2>
+<p>
+	A programming framework that enables Java code running in a Java Virtual 
+Machine (JVM) to call and to be called[1] by native applications (programs 
+specific to a hardware and operating system platform) and libraries written in 
+other languages, such as C, C++ and assembly.
+</p>
+
+<hr />
+
+<h2 id="toc_0.8">7. SOLS Playback Steps</h2>
+<p>
+(refer to "~/workspace/marvell/marlin/SOLS_Marlin_Arch_4_Marvell.pdf")<br>
+</p>
+<ul>
+<li>
+Register the device to a DRM domain
+
+<li>
+User navigates and selects a video
+
+<li>
+Video guide passes content URL, CAD URL, and tokens(for example, user, 
+	  service, and affiliation)
+
+<li>
+SOLS player uses content URL to stream the video from content server
+
+<li>
+SOLS player parses MP4/IPMP content to extract DRM data
+
+<li>
+SOLS player uses CAD URL to download a CAD file, which contains license 
+	  acquisition URL and information about what data are required for 
+	  retrieving a license
+
+<li>
+Marlin client uses device information and DRM data from content file to 
+	  generate a challenge
+
+<li>
+Marlin client posts the challenge and other required data to request the 
+	  license
+
+<li>
+Marlin client decrypts the license to get content key and usage rules
+
+<li>
+Marlin client checks usage rules
+
+<li>
+Marlin client decrypts content samples
+
+<li>
+SOLS player decodes content samples
+
+</ul>
+
+<hr />
+	
+<h2 id="toc_0.9">8. MPEG-4 (see "<a href="http://en.wikipedia.org/wiki/MPEG-4")</h2>">http://en.wikipedia.org/wiki/MPEG-4")</h2></a>
+<p>
+	MPEG-4 is method of defining compression of audio and visual (AV) digital 
+data. It was introduced in late 1998 and designated a standard for a group of 
+audio and video coding formats and related technology agreed upon by the 
+ISO/IEC Moving Picture Experts Group (MPEG) (ISO/IEC JTC1/SC29/WG11) under the 
+formal standard ISO/IEC 14496 - Coding of audio-visual objects. Uses of MPEG-4 
+include compression of AV data for web (streaming media) and CD distribution, 
+voice (telephone, videophone) and broadcast television applications.
+</p>
+
+<hr />
+
+<h2 id="toc_0.10">9. Marlin (See "<a href="http://www.marlin-community.com/")</h2>">http://www.marlin-community.com/")</h2></a>
+<p>
+	The content sharing platform for consumer devices and multimedia services.
+	Five companies — Intertrust, Panasonic, Philips, Samsung and Sony - joined 
+together in 2005 to develop specifications for next-generation content and 
+rights management technology.
+</p>
+
+<hr />
+
+<h2 id="toc_0.11">10. MPEG-4 Part 14</h2>
+<p>
+	See <a href="http://en.wikipedia.org/wiki/MPEG-4_Part_14.<br>">http://en.wikipedia.org/wiki/MPEG-4_Part_14.<br></a>
+</p>
+
+<hr />
+
+<h2 id="toc_0.12">11. Some terminology</h2>
+<p>
+	<strong>BIFS</strong>: Binary Format for Scenes (BIFS) is a binary format for two- or three-dimensional audiovisual content. It is based on VRML and part 11 of the MPEG-4 standard.<br>
+	<strong>OD</strong>: Object Descriptor.<br>
+	MIME type: Multipurpose Internet Mail Extensions, refer to <a href="http://zh.wikipedia.org/wiki/MIME<br>">http://zh.wikipedia.org/wiki/MIME<br></a>
+	<strong>UUID</strong>: A Universally Unique Identifier<br>
+	<strong>IPMP</strong>: Intellectual Property Management and Protection<br>
+	<strong>RTP</strong>: Real-time Transport Protocol, refer to <a href="http://en.wikipedia.org/wiki/Network_packet<br>">http://en.wikipedia.org/wiki/Network_packet<br></a>
+	<strong>SDP</strong>: Session Description Protocol, a format for describing streaming media initialization parameters. refer to <a href="http://en.wikipedia.org/wiki/Session_Description_Protocol<br>">http://en.wikipedia.org/wiki/Session_Description_Protocol<br></a>
+	<strong>NAL</strong> units: Network Abstraction Layer units. H.264 describes a number of NAL units, a sequence of which can be decoded into video frames. These NAL units have no boundary markers, and rely on some unspecified format to provide framing, refer to <a href="http://wiki.multimedia.cx/index.php?title=H.264<br>">http://wiki.multimedia.cx/index.php?title=H.264<br></a>
+	<strong>NEMO</strong>: <br>
+</p>
+<blockquote>
+More terms see "MarlinArchitectureOverview.pdf".<br>
+</blockquote>
+
+<hr />
+
+<h2 id="toc_0.13">12. Building steps</h2>
+<p>
+	In "/MV88DE3015_SDK/Software_C3_PEK_56_60_140_ReleaseInfo_Linux_BG2_BDP":<br>
+	1) Set environment.<br>
+	Something wrong with rootfs, we need to edit "~/.bashrc" to add a variable as:
+</p>
+<blockquote>
+export GALOIS_LINUX_ROOT=~/workspace/marvell/marlin/SDK_release_package/MV88DE3015_SDK/Customization_Data/File_Systems/rootfs
+</blockquote>
+<p>
+	2) make Berlin_Player_Single_CPU_BG2<br>
+		a. Force copy libsupc++.a and libstdc++.a to "SDK_release_package/MV88DE3015_SDK/Customization_Data/File_Systems/rootfs/usr/lib". Then try to make again. Finally, use bg1 toolchain for building.<br>
+		b. After U-Boot being brought up, use "setenv"
+</p>
+<blockquote>
+setenv bootargs 'macaddr=00:80:11:11:00:41 console=ttyS0,115200 root=/dev/nfs nfsroot=192.168.1.145:/home/yliao/workspace/marvell/marlin/SDK_release_package/MV88DE3015_SDK/Customization_Data/File_Systems/rootfs,v3 ip=dhcp'<br>
+</blockquote>
+
+<p>
+	NOTE! The SDK is bad - -! Rebuild it in our Android.<br>
+	1) Use svn update trunk in "/home/yliao/workspace/marvell/mrvl/trunk".<br>
+</p>
+<blockquote>
+$ cd PATH_TO_TRUNK<br>
+$ svn up --force<br>
+</blockquote>
+<p>
+	2) Run scripts.<br>
+</p>
+<blockquote>
+$ ./froyo-nand-dma.sh bg2<br>
+$ ./froyo-copy-android-rootfs.sh bg2<br>
+</blockquote>
+<p>
+	NOTE: toolchains use<br>
+</p>
+<blockquote>
+../mrvl/trunk/MV88DE3015_SDK/SDK_Tools/cross_toolchain/tarballs<br>
+</blockquote>
+
+<hr />
+
+<h2 id="toc_0.14">13. Add busybox for android.</h2>
+<p>
+	1) Config, in busybox source tree, modify Makefile.<br>
+</p>
+<blockquote>
+CROSSCOMPILE = arm-marvell-linux-gnueabi-<br>
+</blockquote>
+<p>
+	then<br>
+</p>
+<blockquote>
+$ make menuconfig<br>
+Busybox Settings -&gt; Build Options -&gt;<br>
+[*] Build BusyBox as a static binary (no shared libs)<br>
+Busybox Settings -&gt; Installation Options-&gt;<br>
+[*] Don’t use /usr<br>
+</blockquote>
+<p>
+	Save.<br>
+	2) Build.<br>
+</p>
+<blockquote>
+$ make<br>
+$ make install<br>
+</blockquote>
+<p>
+	3) In Android console(serial port)<br>
+</p>
+<blockquote>
+$# cd /data/<br>
+$# mkdir busybox<br>
+</blockquote>
+<p>
+	Then copy "BB_SRC_TREE/busybox" and "BB_SRC_TREE/_install/bin" into that newly created folder. and, <br>
+</p>
+<blockquote>
+$# cd /data/busybox<br>
+$# chmod 777 busybox<br>
+</blockquote>
+<p>
+	4) Modify environment PATH in "mrvl/trunk/MV88DE3015_SDK/Customization_Data/File_Systems/system/init.rc".<br>
+</p>
+<blockquote>
+export PATH /data/busybox/bin:/sbin:/system/sbin:/system/bin:/system/xbin:/BDP/bin<br>
+</blockquote>
+<p>
+	NOTE: If cannot use busybox command tab completion when first boot into Android console, <br>
+	run command below after each bootup:<br>
+</p>
+<blockquote>
+$# sh<br>
+</blockquote>
+
+<hr />
+
+<h2 id="toc_0.15">14. Post Build Android</h2>
+<p>
+	Modify init.rc:
+</p>
+<blockquote>
+export PATH /data/busybox/bin:/sbin:/system/sbin:/system/bin:/system/xbin:/BDP/bin:/data/app/bin<br>
+export LD_LIBRARY_PATH /system/lib:/BDP/lib:/data/app/lib<br>
+</blockquote>
+
+<p>
+	NOTE! The normal built application cannot run in Android env, <br>
+	it should be built along with Android as below steps:<br>
+	1) in ~/.bashrc:<br>
+</p>
+<blockquote>
+export GALOIS_LINUX_ROOT=$SDK_Release/MV88DE3015_SDK/Customization_Data/File_Systems/rootfs<br>
+</blockquote>
+<p>
+	2) in Android Tree, "$(ANDROID_TREE)/Android_SDK/":<br>
+</p>
+<blockquote>
+$ . build/envsetup.sh<br>
+$ chooseproduct berlin_bg2<br>
+</blockquote>
+<p>
+	Then, type:<br>
+</p>
+<blockquote>
+$ help<br>
+</blockquote>
+<p>
+	and we can see information below:<br>
+</p>
+<blockquote>
+Invoke ". build/envsetup.sh" from your shell to add the following functions to your environment:<br>
+-- croot:   Changes directory to the top of the tree.<br>
+-- m:       Makes from the top of the tree.<br>
+-- mm:      Builds all of the modules in the current directory.<br>
+-- mmm:     Builds all of the modules in the supplied directories.<br>
+-- cgrep:   Greps on all local C/C++ files.<br>
+-- jgrep:   Greps on all local Java files.<br>
+-- resgrep: Greps on all local res/*.xml files.<br>
+-- godir:   Go to the directory containing a file.<br>
+-- <br>
+-- Look at the source to view more functions. The complete list is:<br>
+-- add_lunch_combo cgrep check_product check_variant choosecombo chooseproduct choosetype choosevariant cproj croot findmakefile gdbclient get_abs_build_var getbugreports get_build_var getprebuilt gettop godir help isviewserverstarted jgrep lunch m mm mmm pid printconfig print_lunch_menu resgrep runhat runtest setpaths set_sequence_number set_stuff_for_environment settitle smoketest startviewserver stopviewserver systemstack tapas tracedmdump<br>
+</blockquote>
+<p>
+	3) Build use comand "m", "mm" or "mmm".
+<hr />
+</p>
+
+<h2 id="toc_0.16">15. Some paths.</h2>
+<blockquote>
+"solsmp library" source is put in "$(ANDROID_TREE)/external/solsmp"<br>
+</blockquote>
+<p>
+	which can refer to "gst-plugins-mrvl"<br>
+</p>
+<blockquote>
+"solsmp_test application" source is put in "$(ANDROID_TREE)/vendor/marvell/generic/solsmp_test"<br>
+</blockquote>
+<p>
+	which can refer to "mrvl_media_player"<br>
+</p>
+
+<hr />
+
+<h2 id="toc_0.17">16. URI &amp; URL</h2>
+<p>
+	short for: Uniform Resource Identifier<br>
+	In computing, a Uniform Resource Identifier (URI) is a string of characters used to identify a name or a resource on the Internet.<br>
+	A downloadable media object is located on the Web using a uniform resource locator (URL) and identified using a universal resource identifier (URI). A URI is a member of the universal set of names in registered name spaces and addresses referring to registered protocols or name spaces. A URL is a form of URI that expresses an address that maps onto an access algorithm using network protocols. The uniform resource name (URN) debate attempts to define a name space (and presumably resolution protocols) for persistent object names.<br>
+</p>
+
+<hr />
+
+<h2 id="toc_0.18">17. Write C application and build into Android system</h2>
+<p>
+Refer to:<br>
+</p>
+<blockquote>
+$(CURRENT_PATH)/materials/Android_SDK<br>
+<a href="file:///home/yliao/vimwiki/materials/Android_SDK<br>">file:///home/yliao/vimwiki/materials/Android_SDK<br></a>
+</blockquote>
+
+<p>
+NOTE!<br>
+The local includes should be written as:<br>
+</p>
+<pre>
+LOCAL_C_INCLUDES := \
+    $(LOCAL_PATH)   \
+    $(LOCAL_PATH)/rmvb_DR  \
+    external/ffmpeg/libavcodec \
+    external/ffmpeg/libavformat \
+    external/ffmpeg/libavutil \
+    external/ffmpeg/ \
+    external/glib                   \
+    external/glib/android           \
+    external/glib/glib
+</pre>
+<p>
+The local source files should be written as:<br>
+</p>
+<pre>
+LOCAL_SRC_FILES:= \
+    AVFilePlayer.c \
+	ExternalSubtitle.c \
+	AVFileParser.c \
+	AVFileUtils.c \
+	DivXPlayer.c \
+	Packet_Queue.c \
+	RawPcmDR.c \
+	ffmpeg_dr.c \
+	rmvb_DR/helix_date.c  \
+	rmvb_DR/ra_depack_internal.c \
+	rmvb_DR/rm_io_default.c \
+	rmvb_DR/rm_parser_internal.c \
+	rmvb_DR/rv_depack_internal.c \
+	rmvb_DR/memory_utils.c \
+	rmvb_DR/rasl.c \
+	rmvb_DR/rm_memory_default.c \
+	rmvb_DR/rm_property.c \
+	rmvb_DR/stream_hdr_utils.c \
+	rmvb_DR/pack_utils.c \
+	rmvb_DR/rmdemux.c \
+	rmvb_DR/rm_packet.c \
+	rmvb_DR/rm_stream.c \
+	rmvb_DR/string_utils.c \
+	rmvb_DR/ra_depack.c \
+	rmvb_DR/rm_error_default.c \
+	rmvb_DR/rm_parser.c \
+	rmvb_DR/rv_depack.c \
+	getxattr.S
+</pre>
+<p>
+Detailed info refer to:<br>
+</p>
+<blockquote>
+<a href="http://hashspeaks.wordpress.com/2010/01/27/android-mk-documentation/<br>">http://hashspeaks.wordpress.com/2010/01/27/android-mk-documentation/<br></a>
+</blockquote>
+
+<hr />
+
+<h2 id="toc_0.19">18. mp4 file format</h2>
+<p>
+Refer to this page:<br>
+</p>
+<blockquote>
+<a href="http://blog.sina.com.cn/s/blog_48f93b530100jz4b.html<br>">http://blog.sina.com.cn/s/blog_48f93b530100jz4b.html<br></a>
+</blockquote>
+<p>
+A typical mp4 file format:<br>
+	<a href="res/img/mp4ff.jpg.html">|width:127px;height:199px;</a><br>
+Such as: <a href="/home/yliao/vimwiki/materials/6.mp4.html">/home/yliao/vimwiki/materials/6.mp4</a><br>
+	<a href="res/img/6_mp4_structure.png.html">|width:240px;height:555px;</a><br>
+A mp4 file format map:<br>
+	<a href="res/img/mp4ffmap.jpg.html">|width:446px;height:690px;</a><br>
+</p>
+
+<hr />
+
+<h2 id="toc_0.20">19. Byte Order</h2>
+
+<p>
+Big Endian(mp4 file):<br>
+</p>
+<blockquote>
+MSB -- Low addr.<br>
+LSB -- High addr.<br>
+</blockquote>
+<p>
+Little Endian:<br>
+</p>
+<blockquote>
+MSB -- High addr.<br>
+LSB -- Low addr.<br>
+</blockquote>
+<p>
+network byte order:<br>
+</p>
+<blockquote>
+same as Big Endian<br>
+</blockquote>
+
+<h2 id="toc_0.21">20. mrvl_media_player</h2>
+
+<p>
+application flow:<br>
+</p>
+<blockquote>
+main.cpp<br>
+|<br>
+MRVLMediaPlayer.cpp (choose Player)<br>
+|<br>
+MRVLFFPlayer.cpp (call wrapper)<br>
+|<br>
+AVFileUtils.c (wrapper)<br>
+|<br>
+AVFilePlayer.c (call FFMPEG_CreateDR(), DR_Probe() and so on)<br>
+|<br>
+ffmpeg_dr.c (FFmpeg data retriever)<br>
+|<br>
+FFmpeg library<br>
+</blockquote>
+
+<p>
+e.g. DR_Probe shown as image below:<br>
+	<a href="res/img/CalledByGraph-av_open_input_file.png.html">res/img/CalledByGraph-av_open_input_file.png</a><br>
+	note: "av_open_input_file" is the interface between player and ffmpeg.<br>
+</p>
+<pre>
+/**
+ * Opens a media file as input. The codecs are not opened. Only the file
+ * header (if present) is read.
+ *
+ * @param ic_ptr The opened media file handle is put here.
+ * @param filename filename to open
+ * @param fmt If non-NULL, force the file format to use.
+ * @param buf_size optional buffer size (zero if default is OK)
+ * @param ap Additional parameters needed when opening the file
+ *           (NULL if default).
+ * @return 0 if OK, AVERROR_xxx otherwise
+ */
+int av_open_input_file(AVFormatContext **ic_ptr, const char *filename,
+                       AVInputFormat *fmt,
+                       int buf_size,
+                       AVFormatParameters *ap);
+</pre>
+
+<h2 id="toc_0.22">21. ffmpeg demux</h2>
+<p>
+AVInputFormat is a link list, declared as:<br>
+</p>
+<pre>
+typedef struct AVInputFormat {
+    const char *name;
+    /**
+     * Descriptive name for the format, meant to be more human-readable
+     * than name. You should use the NULL_IF_CONFIG_SMALL() macro
+     * to define it.
+     */
+    const char *long_name;
+    /** Size of private data so that it can be allocated in the wrapper. */
+    int priv_data_size;
+    /**
+     * Tell if a given file has a chance of being parsed as this format.
+     * The buffer provided is guaranteed to be AVPROBE_PADDING_SIZE bytes
+     * big so you do not have to check for that unless you need more.
+     */
+    int (*read_probe)(AVProbeData *);
+    /** Read the format header and initialize the AVFormatContext
+       structure. Return 0 if OK. 'ap' if non-NULL contains
+       additional parameters. Only used in raw format right
+       now. 'av_new_stream' should be called to create new streams.  */
+    int (*read_header)(struct AVFormatContext *,
+                       AVFormatParameters *ap);
+    /** Read one packet and put it in 'pkt'. pts and flags are also
+       set. 'av_new_stream' can be called only if the flag
+       AVFMTCTX_NOHEADER is used.
+       @return 0 on success, &lt; 0 on error.
+               When returning an error, pkt must not have been allocated
+               or must be freed before returning */
+    int (*read_packet)(struct AVFormatContext *, AVPacket *pkt);
+    /** Close the stream. The AVFormatContext and AVStreams are not
+       freed by this function */
+    int (*read_close)(struct AVFormatContext *);
+
+#if LIBAVFORMAT_VERSION_MAJOR &lt; 53
+    /**
+     * Seek to a given timestamp relative to the frames in
+     * stream component stream_index.
+     * @param stream_index Must not be -1.
+     * @param flags Selects which direction should be preferred if no exact
+     *              match is available.
+     * @return &gt;= 0 on success (but not necessarily the new offset)
+     */
+    int (*read_seek)(struct AVFormatContext *,
+                     int stream_index, int64_t timestamp, int flags);
+#endif
+    /**
+     * Gets the next timestamp in stream[stream_index].time_base units.
+     * @return the timestamp or AV_NOPTS_VALUE if an error occurred
+     */
+    int64_t (*read_timestamp)(struct AVFormatContext *s, int stream_index,
+                              int64_t *pos, int64_t pos_limit);
+    /** Can use flags: AVFMT_NOFILE, AVFMT_NEEDNUMBER. */
+    int flags;
+    /** If extensions are defined, then no probe is done. You should
+       usually not use extension format guessing because it is not
+       reliable enough */
+    const char *extensions;
+    /** General purpose read-only value that the format can use. */
+    int value;
+
+    /** Starts/resumes playing - only meaningful if using a network-based format
+       (RTSP). */
+    int (*read_play)(struct AVFormatContext *);
+
+    /** Pauses playing - only meaningful if using a network-based format
+       (RTSP). */
+    int (*read_pause)(struct AVFormatContext *);
+
+    const struct AVCodecTag * const *codec_tag;
+
+    /**
+     * Seeks to timestamp ts.
+     * Seeking will be done so that the point from which all active streams
+     * can be presented successfully will be closest to ts and within min/max_ts.
+     * Active streams are all streams that have AVStream.discard &lt; AVDISCARD_ALL.
+     */
+    int (*read_seek2)(struct AVFormatContext *s, int stream_index, int64_t min_ts, int64_t ts, int64_t max_ts, int flags);
+
+    const AVMetadataConv *metadata_conv;
+
+    /* private fields */
+    struct AVInputFormat *next;
+} AVInputFormat;
+</pre>
+
+<p>
+ffmpeg refer to<br>
+</p>
+<blockquote>
+<a href="http://blog.csdn.net/wstarx/archive/2007/04/20/1572393.aspx<br>">http://blog.csdn.net/wstarx/archive/2007/04/20/1572393.aspx<br></a>
+</blockquote>
+
+<p>
+To add a demuxer named "marlin.c", we need do such steps:<br>
+</p>
+<ol>
+<li>
+Prepare marlin.c
+
+<li>
+In Android.mk, add source file
+
+<li>
+In config.h, add #define CONFIG_MARLIN_DEMUXER 1
+
+<li>
+In allformats.c, add REGISTER_DEMUXER  (MARLIN, marlin);
+
+</ol>
+
+<p>
+read_probe called by:<br>
+<a href="res/img/CalledByGraph-read_probe.png.html">res/img/CalledByGraph-read_probe.png</a><br>
+</p>
+
+<p>
+read_header called by:<br>
+<a href="res/img/CalledByGraph-read_header.png.html">res/img/CalledByGraph-read_header.png</a><br>
+</p>
+
+<p>
+ffmpeg demux control flow:<br>
+</p>
+
+<p>
+MV_AVFilePlayer_play<br>
+|<br>
+FFMPEG_DR_Probe<br>
+|<br>
+av_open_input_files -&gt; av_open_input_stream (see below)<br>
+|<br>
+av_probe_input_format<br>
+|<br>
+score = read_probe (for(;;))<br>
+|<br>
+(xxx_probe)<br>
+<br>
+av_open_input_stream<br>
+|<br>
+read_header<br>
+|<br>
+xxx_read_header (xxx_demuxer)<br>
+|<br>
+get_be/get_le, parse (while())<br>
+|<br>
+read_xxx (parse_table)<br>
+<br>
+</p>
+
+<p>
+Steps of add a header to read (e.g.):<br>
+in marlin_default_parse_table[],<br>
+add a line <code>{ MKTAG('f','r','e','e'), marlin_read_free },</code><br>
+then add a function <code>static int marlin_read_free(MOVContext *c, ByteIOContext *pb, MOVAtom atom)</code><br>
+all ok.<br>
+</p>
+
+<p>
+NOTE! to read buffer, <br>
+use <code>get_buffer(ByteIOContext *s, unsigned char *buf, int size)</code> to store data in a string *buf.<br>
+and <code>get_beXX</code>/<code>get_leXX</code> can only return a numeric value.<br>
+</p>
+
+<h2 id="toc_0.23">22. Octopus</h2>
+<p>
+	The rights management within Marlin is based on a general-purpose DRM architecture (Octopus) that is extremely expressive and allows for flexible business rules. At the center of an Octopus system is a graph-based relationship engine. In Marlin, Octopus node objects are used to represent system entities (such as users and devices), and links between nodes represent relationships. The system of nodes and links is integral to managing where, how, and when content can be used in a Marlin system. Octopus is designed to run on various platforms, from smartcards to servers, being media format and cryptographically agnostic. It is extensible for future-proofing systems, easily configurable, optimized for small systems, and semantics-free.<br> (refer to <a href="http://en.wikipedia.org/wiki/Marlin_%28DRM%29)">http://en.wikipedia.org/wiki/Marlin_%28DRM%29)</a>
+	<strong>The ability to separate the protection of content from the governance of that content.</strong>
+</p>
+
+<h2 id="toc_0.24">23. some make errors</h2>
+<p>
+1) about clean_steps.mk, like below:<br>
+</p>
+<pre>
+yliao@banana-l-d:~/work/marvell/mrvl/trunk/Android_SDK/vendor/marvell/generic/solsmp$ mm
+============================================
+PLATFORM_VERSION_CODENAME=REL
+PLATFORM_VERSION=2.2
+TARGET_PRODUCT=berlin_bg2
+TARGET_BUILD_VARIANT=eng
+TARGET_SIMULATOR=
+TARGET_BUILD_TYPE=release
+TARGET_BUILD_APPS=
+TARGET_ARCH=arm
+HOST_ARCH=x86
+HOST_OS=linux
+HOST_BUILD_TYPE=release
+BUILD_ID=MASTER
+============================================
+make: Entering directory `/home/yliao/work/marvell/mrvl/trunk/Android_SDK'
+out/target/product/berlin_bg2/clean_steps.mk:3: *** missing separator.  Stop.
+make: Leaving directory `/home/yliao/work/marvell/mrvl/trunk/Android_SDK'
+yliao@banana-l-d:~/work/marvell/mrvl/trunk/Android_SDK/vendor/marvell/generic/solsmp$
+</pre>
+<p>
+solution: It works fine by deleting that file. (it will be generated automatically while building android)<br>
+</p>
+
+<h2 id="toc_0.25">24. back into demux packet</h2>
+<p>
+See read_frame()<br>
+	<a href="res/img/CalledByGraph-av_read_frame.png.html">res/img/CalledByGraph-av_read_frame.png</a><br>
+	<a href="res/img/CallsGraph-av_read_frame.png.html">res/img/CallsGraph-av_read_frame.png</a><br>
+</p>
+	
+<h2 id="toc_0.26">25. Build SOLSPlayer at Marvell</h2>
+<p>
+	1. ssh ies@10.38.120.51<br>
+</p>
+<blockquote>
+password: 123456<br>
+</blockquote>
+<p>
+	2. make a copy of Marlin_42574_0705 as Marlin_42574_0705_yliao<br>
+	3. source marlin_build_env.sh<br>
+	4. cd Marlin_42574_0705_yliao<br>
+</p>
+<blockquote>
+make Berlin_SOLSPlayer<br>
+</blockquote>
+<p>
+	5. tar and copy "Builds" dir to local PC:<br>
+</p>
+<blockquote>
+~/workspace/marvell/marlin/home/berlin/berlin_rootfs/home/yliao<br>
+</blockquote>
+<p>
+	6. then cp some scripts to dir above<br>
+	7. U-Boot env:<br>
+</p>
+<pre>
+	setenv bootargs 'macaddr=00:50:F3:01:1F:A1 root=/dev/nfs console=ttyS0,115200 nfsroot=10.38.54.187:/home/yliao/workspace/marvell/marlin/marlin_rootfs_ies/home/berlin/berlin_rootfs,v3 ip=dhcp init=/init androidboot.console=ttyS0'
+	setenv bootfile 'ies/yliao/uImage'
+</pre>
+
+</body>
+</html>

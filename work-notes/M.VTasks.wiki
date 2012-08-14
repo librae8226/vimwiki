@@ -1,0 +1,87 @@
+[[index|Hame Page]]
+
+%toc index
+
+
+== System Manager ==
+=== sm_uart interrupt mode [k.o.] ===
+*Date:* 2011.10.25 ~ 2011.10.26<br>
+*Brief:* Cotehill board needs uart1 for ir blaster, rx in int mode.<br>
+*Local Branch:* b1011_uart1_int_mode (BG2BLT03)<br>
+*Bug ID:* [16122] Try to make SM UART work properly in interrupt mode<br>
+*Comment*: soc side, software is no problem to handle it. issue is caused by IR blaster chip.
+
+=== sm rearchitecture ===
+*Date:* 2011.10.24 ~ -<br>
+*Brief:* SM needs rearch.<br>
+*Local Branch:* sm_rearch (BG2BLT04)<br>
+*Bug ID:* [16123] SM architecture for different customers and platforms needs improve<br>
+
+=== sm i2c driver (sony edid) [k.o.] ===
+*Date:* 2011.12.9 ~ 2011.12.13<br>
+*Brief:* SM i2c driver needs verification and finish operation on EDID eeprom.<br>
+*Local Branch:* yrliao/berlin/1021/sony_sm_twsi_edid (BG2BLT04)<br>
+*Bug ID:* [Bug 16736] GTV with HDMI In, a I2C error message output
+
+
+== Linux Kernel ==
+=== sm ioctl fix [k.o.] ===
+*Date:* 2011.10.24 ~ -<br>
+*Brief:* In sm ioctl, Enable/Disable should not be called for the second time.<br>
+
+=== i2c [k.o]===
+*Date:* 2011.10.24 ~ -<br>
+*Brief:* i2c study both in soc and sm<br>
+*Date:* 2011.11.9 ~ -<br>
+*Brief:* I2C error while start up kernel if plug in HDMI(in).<br>
+*Update:*
+# Check A1 board i2c error [2011.11.23 ~ 2011.11.29]<br>
+    Fixed. It is caused by the PeripheralAssert pull the voltage to low, but not low enough.<br>
+
+=== berlin_sm_write [k.o.] ===
+*Date:* 2011.10.26 ~ 2011.10.27<br>
+*Brief:* Reboot needs 512 bytes of memory to store cmd, that address is written bad by berlin_sm_write.<br>
+*Bug ID:* [15733] [GTV]:System boot up fail and it can never recover.<br>
+
+=== gpio driver poll sample code [k.o.] ===
+*Date:* 2011.10.25 ~ 2011.10.31<br>
+*Brief:* Sample to use gpio poll mode.<br>
+*Local Branch:* b1012_mv88de3100_gpio_sample (BG2BLT04)<br>
+
+
+== Galois Application ==
+=== system monitor (watchdog daemon) [k.o.] ===
+*Date:* 2011.11.1 ~ -<br>
+*Brief:* A daemon running backend, kick off watchdog periodically, provide interface for modules to register them into monitor, so that it they can be monitored.<br>
+*Bug ID:* [15917] Task: System Monitoring function<br>
+*Local Branch:* b1013_monitor (BG2BLT03)<br>
+*Update:* document needs update
+{{{
+scp -r /home/yrliao/work/trunk/MRVL/GaloisSoftware/Builds/Linux/* yliao@10.38.55.3:/home/yliao/workspace/marvell/b0/rootfs/home/yliao/Builds/Linux/
+scp /home/yrliao/work/trunk/MRVL/GaloisSoftware/Builds/NonOS/bin/sm.bin yliao@10.38.55.3:/opt/tftpboot/b0/sm.bin
+}}}
+
+=== flashless loader ===
+*Date:* 2011.11.16 ~ 23<br>
+*Brief:* flashless loader<br>
+*Bug ID:* [16585] [Sony Raptor][Flashless DC] DC should support collecting persistent data got from loader and send initial persistent data to loader<br>
+
+=== fanctl ===
+*Date:* 2011.11.22 ~ -<br>
+*Brief:* New fan needs pwm control, we may do, like linear fitting, for voltage and temperature.<br>
+*Bug ID:* <br>
+*Local Branch:* <br>
+
+
+== Miscellaneous ==
+=== Suspend & Resume [k.o.] ===
+*Date*: 2011.11.9 ~ -<br>
+*Brief:* store irq & process affinity, or other things before suspend, restore them while resume<br>
+*Bug ID:* [16353] need to recorver affinity during suspend/resume, duplicated of [17047]<br>
+*Solution:*: put a script in _/system/etc (nfsroot)_, and each time suspend or resume, call the corresponding script.<br>
+*Comment:* needs to merge to jackie's branch.
+
+=== clean klocworks issues of GaloisSoftware [k.o.] ===
+*Date:* 2011.11.18 ~ -<br>
+*Brief:* in GaloisSoftware, focus on DC, SM. This is not very urgent , but we need to fix (and integrated into SBT) all these issues within next 3 weeks.<br>
+*Bug ID*:<br>

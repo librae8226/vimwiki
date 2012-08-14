@@ -1,0 +1,261 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>M.VGeneric</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">Marvell Board Boot Args</a>
+<li><a href="#toc_0.2">Terminalogies &amp; Abbreviations</a>
+<li><a href="#toc_0.3">Clean up GTV build use repo</a>
+<li><a href="#toc_0.4">Marvell Board Partition Table Definition</a>
+<li><a href="#toc_0.5">Fetch and Compile Code from GIT Server Manually</a>
+<li><a href="#toc_0.6">Steps of Adding a App to uNAND.img</a>
+<li><a href="#toc_0.7">Make /system to be r/w</a>
+<li><a href="#toc_0.8">subimgs</a>
+<li><a href="#toc_0.9">Migration to New Galois Build System</a>
+<li><a href="#toc_0.10">Places of uImage</a>
+<li><a href="#toc_0.11">Toolchain Issue in GS</a>
+<li><a href="#toc_0.12">Wake On LAN</a>
+</ul>
+</ul>
+</div>
+
+
+<h2 id="toc_0.1">Marvell Board Boot Args</h2>
+<p>
+<em><strong>Marvell Board B0:</strong></em><br>
+</p>
+<pre>
+setenv serverip '10.37.134.244'
+setenv bootargs 'macaddr=$(ethaddr) console=ttyS0,115200 root=/dev/nfs nfsroot=10.37.116.101:/home/nfsroot/yrliao/linux_rootfs,v3 ip=dhcp init=/init'
+setenv bootargs 'macaddr=$(ethaddr) console=ttyS0,115200 root=/dev/nfs nfsroot=10.37.116.101:/home/nfsroot/yrliao/nfsroot,v3 ip=dhcp init=/init androidboot.hardware=berlin'
+setenv bootfile 'uImage'
+setenv smfile 'sm.bin'
+setenv pmfile 'Marvell_DMP_Ax.uboot'
+setenv pmfile 'bg2a0_rdkdmp.uboot'
+setenv bootcmd 'execscr $(pmfile);tftpboot 0xf7f80000 $(smfile);target;'
+setenv bootcmd 'execscr $(pmfile);tftpboot 0xf7f80000 $(smfile);target;tftpboot 0x1c400000 $(bootfile);bootm 0x1c400000;'
+setenv upgrade 'spinit; erase f0000000 f00fffff; tftpboot 0xf0000000 uboot/spi_secure_uboot_CPU1200_A.bin'
+----- extra -----
+set bootargs 'macaddr=00:77:4C:C1:F4:44 console=ttyS0,115200 root=/dev/nfs nfsroot=10.38.116.67:/home/nfsroot/yrliao/linux_rootfs,v3 ip=dhcp init=/init'
+setenv bootcmd 'execscr $(pmfile);target;tftpboot 0x1c400000 $(bootfile);bootm 0x1c400000;'
+</pre>
+
+
+<h2 id="toc_0.2">Terminalogies &amp; Abbreviations</h2>
+<p>
+<strong>VIP</strong>: Video Input Process<br>
+<strong>VPP</strong>: Video Post Process<br>
+</p>
+
+
+<h2 id="toc_0.3">Clean up GTV build use repo</h2>
+
+<p>
+<code>repo forall -c "git reset --hard"</code><br>
+<code>repo forall -c "git clean -d -f"</code><br>
+</p>
+
+
+<h2 id="toc_0.4">Marvell Board Partition Table Definition</h2>
+<p>
+In <strong>MV88DE3100_SDK/Customization_Data/BOXINFO/V2/gtv.a0.cfg</strong>, There is a partition table for nand:<br>
+</p>
+<pre>
+#layout partition_name, works for block size both in 1MB and 2MB.
+1B	block0
+8B	bootloader
+20M	bootimgs
+20M	@bootimgs-B
+4B@60M	@u-boot.env
+20M     kernel
+12M     @fts
+60M	boot
+80M recovery
+480M	system
+@BDlocalstorage
+256M	cache
+2048M	userdata
+512M    @chrome
+32M	@factory_setting
+32M      @uli_persistent
+16M     @flashless_data
+50M     @ch_app
+40M     @ch_pq
+40M     @ch_ap
+40M     @ch_retail
+40M     @ch_splash
+64M	sysconf
+</pre>
+
+
+<h2 id="toc_0.5">Fetch and Compile Code from GIT Server Manually</h2>
+<pre>
+#Get Honeycomb code
+mkdir Honyecomb
+cd Honeycomb
+repo init -u ssh://10.38.116.33/git/Honeycomb/platform/manifest.git --repo-url=ssh://10.38.116.33/git/Honeycomb/repo.git -b trunk
+repo sync
+repo forall -c 'git checkout build/berlin/1001'
+repo forall -c 'git branch b1001'
+repo forall -c 'git branch doctor'
+
+#Get MRVL code
+mkdir MRVL
+cd MRVL
+repo init -u ssh://10.38.116.33/git/mrvl/manifest.git --repo-url=ssh://10.38.116.33/git/Honeycomb/repo.git
+repo sync
+repo forall -c 'git checkout build/berlin/1001'
+repo forall -c 'git branch b1001'
+repo forall -c 'git branch doctor'
+
+#Now, on local, we have a stable branch "b1001", and a dev branch "doctor"
+#Go on with compiling!
+
+#Compile code
+./MRVL/build_scripts/build_gtv
+</pre>
+
+
+<h2 id="toc_0.6">Steps of Adding a App to uNAND.img</h2>
+<p>
+Actually there are many modifications to be done:<br>
+</p>
+<ol>
+<li>
+Add a related folder (contains <strong>LibEnv.py</strong>, <strong>LibInfo.xml</strong> and <strong>Makefile</strong>) in <strong>Application</strong> OR <strong>Library</strong> in GaloisSoftware.
+
+<li>
+Add <strong>source code</strong> files.
+
+<li>
+Modify <strong>Profile</strong> file.
+
+<li>
+Modify <strong>build_scripts/lib/galois</strong> to copy bin file for generating uNAND.img.
+
+<li>
+Modify <strong>Honeycomb/vendor/marvell-confidential/products/berlin.mk</strong> for this bin file.
+
+<li>
+(*) Add lines in <strong>Honeycomb/vendor/marvell-confidential/berlin/overlay/overlays/vendor/marvell/berlin/init.mv88de3100.rc</strong> if startup service is needed.
+
+</ol>
+
+
+<h2 id="toc_0.7">Make /system to be r/w</h2>
+<p>
+Remount works fine:<br>
+<code>mount -o rw,remount /system</code><br>
+</p>
+
+
+<h2 id="toc_0.8">subimgs</h2>
+<p>
+They are here:<br>
+<code>Honeycomb/out/target/product/berlin/obj/uNAND</code><br>
+</p>
+
+
+<h2 id="toc_0.9">Migration to New Galois Build System</h2>
+<p>
+1. copy library files to <strong>build/configs/XXX</strong><br>
+in <strong>Makefile</strong>
+</p>
+<pre>
+include $(GALOIS_SOFTWARE_DIR)/build/Scripts/mk_library.in
+</pre>
+
+<p>
+2. in source directory, modify <strong>Makefile</strong><br>
+1. replace<br>
+</p>
+<pre>
+include $(TOPDIR)/config
+</pre>
+<p>
+with<br>
+</p>
+<pre>
+include $(WORK_DIR)/lib_config.mk
+</pre>
+<p>
+2. replace<br>
+</p>
+<pre>
+include $(TOPDIR)/Scripts/mk_default.in
+</pre>
+<p>
+with<br>
+</p>
+<pre>
+include $(TOPDIR)/build/Scripts/mk_default.in
+</pre>
+
+
+<h2 id="toc_0.10">Places of uImage</h2>
+<p>
+<strong>yrliao@BG2BLT03:~/work/trunk/MRVL$ find . -name "uImage"</strong><br>
+</p>
+<pre>
+./linux/arch/arm/boot/uImage
+./GaloisSoftware/OS/Linux/ARM/linux_kernel/BG2/uImage
+./GaloisSoftware/out/Berlin_Splash_Screen/Android/BG2/uImage
+</pre>
+<p>
+<strong>yrliao@BG2BLT03:~/work/trunk/Honeycomb$ find . -name "uImage"</strong><br>
+</p>
+<pre>
+./vendor/marvell-confidential/berlin/prebuilt/kernel/uImage
+./vendor/marvell/berlin/prebuilt/kernel/uImage
+</pre>
+
+
+<h2 id="toc_0.11">Toolchain Issue in GS</h2>
+<p>
+If we use this:<br>
+</p>
+<pre>
+LIB Properties
+  PlatformSetting : CPU1 SingleCPU Android Berlin_BG2_A0_PEK
+  Options : release
+  lib_list : libmonitor
+LIB Properties_end
+</pre>
+<p>
+code will be built with <strong>arm-unknown-linux-gnueabi-</strong> (google)<br>
+and this binary can run in android environment.<br>
+<br>
+Otherwise, if we use this:<br>
+</p>
+<pre>
+LIB Properties
+  PlatformSetting : CPU1 SingleCPU Linux Berlin_BG2_A0_PEK
+  Options : release
+  lib_list : libmonitor
+LIB Properties_end
+</pre>
+<p>
+code will be built with marvell original toolchain <strong>arm-marvell-</strong><br>
+this one could be running in pure linux.<br>
+</p>
+
+
+<h2 id="toc_0.12">Wake On LAN</h2>
+<p>
+e.g.<br>
+<code>sudo etherwake -i eth1 -b 00:11:22:33:44:55</code><br>
+</p>
+
+</body>
+</html>

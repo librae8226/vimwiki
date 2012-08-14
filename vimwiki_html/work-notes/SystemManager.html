@@ -1,0 +1,632 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>SystemManager</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">Tasks</a>
+<ul>
+<li><a href="#toc_0.1.1">20110824</a>
+</ul>
+<li><a href="#toc_0.2">Misc Notes</a>
+<ul>
+<li><a href="#toc_0.2.1">Global Questions</a>
+<li><a href="#toc_0.2.2">ARM926 Processor</a>
+<li><a href="#toc_0.2.3">ARM966 Processor</a>
+<li><a href="#toc_0.2.4">VGA DPMS</a>
+<li><a href="#toc_0.2.5">TCM (Tightly Coupled Memory)</a>
+<li><a href="#toc_0.2.6">Configure U-Boot Environment</a>
+<li><a href="#toc_0.2.7">CEC (Consumer Electronics Control)</a>
+<li><a href="#toc_0.2.8">GTV Build &amp; Boot</a>
+<li><a href="#toc_0.2.9">A Linux Application Built in GaloisSoftware</a>
+<li><a href="#toc_0.2.10">Turn on the Build Print While Building GaloisSoftware</a>
+<li><a href="#toc_0.2.11">Alternate compile based on vfd_type</a>
+<li><a href="#toc_0.2.12">About Pinmux</a>
+<li><a href="#toc_0.2.13">VFD Cannot Work After Linux or GTV Having Booted Up</a>
+<li><a href="#toc_0.2.14">libSMAgent.so</a>
+</ul>
+</ul>
+</ul>
+</div>
+
+
+<h2 id="toc_0.1">Tasks</h2>
+<h3 id="toc_0.1.1">20110824</h3>
+<p>
+<strong>Description</strong><br>
+</p>
+<blockquote>
+Applications running on main CPU want to know the who caused warmup.<br>
+Three warmup source, implemented by IRQ: VGA, HDMI and WIFI/BT.<br>
+Need to workout a gtv calling flow test code for these features.<br>
+</blockquote>
+<p>
+<strong>Key Point</strong><br>
+</p>
+<ol>
+<li>
+Where is the ISR of corresponding warmup source.
+
+<li>
+Where to define the type of warmup source. (SystemManager.h)
+
+<li>
+Where is the communication with main CPU and how it is done. (MV_SM_Comm_Task)
+
+</ol>
+<p>
+<strong>Issues</strong><br>
+</p>
+
+
+<h2 id="toc_0.2">Misc Notes</h2>
+<h3 id="toc_0.2.1">Global Questions</h3>
+<ul>
+<li>
+In SM_SW_Architecture, section 2 HW Resource Management, how to avoid that confilict actually?<br>
+
+<li>
+In SM_SW_Architecture, figure 1, how can SystemManager send PWR_EN signal before SOC download sm code to it?<br>
+
+<li>
+In SM code, what is "CPUINDEX"<br>
+
+</ul>
+
+<h3 id="toc_0.2.2">ARM926 Processor</h3>
+<p>
+Refer to<br>
+<a href="http://www.arm.com/products/processors/classic/arm9/arm926.php<br>">http://www.arm.com/products/processors/classic/arm9/arm926.php<br></a>
+</p>
+
+<h3 id="toc_0.2.3">ARM966 Processor</h3>
+<p>
+Refer to<br>
+<a href="http://infocenter.arm.com/help/topic/com.arm.doc.ddi0213e/index.html<br>">http://infocenter.arm.com/help/topic/com.arm.doc.ddi0213e/index.html<br></a>
+</p>
+
+<h3 id="toc_0.2.4">VGA DPMS</h3>
+<p>
+DPMS (Display Power Management Signaling) is the power management standard for VGA monitors.<br>
+Refer to<br>
+<a href="http://www.ccs.neu.edu/home/bchafy/pstrip/dpmspowerstrip.html<br>">http://www.ccs.neu.edu/home/bchafy/pstrip/dpmspowerstrip.html<br></a>
+</p>
+
+<h3 id="toc_0.2.5">TCM (Tightly Coupled Memory)</h3>
+<p>
+Refer to<br>
+<a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0338g/Chdhbjjb.html<br>">http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0338g/Chdhbjjb.html<br></a>
+</p>
+
+<h3 id="toc_0.2.6">Configure U-Boot Environment</h3>
+<p>
+e.g.<br>
+</p>
+<pre>
+setenv bootargs 'macaddr=00:50:43:01:22:BE root=/dev/nfs console=ttyS0,115200 nfsroot=192.168.1.130:/home/yliao/workspace/marvell/SystemManager/linux_root/home/berlin/berlin_rootfs ip=dhcp init=/init androidboot console=ttyS0'
+setenv bootfile 'image_yliao/sm/uImage'
+setenv smfile 'image_yliao/sm/sm.bin'
+setenv serverip '192.168.1.92'
+setenv bootcmd 'tftpboot 0xf7f80000 $(smfile);target;'
+</pre>
+
+<h3 id="toc_0.2.7">CEC (Consumer Electronics Control)</h3>
+<p>
+A feature designed to allow the user to command and control two or more CEC-enabled boxes, that are connected through HDMI, by using only one of their remote controls.<br>
+e.g. controlling a television set, set-top box and DVD player using only the remote control of the TV.<br>
+Refer to<br>
+<a href="http://en.wikipedia.org/wiki/HDMI#CEC<br>">http://en.wikipedia.org/wiki/HDMI#CEC<br></a>
+</p>
+
+<h3 id="toc_0.2.8">GTV Build &amp; Boot</h3>
+<p>
+<strong>Build</strong><br>
+<em>Marvell Board:</em>
+</p>
+<pre>
+for A0, A1:
+./build_gtv -cA0 -bDMP -sSM_Profile -pBerlin_Player_GTV_BG2_A0
+./build_gtv -fsm,sdk,unandimg -cA0 -bDMP -sSM_Profile -pBerlin_Player_GTV_BG2_A0
+OR for Z1:
+./build_gtv -cZ1 -bBDP -sSM_Profile -pBerlin_Player_GTV_BG2
+./build_gtv -fsm,sdk,unandimg -cZ1 -bBDP -sSM_Profile -pBerlin_Player_GTV_BG2
+</pre>
+<p>
+<em>Wistron Cotehill Board:</em>
+</p>
+<pre>
+./build_gtv -cA0 -bDMP -sSM_Profile -pBerlin_Player_GTV_BG2_A0 -fsm
+</pre>
+<p>
+<strong>U-Boot Environment</strong><br>
+<em><strong>Marvell Board:</strong></em>
+</p>
+<pre>
+setenv serverip '10.38.55.3'
+setenv bootargs 'macaddr=00:77:4C:C1:F4:44 console=ttyS0,115200 root=/dev/nfs nfsroot=10.38.55.3:/home/yliao/workspace/marvell/b0/rootfs,v3 ip=dhcp init=/init'
+setenv bootargs 'macaddr=00:77:4C:C1:F4:44 console=ttyS0,115200 root=/dev/nfs nfsroot=10.38.55.3:/home/yliao/workspace/marvell/b0/nfsroot,v3 ip=dhcp init=/init'
+setenv bootfile 'b0/uImage'
+setenv smfile 'b0/sm.bin'
+setenv pmfile 'b0/Marvell_DMP_A0.uboot'
+setenv bootcmd 'execscr $(pmfile);tftpboot 0xf7f80000 $(smfile);target;'
+setenv bootcmd 'execscr $(pmfile);tftpboot 0xf7f80000 $(smfile);target;tftpboot 0x1c400000 $(bootfile);bootm 0x1c400000;'
+</pre>
+<p>
+<em><strong>Marvell Board B0:</strong></em>
+</p>
+<pre>
+setenv serverip '10.38.55.3'
+setenv bootargs 'macaddr=00:50:43:01:24:14 console=ttyS0,115200 root=/dev/nfs nfsroot=10.38.55.3:/home/yliao/workspace/marvell/b0/rootfs,v3 ip=dhcp init=/init'
+setenv bootargs 'macaddr=00:50:43:01:24:14 console=ttyS0,115200 root=/dev/nfs nfsroot=10.38.55.3:/home/yliao/workspace/marvell/b0/nfsroot,v3 ip=dhcp init=/init'
+setenv bootfile 'b0/uImage'
+setenv smfile 'b0/sm.bin'
+setenv pmfile 'b0/Marvell_DMP_A0.uboot'
+setenv bootcmd 'execscr $(pmfile);tftpboot 0xf7f80000 $(smfile);target;'
+setenv bootcmd 'execscr $(pmfile);tftpboot 0xf7f80000 $(smfile);target;tftpboot 0x1c400000 $(bootfile);bootm 0x1c400000;'
+</pre>
+<p>
+<em><strong>Wistron Cotehill Board:</strong></em>
+</p>
+<pre>
+setenv serverip '10.38.120.39'
+setenv bootargs 'macaddr=00:68:3E:FD:50:44 root=/dev/nfs console=ttyS0,115200 nfsroot=10.38.55.122:/home/work/yliao/GTV/nfsroot ip=dhcp init=/init androidboot console=ttyS0'
+setenv bootargs 'macaddr=00:68:3E:FD:50:44 root=/dev/nfs console=ttyS0,115200 nfsroot=10.38.55.122:/home/work/yliao/GTV/rootfs ip=dhcp init=/init androidboot console=ttyS0'
+setenv bootargs 'macaddr=00:68:3E:FD:50:44 root=/dev/nfs console=ttyS0,115200 nfsroot=10.38.55.3:/home/yliao/workspace/marvell/sm/nfsroot ip=dhcp init=/init androidboot console=ttyS0'
+setenv bootargs 'macaddr=00:68:3E:FD:50:44 root=/dev/nfs console=ttyS0,115200 nfsroot=10.38.55.3:/home/yliao/workspace/marvell/sm/rootfs ip=dhcp init=/init androidboot console=ttyS0'
+setenv bootfile 'ies/yliao/sm/uImage'
+setenv smfile 'ies/yliao/sm/sm.bin'
+set pmfile 'ies/yliao/sm/Marvell_DMP_A0.uboot'
+setenv bootcmd 'execscr $(pmfile);tftpboot 0xf7f80000 $(smfile);target;'
+setenv bootcmd 'execscr $(pmfile);tftpboot 0xf7f80000 $(smfile);target;tftpboot 0x1c400000 $(bootfile);bootm 0x1c400000;'
+</pre>
+
+<h3 id="toc_0.2.9">A Linux Application Built in GaloisSoftware</h3>
+<p>
+Here comes some of trivial.<br>
+At the very first, we should know what we need, excutables or libraries.<br>
+Here we suppose to build an excutable file which depend on some other libraries.<br>
+<strong>Step 1</strong><br>
+Create a Profile as "GaloisSoftware/Profiles/Berlin_SMGeneric":<br>
+</p>
+<pre>
+##################################################################
+#
+## Global common configurations 
+#
+##################################################################
+
+image_list = APP SM LinuxKernelCopy
+
+Owner = hjcai@marvell.com
+
+SM Properties
+  PlatformSetting : SM NonOS Berlin_BG2_PEK
+  Options : release
+  lib_list : SM_Core
+SM Properties_end
+
+APP Properties
+  PlatformSetting : CPU1 SingleCPU Linux Berlin_BG2_PEK
+  lib_list : SMGeneric
+APP Properties_end
+
+LinuxKernelCopy Properties
+  PlatformSetting : CPU1 LinuxKernel Berlin_BG2_PEK
+LinuxKernelCopy Properties_end
+</pre>
+
+<p>
+<strong>Step 2</strong><br>
+Create your source code folder in someplace such as "GaloisSoftware/APP/SMGeneric".<br>
+Organize like:<br>
+</p>
+<pre>
+|-- Makefile
+|-- source
+      |-- main.c
+</pre>
+<p>
+<em>Makefile:</em><br>
+</p>
+<pre>
+######################################################
+# Build configurations
+
+include $(TOPDIR)/config
+
+######################################################
+# Module library
+
+MODULE_LIBRARY = SMGeneric
+
+MODULE_SRCS = $(wildcard source/*.c)
+
+MODULE_OBJS = $(patsubst %.c,%.o,$(patsubst %.s,%.o,$(patsubst %.cpp,%.o,$(MODULE_SRCS))))
+
+######################################################
+# Header files
+
+PUBLIC_HEADER_FILES =
+
+######################################################
+# Module flags
+
+MODULE_CFLAGS = -I$(TOPDIR)/SysMgr/Agent/include
+MODULE_CFLAGS = -I$(TOPDIR)/OSAL/include
+
+######################################################
+# Unittest setting
+
+UNITTEST_SRCS =
+
+UNITTEST_OBJS =
+
+######################################################
+# Release setting
+
+# released source files
+RELEASE_SRCS =
+
+# released header files
+RELEASE_HEADER_FILES =
+
+# released library
+RELEASE_LIBRARY = MODULE_LIBRARY
+
+# source files to build released library
+RELEASE_LIB_SRCS = MODULE_SRCS
+
+# object files to build released library
+RELEASE_LIB_OBJS = MODULE_OBJS
+
+######################################################
+# Common dependency process
+
+include $(TOPDIR)/Scripts/mk_default.in
+</pre>
+<p>
+<em>main.c:</em><br>
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;sys/mman.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/ioctl.h&gt;
+
+#include "ErrorCode.h"
+#include "SM_common.h"
+#include "SM_Agent.h"
+#include "OSAL_api.h"
+
+#define BLOCKING_READ
+
+static void MV_SM_Generic(void)
+{
+    int readlen = 0;
+    MV_SM_Message sm_msg_send;
+    MV_SM_Message sm_msg_recv;
+
+    memset(&amp;sm_msg_send, 0, sizeof(MV_SM_Message));
+    memset(&amp;sm_msg_recv, 0, sizeof(MV_SM_Message));
+
+    sm_msg_send.m_iModuleID = MV_SM_ID_TEMP;
+    sm_msg_recv.m_iModuleID = MV_SM_ID_TEMP;
+
+    /* open sm device */
+    MV_SM_Agent_Init();
+
+    /* send message */
+    sm_msg_send.m_pucMsgBody[0] = MV_SM_TEMP_EN;
+    sm_msg_send.m_iMsgLen = sizeof(int);
+    MV_SM_Agent_Write_Msg(sm_msg_send.m_iModuleID, sm_msg_send.m_pucMsgBody, sm_msg_send.m_iMsgLen);
+
+    sm_msg_send.m_pucMsgBody[0] = MV_SM_TEMP_SAMPLE;
+    sm_msg_send.m_pucMsgBody[1] = MV_SM_TEMP_SAMPLE_CES;
+    sm_msg_send.m_iMsgLen = sizeof(int) * 2;
+    MV_SM_Agent_Write_Msg(sm_msg_send.m_iModuleID, sm_msg_send.m_pucMsgBody, sm_msg_send.m_iMsgLen);
+
+#ifdef BLOCKING_READ		
+    /* Get message from Power module */
+    MV_SM_Agent_IO_CTRL(SM_Enable_WaitQueue, sm_msg_send.m_iModuleID);
+    if (MV_SM_Agent_Read_Msg(sm_msg_recv.m_iModuleID, &amp;sm_msg_recv, &amp;readlen) == S_OK)
+    {
+        printf("Chip Temperature: %d degC\n", sm_msg_recv.m_pucMsgBody[0]);
+    }
+    MV_SM_Agent_IO_CTRL(SM_Disable_WaitQueue, sm_msg_send.m_iModuleID);
+#endif
+
+    sm_msg_send.m_pucMsgBody[0] = MV_SM_TEMP_DISEN;
+    sm_msg_send.m_iMsgLen = sizeof(int);
+    MV_SM_Agent_Write_Msg(sm_msg_send.m_iModuleID, sm_msg_send.m_pucMsgBody, sm_msg_send.m_iMsgLen);
+
+    /* close sm device */
+    MV_SM_Agent_Close();
+}
+
+int main(int argc, char *argv[])
+{
+    while(1)
+    {
+        MV_SM_Generic();
+        MV_OSAL_Task_Sleep(1000);
+    }
+    return 0;
+}
+</pre>
+
+<p>
+<strong>Step 3</strong>
+Create a application config directory in "GaloisSoftware/Applications/", named as "SMGeneric".<br>
+Create three files in it: LibEnv.py, LibInfo.xml and Makefile.<br>
+<em>LibEnv.py:</em>
+</p>
+<pre>
+#!/usr/bin/python
+
+import os
+
+def BuildEnvHandle(buildEnv):
+
+###############################################################################################
+#
+# User configuration space
+#
+###############################################################################################
+
+###############################################################################################
+#
+# Library configuration for Link
+#
+###############################################################################################
+
+  return 0
+</pre>
+<p>
+<em>LibInfo.xml:</em>
+</p>
+<pre>
+&lt;?xml version="1.0" ?&gt;
+&lt;LIB_INFO&gt;
+	&lt;LIB_NAME&gt;SMGeneric&lt;/LIB_NAME&gt;
+	&lt;LIB_TYPE&gt;application&lt;/LIB_TYPE&gt;
+	&lt;LIB_DEPEND&gt;libSMAgent libOSAL&lt;/LIB_DEPEND&gt;
+	&lt;LIB_DEPEND_EXTERNAL&gt;&lt;/LIB_DEPEND_EXTERNAL&gt;
+	&lt;MODULE_LIST&gt;SMGeneric&lt;/MODULE_LIST&gt;
+
+    &lt;SETTING_DEFINE_LIST&gt;       
+    &lt;/SETTING_DEFINE_LIST&gt;
+	
+    &lt;MODULE_DEFINE_LIST&gt;
+		&lt;MODULE name="SMGeneric"&gt;
+			&lt;OWNER&gt;hjcai@marvell.com&lt;/OWNER&gt;
+			&lt;PATH&gt;APP/SMGeneric&lt;/PATH&gt;
+			&lt;DEPEND&gt;&lt;/DEPEND&gt;
+		&lt;/MODULE&gt;
+    &lt;/MODULE_DEFINE_LIST&gt;
+
+&lt;/LIB_INFO&gt;
+</pre>
+<p>
+<em>Makefile:</em>
+</p>
+<pre>
+include $(GALOIS_SOFTWARE_DIR)/Scripts/mk_library.in
+</pre>
+
+<p>
+<strong>Step 4</strong>
+Do the same thing for a library config in "GaloisSoftware/Library/", named as "libSMAgent".<br>
+They are almost the same style.<br>
+<em>LibEnv.py:</em>
+</p>
+<pre>
+#!/usr/bin/python
+
+import os
+
+def BuildEnvHandle(buildEnv):
+
+###############################################################################################
+#
+# User configuration space
+#
+###############################################################################################
+
+###############################################################################################
+#
+# Library configuration for Link
+#
+###############################################################################################
+ 
+  return 0
+</pre>
+<p>
+<em>LibInfo.xml:</em>
+</p>
+<pre>
+&lt;?xml version="1.0" ?&gt;
+&lt;LIB_INFO&gt;
+	&lt;LIB_NAME&gt;libSMAgent&lt;/LIB_NAME&gt;
+	&lt;LIB_TYPE&gt;dynamic_lib&lt;/LIB_TYPE&gt;
+	&lt;LIB_DEPEND&gt;libOSAL&lt;/LIB_DEPEND&gt;
+	&lt;LIB_DEPEND_EXTERNAL&gt;&lt;/LIB_DEPEND_EXTERNAL&gt;
+	&lt;MODULE_LIST&gt;SMAgent&lt;/MODULE_LIST&gt;
+
+    &lt;SETTING_DEFINE_LIST&gt;
+    &lt;/SETTING_DEFINE_LIST&gt;
+	
+    &lt;MODULE_DEFINE_LIST&gt;
+    	&lt;MODULE name="SMAgent"&gt;
+    		&lt;OWNER&gt;hjcai@marvell.com&lt;/OWNER&gt;
+			&lt;PATH&gt;SysMgr/Agent&lt;/PATH&gt;
+    		&lt;DEPEND&gt;&lt;/DEPEND&gt;
+    	&lt;/MODULE&gt;
+    &lt;/MODULE_DEFINE_LIST&gt;
+
+&lt;/LIB_INFO&gt;
+</pre>
+<p>
+<em>Makefile:</em>
+</p>
+<pre>
+include $(GALOIS_SOFTWARE_DIR)/Scripts/mk_library.in
+</pre>
+
+<p>
+OK! That's all, then we can go to GaloisSoftware root dir to build it.<br>
+Simply type:<br>
+<code>make Berlin_SMGeneric</code><br>
+Then a set a stuffs will be placed in a directory named "GaloisSoftware/Builds/"<br>
+Copy them into linux rootfs and run!<br>
+</p>
+
+<h3 id="toc_0.2.10">Turn on the Build Print While Building GaloisSoftware</h3>
+<p>
+In "GaloisSoftware/Scripts/lib_generator.sh"<br>
+</p>
+<pre>
+# $1 = target lib
+# $2 = source dir
+# $3 = $(AR)
+# $4 = $(CC)
+# $5 = $(Galois_LDFLAGS) + $(MODULE_LDFLAGS) 
+# $6 = $(Galois_LDFLAGS_END)
+# error_report=$2/build_report 2&gt;&gt;error_report
+
+cur_dir=$PWD
+
+if [ -d $2 ]; then
+
+	cd $2
+	
+	rm -f $1
+	
+	for lib_module in $(find -name "*.a")
+	do
+		$3 -x $lib_module
+	done
+	
+	if [ $# -lt 4 ]; then 
+	    # create static library
+	    $3 -cr $1 $(find -name '*.o')
+	else
+	    # create dynamic library, TURN ON THIS LINE !!!
+	    echo $4 -fPIC -shared -o $1 $5 $(find -name '*.o') $6 
+	    $4 -fPIC -shared -o $1 $5 $(find -name '*.o') $6 
+	fi
+	
+	ret_value=$?
+	
+	if [ $ret_value -ne 0 ]; then
+	        exit $ret_value
+	fi
+	
+	cd $cur_dir
+	
+fi
+</pre>
+
+<h3 id="toc_0.2.11">Alternate compile based on vfd_type</h3>
+<p>
+Add this line:<br>
+<code>&lt;SETTING_DEFINE name="vfd_type" default="pt6311"&gt;&lt;/SETTING_DEFINE&gt;</code><br>
+in e.g. "GaloisSoftware/Application/SM_Core/LibInfo.xml"<br>
+And add these lines in "SysMgr/Core/Makefile":<br>
+</p>
+<pre>
+ifeq ($(vfd_type),pt6311)
+OBJECTS += source/vfd_pt6311.o
+CFLAGS += -DVFD_PT6311
+</pre>
+
+<p>
+Then try build again.<br>
+</p>
+
+<h3 id="toc_0.2.12">About Pinmux</h3>
+<p>
+In file <strong>MV88DE3100_SDK/Customization_Data/config</strong>, there will define a <strong>PLATFORM_INFO</strong><br>
+and point to a C Header file such as<br>
+<strong>System_Configuration/Platform_Info/Marvell_DMP_A0/pinmux_setting.h</strong><br>
+This is the pinmux setting for this specific board.<br>
+</p>
+<blockquote>
+!!NOTE!! Here the <strong>config</strong> file would be copied from file e.g. <strong>config.bg2.a0.gtv</strong><br>
+automatically by build script.<br>
+</blockquote>
+
+<p>
+Actually there are many other low-level related stuffs here. Such as:<br>
+</p>
+<ul>
+<li>
+PARTITION_TABLE_PATH
+
+<li>
+PLATFORM_INFO
+
+<li>
+FLASH_TYPE
+
+<li>
+MEMORY_MAP_OPTION
+
+<li>
+CPU_TYPE
+
+<li>
+BOOT_TYPE
+
+<li>
+......
+
+</ul>
+<p>
+etc.<br>
+</p>
+
+<p>
+OK. If there's some related issue, turn to this.<br>
+</p>
+
+<h3 id="toc_0.2.13">VFD Cannot Work After Linux or GTV Having Booted Up</h3>
+<p>
+Board: BDP<br>
+CPU: Z1<br>
+In <strong>linux-2.6.35.4/arch/arm/mach-mv88de3015/modules/sm/sm_main.c</strong><br>
+Add several lines in <strong>berlin_sm_open_dev()</strong> as below:<br>
+</p>
+<pre>
+	int reg = 0x55555555;
+	GA_REG_WORD32_READ(0xF7FCD040, &amp;reg);
+	printk("&gt;&gt;&gt;&gt;&gt; kernel: SM_GSM_SEL -&gt; 0x%X", reg);
+</pre>
+<p>
+This will print value of the sm pinmux register.<br>
+See? It should be <strong>0x0001d410</strong>, but after linux or gtv boots up,<br>
+It is changed to <strong>0x0001c410</strong>. So, VFD using SPI, it cannot work.
+</p>
+
+<h3 id="toc_0.2.14">libSMAgent.so</h3>
+<p>
+libSMAgent.so is built into libPEAgent, so if we need libSMAgent, linking libPEAgent.so is fine.<br>
+</p>
+
+</body>
+</html>

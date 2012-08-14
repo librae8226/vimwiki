@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>General Git</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">List Files' Change of Specific Directroy</a>
+<li><a href="#toc_0.2">Rename Exist Tag</a>
+<li><a href="#toc_0.3">Reset Added File</a>
+<li><a href="#toc_0.4">Difference Between Two Specific Version for Specific file(s)/folder(s)</a>
+<li><a href="#toc_0.5">Generate Patch and Apply patch</a>
+<li><a href="#toc_0.6">Rename A Local Branch</a>
+<li><a href="#toc_0.7">Modify Last Git Commit</a>
+<li><a href="#toc_0.8">Push Specific Commit/Branch/Tag to Github</a>
+<li><a href="#toc_0.9">Check Those Changes Which Have Been Added</a>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">List Files' Change of Specific Directroy</h2>
+<p>
+<code>git ls-files -t -o -m DIRECTORY_NAME</code><br>
+NOTE! This command cannot trace the changed files which has been added by <code>git add</code><br>
+</p>
+
+<h2 id="toc_0.2">Rename Exist Tag</h2>
+<p>
+The original question was how to rename a tag, which is easy.<br>
+First create NEW as an alias of OLD:<br>
+<code>git tag NEW OLD</code><br>
+Then delete OLD:<br>
+<code>git tag -d OLD.</code><br>
+</p>
+
+<h2 id="toc_0.3">Reset Added File</h2>
+<p>
+<code>git reset FILE</code><br>
+</p>
+
+<h2 id="toc_0.4">Difference Between Two Specific Version for Specific file(s)/folder(s)</h2>
+<p>
+<code>git diff VER1 VER2 FILE/DIR</code><br>
+OR to show what has been changed:<br>
+<code>git diff VER --stat FILE/DIR</code><br>
+</p>
+
+<h2 id="toc_0.5">Generate Patch and Apply patch</h2>
+<p>
+cd into specific directory:<br>
+<code>git diff --no-prefix BRANCH/TAG FILE/DIR &gt; PATCH_NAME</code><br>
+<code>patch -p0 &lt; PATCH_NAME</code><br>
+</p>
+
+<h2 id="toc_0.6">Rename A Local Branch</h2>
+<p>
+<code>git branch -m OLD_BRANCH NEW_BRANCH</code><br>
+</p>
+
+<h2 id="toc_0.7">Modify Last Git Commit</h2>
+<p>
+<code>git commit --amend</code><br>
+</p>
+
+<h2 id="toc_0.8">Push Specific Commit/Branch/Tag to Github</h2>
+<p>
+<code>git push origin HEAD:refs/heads/REMOTE_BRANCH_NAME</code><br>
+</p>
+
+<h2 id="toc_0.9">Check Those Changes Which Have Been Added</h2>
+<p>
+<code>git diff --cached</code><br>
+</p>
+
+</body>
+</html>

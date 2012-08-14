@@ -1,0 +1,119 @@
+[[index|Hame Page]]
+
+%toc index
+
+== I2C low occurrence write/read mismatch due to NOT syncing well in ISR ==
+1. Find some error while getting input status when BG2 communicating with KG2H.<br>
+    (Status get from KG2H is not same as real situation, though at a very low occurence.)<br>
+2. Try aggressive write/read to debugging I2C. At a rate of about 1/25600, in byte.<br>
+3. Use schedtool to debug, find that when app runs on CPU0, never encounter error, CPU1 does.<br>
+4. At last, find the bug in I2C driver:<br>
+{{{
+// check if this is the last TXE interrupt for this transaction
+if (!bytes_in_fifo) {
+	if (bytes_written_to_txfifo[master_id] == bytes_of_write_cmd[master_id]+bytes_of_read_cmd[master_id]) {
+		// disable TXE interrupt
+		i2c_mask_int(master_id, INTR_TX_EMPTY, MASK);
+		// transaction finished
+		transaction_done[master_id] = 1;
+#ifdef __LINUX_KERNEL__
+		if (bytes_of_write_cmd[master_id])
+			wake_up_interruptible(&i2c_writeread_wait);
+#endif
+
+		return;
+	}
+}
+}}}
+----------- _Original_ ----------<br>
+{{{
+// check if this is the last TXE interrupt for this transaction
+if (!bytes_in_fifo) {
+	if (bytes_written_to_txfifo[master_id] == bytes_of_write_cmd[master_id]+bytes_of_read_cmd[master_id]) {
+		// disable TXE interrupt
+		i2c_mask_int(master_id, INTR_TX_EMPTY, MASK);
+		if (bytes_of_write_cmd[master_id]) {
+			// transaction finished
+			transaction_done[master_id] = 1;
+#ifdef __LINUX_KERNEL__
+			wake_up_interruptible(&i2c_writeread_wait);
+#endif
+		}
+		return;
+	}
+}
+}}}
+---------- _Fix_ ----------<br>
+5. As we can see above, the bug hide up in the if condition. That is, we can wake up waiting thread only when set *transaction_done* flag to 1.<br>
+As a conclude, we need to ensure each flag and behavior who are bind together can only be done in the same condition.<br>
+
+== global char var definition causes reset vector in stack section not aligned by 4 ==
+declare a var as global:<br>
+{{{
+unsigned char xxx;
+}}}
+This results in the whole system would not run even 1 line of code, since the stack section not aligned by 4<br>
+_old linker script_
+{{{
+OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
+OUTPUT_ARCH(arm)
+ENTRY(__start)
+
+SECTIONS
+{
+	. = 0x00000000;
+	. = ALIGN(4);
+	.text	:
+	{
+	  *(.start)
+	  *(.text)
+	}
+
+	.rodata : { *(.rodata) }
+	. = ALIGN(4);
+	.data : { *(.data) }
+	. = ALIGN(4);
+	.got : { *(.got) }
+	__end = .;
+
+	. = 0x04000000;
+	__bss_start = .;
+	.bss : { *(.bss) }
+	__bss_end = .;
+
+	.stack (NOLOAD)	: { *(.stack) }
+}
+}}}
+_correct linker script_
+{{{
+OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
+OUTPUT_ARCH(arm)
+ENTRY(__start)
+
+SECTIONS
+{
+	. = 0x00000000;
+	. = ALIGN(4);
+	.text	:
+	{
+	  *(.start)
+	  *(.text)
+	}
+
+	.rodata : { *(.rodata) }
+	. = ALIGN(4);
+	.data : { *(.data) }
+	. = ALIGN(4);
+	.got : { *(.got) }
+	__end = .;
+
+	. = 0x04000000;
+	. = ALIGN(4);
+	__bss_start = .;
+	.bss : { *(.bss) }
+	__bss_end = .;
+
+	. = ALIGN(4);
+	.stack (NOLOAD)	: { *(.stack) }
+}
+}}}

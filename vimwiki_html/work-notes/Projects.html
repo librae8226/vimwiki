@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>Projects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">Maple Board</a>
+<li><a href="#toc_0.2">HTC Phone</a>
+<li><a href="#toc_0.3">Respberry Pi</a>
+<ul>
+<li><a href="#toc_0.3.1">Arch Linux Hack</a>
+</ul>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">Maple Board</h2>
+<p>
+<code>./stm32loader.py -p/dev/ttyUSB0 -evw maple_boot.bin</code><br>
+<code>./stm32loader.py -a0x08005000 -p/dev/ttyUSB0 -evw maple.bin</code><br>
+<code>./support/scripts/reset.py &amp;&amp; sleep 1 &amp;&amp; dfu-util -a1 -d 1EAF:0003 -D ousia.bin -R</code><br>
+</p>
+
+
+<h2 id="toc_0.2">HTC Phone</h2>
+<p>
+<strong>HTC Linux Project</strong><br>
+<a href="http://htc-linux.org/wiki/index.php?title=Main_Page<br>">http://htc-linux.org/wiki/index.php?title=Main_Page<br></a>
+</p>
+
+
+<h2 id="toc_0.3">Respberry Pi</h2>
+<h3 id="toc_0.3.1">Arch Linux Hack</h3>
+<p>
+<strong>Update Image</strong><br>
+Installed from official website, use dd to burn img to sdcard directly.<br>
+<strong>Update Packages</strong><br>
+Use <code>pacman</code> to update. See this page <a href="https://wiki.archlinux.org/index.php/Offline_Installation_of_Packages<br>">https://wiki.archlinux.org/index.php/Offline_Installation_of_Packages<br></a>
+<strong>Steps</strong> (e.g. install gcc)<br>
+</p>
+<ol>
+<li>
+<code>mkdir -p /var/lib/pacman/sync/{alarm,aur,community,core,extra}</code>
+
+<li>
+<code>rm -r /var/lib/pacman/sync/{alarm,aur,core,extra,community}/*</code>
+
+<li>
+<code>tar xzf /path/to/alarm.db.tar.gz -C /var/lib/pacman/sync/alarm</code>
+
+<li>
+<code>tar xzf /path/to/aur.db.tar.gz -C /var/lib/pacman/sync/aur</code>
+
+<li>
+<code>tar xzf /path/to/core.db.tar.gz -C /var/lib/pacman/sync/core</code>
+
+<li>
+<code>tar xzf /path/to/community.db.tar.gz -C /var/lib/pacman/sync/community</code>
+
+<li>
+<code>tar xzf /path/to/extra.db.tar.gz -C /var/lib/pacman/sync/extra</code>
+
+<li>
+<code>rm -r /var/lib/pacman/sync/*.db</code>
+
+<li>
+<code>cp /path/to/alarm.db /var/lib/pacman/sync/</code>
+
+<li>
+<code>cp /path/to/aur.db /var/lib/pacman/sync/</code>
+
+<li>
+<code>cp /path/to/community.db /var/lib/pacman/sync/</code>
+
+<li>
+<code>cp /path/to/core.db /var/lib/pacman/sync/</code>
+
+<li>
+<code>cp /path/to/extra.db /var/lib/pacman/sync/</code>
+
+<li>
+<code>pacman -Sup gcc &gt; /path/to/gcc.list</code> (used to check how many libs are there to install in total)
+
+<li>
+<code>wget -P /path/to/gcc/ -i /path/to/gcc.list</code> (this list may need to update manuelly before use wget)
+
+</ol>
+<p>
+Then<br>
+Choice 1:<br>
+</p>
+<ol>
+<li>
+<code>cd /path/to/gcc</code>
+
+<li>
+<code>repo-add gcc.db.tar.gz *.pkg.tar.gz</code>
+
+<li>
+<code>update pacman.conf</code>
+
+</ol>
+<p>
+Choice 2 [suggested]:<br>
+</p>
+<ol>
+<li>
+<code>cp /path/to/gcc/CORRESPONDING_FILE /path/to/ca.us.mirror.archlinuxarm.org/arm/$CORRESPONDING_DIR</code>
+
+<li>
+update /etc/pacman.d/mirrorlist, set <code>Server = file:///path/to/ca.us.mirror.archlinuxarm.org/arm/$CORRESPONDING_DIR</code>
+
+<li>
+<code>pacman -S gcc</code>
+
+</ol>
+
+</body>
+</html>

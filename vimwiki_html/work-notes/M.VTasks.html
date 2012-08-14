@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>M.VTasks</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">System Manager</a>
+<ul>
+<li><a href="#toc_0.1.1">sm_uart interrupt mode [k.o.]</a>
+<li><a href="#toc_0.1.2">sm rearchitecture</a>
+<li><a href="#toc_0.1.3">sm i2c driver (sony edid) [k.o.]</a>
+</ul>
+<li><a href="#toc_0.2">Linux Kernel</a>
+<ul>
+<li><a href="#toc_0.2.1">sm ioctl fix [k.o.]</a>
+<li><a href="#toc_0.2.2">i2c [k.o]</a>
+<li><a href="#toc_0.2.3">berlin_sm_write [k.o.]</a>
+<li><a href="#toc_0.2.4">gpio driver poll sample code [k.o.]</a>
+</ul>
+<li><a href="#toc_0.3">Galois Application</a>
+<ul>
+<li><a href="#toc_0.3.1">system monitor (watchdog daemon) [k.o.]</a>
+<li><a href="#toc_0.3.2">flashless loader</a>
+<li><a href="#toc_0.3.3">fanctl</a>
+</ul>
+<li><a href="#toc_0.4">Miscellaneous</a>
+<ul>
+<li><a href="#toc_0.4.1">Suspend &amp; Resume [k.o.]</a>
+<li><a href="#toc_0.4.2">clean klocworks issues of GaloisSoftware [k.o.]</a>
+</ul>
+</ul>
+</ul>
+</div>
+
+
+<h2 id="toc_0.1">System Manager</h2>
+<h3 id="toc_0.1.1">sm_uart interrupt mode [k.o.]</h3>
+<p>
+<strong>Date:</strong> 2011.10.25 ~ 2011.10.26<br>
+<strong>Brief:</strong> Cotehill board needs uart1 for ir blaster, rx in int mode.<br>
+<strong>Local Branch:</strong> b1011_uart1_int_mode (BG2BLT03)<br>
+<strong>Bug ID:</strong> [16122] Try to make SM UART work properly in interrupt mode<br>
+<strong>Comment</strong>: soc side, software is no problem to handle it. issue is caused by IR blaster chip.
+</p>
+
+<h3 id="toc_0.1.2">sm rearchitecture</h3>
+<p>
+<strong>Date:</strong> 2011.10.24 ~ -<br>
+<strong>Brief:</strong> SM needs rearch.<br>
+<strong>Local Branch:</strong> sm_rearch (BG2BLT04)<br>
+<strong>Bug ID:</strong> [16123] SM architecture for different customers and platforms needs improve<br>
+</p>
+
+<h3 id="toc_0.1.3">sm i2c driver (sony edid) [k.o.]</h3>
+<p>
+<strong>Date:</strong> 2011.12.9 ~ 2011.12.13<br>
+<strong>Brief:</strong> SM i2c driver needs verification and finish operation on EDID eeprom.<br>
+<strong>Local Branch:</strong> yrliao/berlin/1021/sony_sm_twsi_edid (BG2BLT04)<br>
+<strong>Bug ID:</strong> [Bug 16736] GTV with HDMI In, a I2C error message output
+</p>
+
+
+<h2 id="toc_0.2">Linux Kernel</h2>
+<h3 id="toc_0.2.1">sm ioctl fix [k.o.]</h3>
+<p>
+<strong>Date:</strong> 2011.10.24 ~ -<br>
+<strong>Brief:</strong> In sm ioctl, Enable/Disable should not be called for the second time.<br>
+</p>
+
+<h3 id="toc_0.2.2">i2c [k.o]</h3>
+<p>
+<strong>Date:</strong> 2011.10.24 ~ -<br>
+<strong>Brief:</strong> i2c study both in soc and sm<br>
+<strong>Date:</strong> 2011.11.9 ~ -<br>
+<strong>Brief:</strong> I2C error while start up kernel if plug in HDMI(in).<br>
+<strong>Update:</strong>
+</p>
+<ol>
+<li>
+Check A1 board i2c error [2011.11.23 ~ 2011.11.29]<br>
+    Fixed. It is caused by the PeripheralAssert pull the voltage to low, but not low enough.<br>
+
+</ol>
+
+<h3 id="toc_0.2.3">berlin_sm_write [k.o.]</h3>
+<p>
+<strong>Date:</strong> 2011.10.26 ~ 2011.10.27<br>
+<strong>Brief:</strong> Reboot needs 512 bytes of memory to store cmd, that address is written bad by berlin_sm_write.<br>
+<strong>Bug ID:</strong> [15733] [GTV]:System boot up fail and it can never recover.<br>
+</p>
+
+<h3 id="toc_0.2.4">gpio driver poll sample code [k.o.]</h3>
+<p>
+<strong>Date:</strong> 2011.10.25 ~ 2011.10.31<br>
+<strong>Brief:</strong> Sample to use gpio poll mode.<br>
+<strong>Local Branch:</strong> b1012_mv88de3100_gpio_sample (BG2BLT04)<br>
+</p>
+
+
+<h2 id="toc_0.3">Galois Application</h2>
+<h3 id="toc_0.3.1">system monitor (watchdog daemon) [k.o.]</h3>
+<p>
+<strong>Date:</strong> 2011.11.1 ~ -<br>
+<strong>Brief:</strong> A daemon running backend, kick off watchdog periodically, provide interface for modules to register them into monitor, so that it they can be monitored.<br>
+<strong>Bug ID:</strong> [15917] Task: System Monitoring function<br>
+<strong>Local Branch:</strong> b1013_monitor (BG2BLT03)<br>
+<strong>Update:</strong> document needs update
+</p>
+<pre>
+scp -r /home/yrliao/work/trunk/MRVL/GaloisSoftware/Builds/Linux/* yliao@10.38.55.3:/home/yliao/workspace/marvell/b0/rootfs/home/yliao/Builds/Linux/
+scp /home/yrliao/work/trunk/MRVL/GaloisSoftware/Builds/NonOS/bin/sm.bin yliao@10.38.55.3:/opt/tftpboot/b0/sm.bin
+</pre>
+
+<h3 id="toc_0.3.2">flashless loader</h3>
+<p>
+<strong>Date:</strong> 2011.11.16 ~ 23<br>
+<strong>Brief:</strong> flashless loader<br>
+<strong>Bug ID:</strong> [16585] [Sony Raptor][Flashless DC] DC should support collecting persistent data got from loader and send initial persistent data to loader<br>
+</p>
+
+<h3 id="toc_0.3.3">fanctl</h3>
+<p>
+<strong>Date:</strong> 2011.11.22 ~ -<br>
+<strong>Brief:</strong> New fan needs pwm control, we may do, like linear fitting, for voltage and temperature.<br>
+<strong>Bug ID:</strong> <br>
+<strong>Local Branch:</strong> <br>
+</p>
+
+
+<h2 id="toc_0.4">Miscellaneous</h2>
+<h3 id="toc_0.4.1">Suspend &amp; Resume [k.o.]</h3>
+<p>
+<strong>Date</strong>: 2011.11.9 ~ -<br>
+<strong>Brief:</strong> store irq &amp; process affinity, or other things before suspend, restore them while resume<br>
+<strong>Bug ID:</strong> [16353] need to recorver affinity during suspend/resume, duplicated of [17047]<br>
+<strong>Solution:</strong>: put a script in <em>/system/etc (nfsroot)</em>, and each time suspend or resume, call the corresponding script.<br>
+<strong>Comment:</strong> needs to merge to jackie's branch.
+</p>
+
+<h3 id="toc_0.4.2">clean klocworks issues of GaloisSoftware [k.o.]</h3>
+<p>
+<strong>Date:</strong> 2011.11.18 ~ -<br>
+<strong>Brief:</strong> in GaloisSoftware, focus on DC, SM. This is not very urgent , but we need to fix (and integrated into SBT) all these issues within next 3 weeks.<br>
+<strong>Bug ID</strong>:<br>
+</p>
+
+</body>
+</html>

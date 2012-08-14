@@ -1,0 +1,490 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>ShellRelated</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<p>
+<a href="index.html">Home Page</a>
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">A Brief Guide</a>
+<li><a href="#toc_0.2">Passing arguments to a shell script</a>
+<li><a href="#toc_0.3">if/else</a>
+<li><a href="#toc_0.4">Estimate Arguments</a>
+<li><a href="#toc_0.5">Call commands in script and output to a variable</a>
+<li><a href="#toc_0.6">suspend_resume script</a>
+</ul>
+</ul>
+</div>
+</p>
+
+
+<h2 id="toc_0.1">A Brief Guide</h2>
+<p>
+<a href="http://www.twbsd.org/cht/book/ch24.htm<br>">http://www.twbsd.org/cht/book/ch24.htm<br></a>
+</p>
+
+<h2 id="toc_0.2">Passing arguments to a shell script</h2>
+
+<p>
+Any shell script you run has access to (inherits) the environment variables accessible to its parent shell. In addition, any arguments you type after the script name on the shell command line are passed to the script as a series of variables.
+</p>
+
+<p>
+The following parameters are recognized:
+</p>
+
+
+<p>
+$*
+</p>
+<blockquote>
+Returns a single string (``\(1, \)2 ... $n'') comprising all of the positional parameters separated by the internal field separator character (defined by the IFS environment variable). 
+</blockquote>
+
+<p>
+$@
+</p>
+<blockquote>
+Returns a sequence of strings (`<code>\(1'', </code><code>\)2'', ... </code>`$n'') wherein each positional parameter remains separate from the others. 
+</blockquote>
+
+<p>
+\(1, \)2 ... $n
+</p>
+<blockquote>
+Refers to a numbered argument to the script, where n is the position of the argument on the command line. In the Korn shell you can refer directly to arguments where n is greater than 9 using braces. For example, to refer to the 57th positional parameter, use the notation \({57}. In the other shells, to refer to parameters with numbers greater than 9, use the shift command; this shifts the parameter list to the left. \)1 is lost, while \(2 becomes \)1, \(3 becomes \)2, and so on. The inaccessible tenth parameter becomes $9 and can then be referred to. 
+</blockquote>
+
+<p>
+$0
+</p>
+<blockquote>
+Refers to the name of the script itself. 
+</blockquote>
+
+<p>
+$#
+</p>
+<blockquote>
+Refers to the number of arguments specified on a command line. 
+</blockquote>
+
+
+<p>
+For example, create the following shell script called mytest:
+</p>
+
+<p>
+   echo There are \(# arguments to \)0: $*
+   echo first argument: $1
+   echo second argument: $2
+   echo third argument: $3
+   echo here they are again: $@
+</p>
+
+<p>
+When the file is executed, you will see something like the following:
+</p>
+
+<p>
+   $ mytest foo bar quux
+   There are 3 arguments to mytest: foo bar quux
+   first argument: foo
+   second argument: bar
+   third argument: quux
+   here they are again: foo bar quux
+</p>
+
+<p>
+\(# is expanded to the number of arguments to the script, while \)* and \(@ contain the entire argument list. Individual parameters are accessed via \)0, which contains the name of the script, and variables \(1 to \)3 which contain the arguments to the script (from left to right along the command line).
+</p>
+
+<p>
+Although the output from \(@ and \)* appears to be the same, it may be handled differently, as $@ lists the positional parameters separately rather than concatenating them into a single string. Add the following to the end of mytest:
+</p>
+
+<p>
+   function how_many {
+</p>
+<blockquote>
+print "$# arguments were supplied."
+</blockquote>
+<p>
+   }
+   how_many "$*"
+   how_many "$@"
+</p>
+
+<p>
+The following appears when you run mytest:
+</p>
+
+<p>
+   $ mytest foo bar quux
+   There are 3 arguments to mytest: foo bar quux
+   first argument: foo
+   second argument: bar
+   third argument: quux
+   here they are again: foo bar quux
+   1 arguments were supplied.
+   3 arguments were supplied.
+<br>
+<br>
+</p>
+<h2 id="toc_0.3">if/else</h2>
+
+<p>
+In order for a script to be very useful, you will need to be able to test the conditions of variables. Most programming and scripting languages have some sort of if/else expression and so does the bourne shell. Unlike most other languages, spaces are very important when using an if statement. Let's do a simple script that will ask a user for a password before allowing him to continue. This is obviously not how you would implement such security in a real system, but it will make a good example of using if and else statements.
+</p>
+<pre>
+#!/bin/sh
+# This is some secure program that uses security.
+
+VALID_PASSWORD="secret" #this is our password.
+
+echo "Please enter the password:"
+read PASSWORD
+
+if [ "$PASSWORD" == "$VALID_PASSWORD" ]; then
+	echo "You have access!"
+else
+	echo "ACCESS DENIED!"
+fi
+</pre>
+<p>
+Remember that the spacing is very important in the if statement. Notice that the termination of the if statement is fi. You will need to use the fi statement to terminate an if whether or not use use an else as well. You can also replace the "==" with "!=" to test if the variables are NOT equal. There are other tokens that you can put in place of the "==" for other types of tests. The following table shows the different expressions allowed.
+Comparisons:
+<table>
+<tr>
+<td>
+-eq
+</td>
+<td>
+equal to
+</td>
+</tr>
+<tr>
+<td>
+-ne
+</td>
+<td>
+not equal to
+</td>
+</tr>
+<tr>
+<td>
+-lt
+</td>
+<td>
+less than
+</td>
+</tr>
+<tr>
+<td>
+-le
+</td>
+<td>
+less than or equal to
+</td>
+</tr>
+<tr>
+<td>
+-gt
+</td>
+<td>
+greater than
+</td>
+</tr>
+<tr>
+<td>
+-ge
+</td>
+<td>
+greater than or equal to
+</td>
+</tr>
+</table>
+</p>
+
+<p>
+File Operations:
+<table>
+<tr>
+<td>
+-s
+</td>
+<td>
+file exists and is not empty
+</td>
+</tr>
+<tr>
+<td>
+-f
+</td>
+<td>
+file exists and is not a directory
+</td>
+</tr>
+<tr>
+<td>
+-d
+</td>
+<td>
+directory exists
+</td>
+</tr>
+<tr>
+<td>
+-x
+</td>
+<td>
+file is executable
+</td>
+</tr>
+<tr>
+<td>
+-w
+</td>
+<td>
+file is writable
+</td>
+</tr>
+<tr>
+<td>
+-r
+</td>
+<td>
+file is readable
+</td>
+</tr>
+</table>
+</p>
+
+<p>
+Let's try using a couple of these in a script. This next script will ask for a user name, if there is not a file that exists with the name "username_DAT", the script will prompt the user for their age, it will then make sure that they are old enough to use this program and then it will write their age to a file with the name "username_DAT". If the file already exists, it will just display the age of the user.
+</p>
+<pre>
+#!/bin/sh
+
+# Prompt for a user name...
+echo "Please enter your name:"
+read USERNAME
+
+# Check for the file.
+if [ -s ${USERNAME}_DAT ]; then
+        # Read the age from the file.
+        AGE=`cat ${USERNAME}_DAT`
+        echo "You are $AGE years old!"
+else
+        # Ask the user for his/her age
+        echo "How old are you?"
+        read AGE
+
+	if [ "$AGE" -le 2 ]; then
+		echo "You are too young!"
+	else 
+		if [ "$AGE" -ge 100 ]; then
+			echo "You are too old!"
+		else
+        		# Write the age to a new file.
+        		echo $AGE &gt; ${USERNAME}_DAT
+        	fi
+        fi
+fi
+</pre>
+<p>
+Run this program a couple of times. First run it and give it the user name of "john". When it asks for an age, enter the age "1". Notice that it will say that you are too you and then exit. Now run the program again with the name "john" and the age 200. This time the script will tell you that you are too old and exit. Now run the the script again with the name of "john", enter the age 30. The script exits normally this time, the program created a file called "john_DAT" which contains the text "30". Finally run the program one more time and give it the name "john". This time it will not prompt you to enter an age, instead it will read the age from a file and say "Your are 30 years old!".
+</p>
+
+<p>
+We introduced something else new in this script. On line 10 of the file, we see the code:
+</p>
+<pre>
+	AGE=`cat ${USERNAME}_DAT`
+</pre>
+<p>
+This is how you execute a command and put the text output from the command into a variable. The unix command cat reads the file named ${USERNAME}_DAT and outputs it to the console. Instead of putting it to the console in our script, we wrap the command with the character `, this puts the text into our variable AGE.
+</p>
+
+<p>
+You can test multiple expressions at once by using the || (or) operator or the &amp;&amp; (and) operator. This can save you from writing extra code to nest if statements. The above code has a nested if statement where it checks if the age is greater than or equal to 100. This could be changed as well by using elif (else if). The structure of elif is the same as the structure of if, we will use it in an example below. In this example, we will check for certain age ranges. If you are less than 20 or greater than 50, you are out of the age range. If you are between 20 and 30 you are in your 20's and so on.
+</p>
+<pre>
+#!/bin/sh
+
+# Prompt for a user name...
+echo "Please enter your age:"
+read AGE
+
+if [ "$AGE" -lt 20 ] || [ "$AGE" -ge 50 ]; then
+	echo "Sorry, you are out of the age range."
+elif [ "$AGE" -ge 20 ] &amp;&amp; [ "$AGE" -lt 30 ]; then 
+	echo "You are in your 20s"
+elif [ "$AGE" -ge 30 ] &amp;&amp; [ "$AGE" -lt 40 ]; then 
+	echo "You are in your 30s"
+elif [ "$AGE" -ge 40 ] &amp;&amp; [ "$AGE" -lt 50 ]; then 
+	echo "You are in your 40s"
+fi
+</pre>
+<p>
+<br>
+<br>
+</p>
+<h2 id="toc_0.4">Estimate Arguments</h2>
+<p>
+use as:
+</p>
+<blockquote>
+if [ -n "$1" ]
+</blockquote>
+<p>
+.e.g
+</p>
+<pre>
+#!/bin/bash
+
+if [ -n "$1" ]; then
+	git config --global remote.origin.url "git@github.com:librae8226/leafos.git"
+	echo ''
+	echo "Start synchronizing..."
+	echo ''
+	if [ $1 == "push" ]; then
+		git add .
+		git commit
+		echo "pushing..."
+		git push origin master
+	elif [ $1 == "pull" ]; then
+		echo "pulling..."
+		git pull origin master
+	else
+		echo "error arg."
+		echo "USAGE: sync push|pull"
+		exit
+	fi
+else
+	echo "USAGE: sync push|pull"
+	exit
+fi
+
+echo ''
+echo 'Synchronize ok.'
+echo ''
+</pre>
+<p>
+<br>
+<br>
+</p>
+<h2 id="toc_0.5">Call commands in script and output to a variable</h2>
+<pre>
+#!/bin/bash
+
+today=`date +%Y%m%d%k%M%S`
+res=tree$today
+num_of_files=`ls -l | wc -l`
+echo $res
+echo $num_of_files
+</pre>
+<p>
+<br>
+<br>
+</p>
+<h2 id="toc_0.6">suspend_resume script</h2>
+<pre>
+#!/bin/sh
+
+###########################################
+#             Customization               #
+###########################################
+ENV_BAK_PATH=/tmp/aff.bak
+IRQ_BAK_PATH=$ENV_BAK_PATH/irq
+PS_BAK_PATH=$ENV_BAK_PATH/ps
+IRQ_PROC_PATH=/proc/irq
+SCHEDTOOL_PATH=/data/app/bin
+
+backup_irq()
+{
+	mkdir -p $IRQ_BAK_PATH
+	touch $IRQ_BAK_PATH/irq_affinity
+	cd /proc/irq
+	for name in `ls`
+	do
+		test -d $name
+		if [ $? == "0" ]; then
+			echo "$name `cat $name/smp_affinity`" &gt;&gt; $IRQ_BAK_PATH/irq_affinity
+		fi
+	done
+	cd - &gt;/dev/null
+}
+
+restore_irq()
+{
+	cd $IRQ_BAK_PATH
+	while read line
+	do
+		echo "$line" &gt; .irq_restore_tmp
+		name=`awk '{print $1}'` &lt; .irq_restore_tmp
+		aff=`awk '{print $2}'` &lt; .irq_restore_tmp
+		echo $aff &gt; $IRQ_PROC_PATH/$name/smp_affinity
+	done &lt; irq_affinity
+	cd - &gt;/dev/null
+}
+
+backup_ps()
+{
+	mkdir -p $PS_BAK_PATH
+	touch $PS_BAK_PATH/ps_affinity
+	touch $PS_BAK_PATH/.ps_backup_tmp
+	cd /proc
+	for name in `ls`
+	do
+		expr $name : '^[0-9]\+$' &gt;/dev/null 2&gt;&amp;1
+		if [ $? -eq 0 ]; then
+			echo "$name" &gt;&gt; $PS_BAK_PATH/.ps_backup_tmp
+		fi
+	done
+	pid=`cat $PS_BAK_PATH/.ps_backup_tmp`
+	$SCHEDTOOL_PATH/schedtool $pid &gt; $PS_BAK_PATH/ps_affinity
+	cd - &gt;/dev/null
+}
+
+restore_ps()
+{
+	cd $PS_BAK_PATH
+	$SCHEDTOOL_PATH/schedtool -z $PS_BAK_PATH/ps_affinity &gt;/dev/null 2&gt;&amp;1
+	cd - &gt;/dev/null
+}
+
+main()
+{
+	if [ -n "$1" ]; then
+		if [ $1 == "backup" ]; then
+			rm -rf $ENV_BAK_PATH
+			backup_irq
+			backup_ps
+		elif [ $1 == "restore" ]; then
+			restore_irq
+			restore_ps
+		else
+			echo "USAGE: ./afftool.sh ARG"
+			echo "ARG could be: backup OR restore."
+		fi
+
+	else
+		echo "USAGE: ./afftool.sh ARG"
+		echo "ARG could be: backup OR restore."
+	fi
+}
+
+rm -f $ENV_BAK_PATH/.suspend_resume_lock
+main "$@"
+echo "done" &gt; $ENV_BAK_PATH/.suspend_resume_lock
+</pre>
+
+</body>
+</html>
