@@ -44,3 +44,9 @@ Replace all "vivian" in each line from the nth line to the last with "sky"<br>
 
 == Change DOS ending to UNIX ==
 `:%s/\r//g`<br>
+
+%template header-footer
+
+%template header-footer
+
+%template header-footer

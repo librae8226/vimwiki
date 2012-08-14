@@ -85,3 +85,5 @@ scp /home/yrliao/work/trunk/MRVL/GaloisSoftware/Builds/NonOS/bin/sm.bin yliao@10
 *Date:* 2011.11.18 ~ -<br>
 *Brief:* in GaloisSoftware, focus on DC, SM. This is not very urgent , but we need to fix (and integrated into SBT) all these issues within next 3 weeks.<br>
 *Bug ID*:<br>
+
+%template header-footer

@@ -114,3 +114,5 @@ NOTE: In Ubuntu 8.10 and later versions, for LDFLAGS, the option -Wl,-z,relro is
 make: warning:  Clock skew detected.  Your build may be incomplete.<br>
 `touch Makefile`<br>
 works well.<br>
+
+%template header-footer

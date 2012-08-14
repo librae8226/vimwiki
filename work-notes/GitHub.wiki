@@ -39,3 +39,5 @@ just do this first:<br>
 == Fix gitk ugly fonts in ubuntu ==
 http://www.myscienceisbetter.info/fix-gitk-ugly-fonts-in-ubuntu.html
 
+
+%template header-footer

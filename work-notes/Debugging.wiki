@@ -117,3 +117,5 @@ SECTIONS
 	.stack (NOLOAD)	: { *(.stack) }
 }
 }}}
+
+%template header-footer

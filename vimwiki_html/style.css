@@ -273,7 +273,7 @@ textarea {
 #top-nav {
     position: relative;
     top: -25px;
-    width: 280px;
+    width: 600px;
     margin: 0 auto;
     overflow: hidden;
     zoom: 1;
@@ -282,7 +282,7 @@ textarea {
 #top-nav li {
     float: left;
     list-style: none;
-    margin-right: 10px;
+    margin-right: 5px;
 }
 #top-nav a{
     display: block;

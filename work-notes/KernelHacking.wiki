@@ -5,3 +5,5 @@
 == Simple Analysis of platform_get_resource ==
 
 http://blog.csdn.net/yongan1006/article/details/6796012<br>
+
+%template header-footer

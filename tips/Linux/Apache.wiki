@@ -28,3 +28,5 @@ sudo service apache2 restart
 }}}
 
 欧啦！ Ubuntu 和 Debian lenny 适用。
+
+%template header-footer

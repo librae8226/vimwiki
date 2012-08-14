@@ -1,4 +1,3 @@
-%template header-footer
 = The Pure Ousia of Librae =
 <hr>
 %toc
@@ -78,7 +77,12 @@ Refer to this page for [[tips/vim/vimwiki-guide|vimwiki simple guide]]<br>
 - [[ReadIt|阅读推荐]]
 
 == 各种注意 ==
-- 本页面支持评论，基于[http://diqus.com DISQUS]实现。但DISQUS有时候实在慢得可以，评论输入框里居然还有iframe。各位如果恰巧不幸赶上DISQUS抽风，又正好想留言的话，还望多一点耐心。
+- 本页面支持评论，基于[http://disqus.com DISQUS]实现。但DISQUS有时候实在慢得可以，评论输入框里居然还有iframe。各位如果恰巧不幸赶上DISQUS抽风，又正好想留言的话，还望多一点耐心。
 - 右上角搜索的结果还不完全。这是Google对本站索引太慢造成的。如果你希望有更强力的搜索，就赶快给俺加个友链吧！
 
+{{{id="no-comment"
+Comment disabled.
+}}}
 %title The Pure Ousia of Librae
+
+%template header-footer

@@ -34,3 +34,5 @@ http://my-net.cc/weblog/post/274<br>
 == HowTo: Using sudo on FreeBSD ==
 refer to:<br>
 http://linux-bsd-sharing.blogspot.com/2009/03/howto-using-sudo-on-freebsd.html<br>
+
+%template header-footer

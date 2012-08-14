@@ -96,3 +96,5 @@ The next and the last step is to boot system with SDCard and our config would <b
 	make sense.<br>
 ------------------------ end ------------------------<br>
 
+
+%template header-footer

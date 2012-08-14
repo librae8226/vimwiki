@@ -67,3 +67,5 @@ function fsr {
 === 营造堪比 Windows 的体验 ===
 # 安装 Dropbox 并翻墙<br />
 先[http://www.dropbox.com/downloading 下载Dropbox的安装包]，然后根据[http://danielschultz.wordpress.com/2009/11/09/dropbox-behind-a-proxy/ 这篇文章]的的指导，下载 Dropbox Daemon，成功启动后手动填写代理地址即可。
+
+%template header-footer

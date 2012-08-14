@@ -19,3 +19,5 @@ function get_next_weekday($day) {
 
 }}}
 
+
+%template header-footer

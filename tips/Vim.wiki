@@ -182,3 +182,5 @@ gjslint 唯一的遗憾就是“字数过多”这个限制太严格了，对于
 # 静默执行shell：   `:silent !cmd`
 
 %title 丘迟的维基世界 - Vim 小贴士
+
+%template header-footer

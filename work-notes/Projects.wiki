@@ -45,3 +45,5 @@ Choice 2 [suggested]:<br>
 # update /etc/pacman.d/mirrorlist, set `Server = file:///path/to/ca.us.mirror.archlinuxarm.org/arm/$CORRESPONDING_DIR`
 # `pacman -S gcc`
 
+
+%template header-footer

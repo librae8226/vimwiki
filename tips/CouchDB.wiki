@@ -47,3 +47,5 @@ Couchdb 数据的翻页比较猥琐，[http://guide.couchdb.org/draft/recipes.ht
 所以正解是，只在 reduce 方法里统计每个 key 的条目个数，然后再在应用端具体计算和缓存所需页码的 offset key 。
 
 真是纠结万分啊。
+
+%template header-footer

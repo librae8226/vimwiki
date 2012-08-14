@@ -28,3 +28,5 @@ Image is in $(TREE)/MRVL/Release_image/u2nandimg/<br>
 == Burn Specific Image(s) ==
 img2sd cc/bootloader.subimg b1<br>
 img2sd cc/bootimgs.subimg 1<br>
+
+%template header-footer

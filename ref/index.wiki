@@ -1,3 +1,5 @@
 = 更多前端知识参考 = 
 
 %title 前端知识参考 - 丘迟的维基
+
+%template header-footer

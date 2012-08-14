@@ -8,3 +8,5 @@
 - [http://yjc.me 实名博客]
 
 %title 丘迟的维基 - 博客们
+
+%template header-footer

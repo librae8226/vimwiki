@@ -1,2 +1,4 @@
 = 阅读推荐 =
 暂无
+
+%template header-footer

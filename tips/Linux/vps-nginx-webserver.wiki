@@ -280,3 +280,5 @@ alias ephpf='vim /etc/php/php-fpm.conf'
 For more nginx tips, go for my [[Nginx|nginx tips]].
 
 %title 在 VPS 上用 nginx + php-fpm + mysql 快速搭建Web服务器 - 丘迟的维基世界
+
+%template header-footer

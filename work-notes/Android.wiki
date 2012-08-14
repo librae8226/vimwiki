@@ -23,3 +23,5 @@ http://blog.csdn.net/lqf20013/article/details/6362267<br>
 
 == Android KeyEvent mapping ==
 `./frameworks/base/core/java/android/view/KeyEvent.java`<br>
+
+%template header-footer

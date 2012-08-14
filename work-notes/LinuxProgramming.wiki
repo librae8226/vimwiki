@@ -8,3 +8,5 @@
 | [[IPCRelated]]    | Inter Process Communication              |
 | [[KernelHacking]] | All about hacking in kernel              |
 
+
+%template header-footer

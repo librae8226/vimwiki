@@ -4,3 +4,5 @@
 
 
 %title 丘迟的维基 - 工作任务
+
+%template header-footer

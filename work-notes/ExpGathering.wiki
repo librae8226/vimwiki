@@ -7,3 +7,5 @@
     Because it may be difficult for staff to answer.<br>
     If it is feasible, go for it. If not, staff can explain and argue.<br>
     This is more balanced I think.<br>
+
+%template header-footer

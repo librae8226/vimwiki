@@ -515,3 +515,5 @@ See read_frame()<br>
 	setenv bootargs 'macaddr=00:50:F3:01:1F:A1 root=/dev/nfs console=ttyS0,115200 nfsroot=10.38.54.187:/home/yliao/workspace/marvell/marlin/marlin_rootfs_ies/home/berlin/berlin_rootfs,v3 ip=dhcp init=/init androidboot.console=ttyS0'
 	setenv bootfile 'ies/yliao/uImage'
 }}}
+
+%template header-footer

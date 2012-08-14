@@ -15,3 +15,5 @@ IE8不认 .selecto, .sel, {} 这样的CSS，注意最后多出来的那个逗号
 }}}
 
 %title 丘迟的维基 - CSS
+
+%template header-footer

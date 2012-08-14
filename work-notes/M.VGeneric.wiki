@@ -178,3 +178,5 @@ this one could be running in pure linux.<br>
 == Wake On LAN ==
 e.g.<br>
 `sudo etherwake -i eth1 -b 00:11:22:33:44:55`<br>
+
+%template header-footer

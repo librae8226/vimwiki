@@ -16,3 +16,5 @@
 }}}
 
 %title 丘迟的维基 - 站点地图
+
+%template header-footer

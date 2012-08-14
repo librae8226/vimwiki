@@ -45,3 +45,5 @@ location ~ \.php$ {
 
 之后就发现访问 php 文件一片空白，并且返回状态码 404 。使用 rewrite 法 debug ，发现是传给 cgi 的 %document_root% 不对。它居然用了默认的 /usr/html/ 。看来在 *ktmud.com.conf* 这个文件里设定的 root 没有生效。然后 Google 了好大一会儿，才发现，这个 root 不能写在 Location 里！他只在 `Location / {} ` 这块大括号里生效！解决办法当然是去掉 `Location /` 咯!
 
+
+%template header-footer

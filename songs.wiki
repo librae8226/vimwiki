@@ -12,3 +12,5 @@ There is too much misery in this world already. We don't have need to making our
 - [http://www.xiami.com/song/1769823116 One of Us - Glee Cast]  必须要Glee版本的，[http://www.xiami.com/song/1528324 原版]没有那种感染力。
 
 %title 那些让我翩翩起舞的歌 - 丘迟的维基世界
+
+%template header-footer

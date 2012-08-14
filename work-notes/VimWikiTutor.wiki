@@ -146,3 +146,5 @@ do not convert to HTML:
 Help and information:<br>
 :he vimwiki
 
+
+%template header-footer

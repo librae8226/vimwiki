@@ -4,14 +4,14 @@
 
 == Modularized Programming ==
 MODULE NAME: module<br>
-{{{
+{{{class="brush: C;"
 	typedef struct _module_handle_s /* module handler struct */
 	{
 		/* status enum, element type */
 		status_e (*init)(element_t a, element_t b);
 		/* ... (ohter module interface provided as function pointer) */
 		status_e (*fin)(element_t c, element_t d);
-		
+
 		/* private data whitch would be point to module_data while initialize */
 		void *priv_data;
 	}
@@ -26,7 +26,7 @@ MODULE NAME: module<br>
 		module_init()
 		/* ... (other module interface) */
 		module_fin()
-		
+
 		/* internal private functions */
 		process1()
 		process2()
@@ -36,3 +36,6 @@ MODULE NAME: module<br>
 == Optimize Applications with gcc and glibc ==
 http://www.newsmth.net/pc/pccon.php?id=6592&nid=378322
 
+%template header-footer
+
+%template header-footer

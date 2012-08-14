@@ -31,3 +31,5 @@
 
 
 %title 丘迟的维基世界 - 友情链接
+
+%template header-footer

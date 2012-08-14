@@ -1,9 +1,11 @@
-%template header-footer
 = Diary =
 | [[2012-08-14|Settle Down]] |
 
 {{{id="no-comment"
-本页不允许评论
+Comment disabled.
 }}}
 
-%title 丘迟的维基世界 - 日记
+%title Trail of Heart
+%template header-footer
+
+%template header-footer

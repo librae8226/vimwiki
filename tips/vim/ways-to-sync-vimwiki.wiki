@@ -145,3 +145,5 @@ Anyway, 老子这个项目就是让 wiki 作为项目本身，怎么着了？好
 
 
 %title 利用 Git 同步 vimwiki 到线上网站  - 丘迟的维基世界
+
+%template header-footer

@@ -1,26 +1,50 @@
+<!DOCTYPE html>
 <html>
-<head>
-<link rel="Stylesheet" type="text/css" href="../../style.css" />
-<title>利用 Git 同步 vimwiki 到线上网站  - 丘迟的维基世界</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-</head>
-<body>
+	<head>
+		<title>利用 Git 同步 vimwiki 到线上网站  - 丘迟的维基世界</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../../style.css" />
+		<script>var root_path = '../../';</script>
+		<!--<link href="http://github.com/ktmud/kwiki/commits/master.atom" rel="alternate" title="Kdmud Wiki 的最新更改" type="application/atom+xml" />-->
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
 <p>
 &lt;h1&gt;同步 vimwiki 到线上的各种方法&lt;/h1&gt;
 <div class="toc">
 <ul>
-<li><a href="#toc_0.1">使用 Git + Batch file</a></li>
+<li><a href="#toc_0.1">使用 Git + Batch file</a>
 <ul>
-<li><a href="#toc_0.1.1">自动提交文件到 Git Server</a></li>
+<li><a href="#toc_0.1.1">自动提交文件到 Git Server</a>
 </ul>
-<li><a href="#toc_0.2">让服务器显示你的的网页</a></li>
+<li><a href="#toc_0.2">让服务器显示你的的网页</a>
 <ul>
-<li><a href="#toc_0.2.1">使用 Github Pages</a></li>
-<li><a href="#toc_0.2.2">使用自己的服务器</a></li>
+<li><a href="#toc_0.2.1">使用 Github Pages</a>
+<li><a href="#toc_0.2.2">使用自己的服务器</a>
 </ul>
-<li><a href="#toc_0.3">使用 Ftp + Batch file</a></li>
-<li><a href="#toc_0.4">使用Dropbox或者其他各种box</a></li>
-<li><a href="#toc_0.5">其他</a></li>
+<li><a href="#toc_0.3">使用 Ftp + Batch file</a>
+<li><a href="#toc_0.4">使用Dropbox或者其他各种box</a>
+<li><a href="#toc_0.5">其他</a>
 </ul>
 </ul>
 </div>
@@ -33,25 +57,25 @@
 <ol>
 <li>
 需要自动同步 vimwiki_html 的所有文件
-</li>
+
 <li>
 有变更的文件才同步上去
-</li>
+
 <li>
 被删掉的文件也要能同步删掉
-</li>
+
 <li>
 由于文件修改频繁，不需要一旦修改就马上同步
-</li>
+
 <li>
 有需要时可以手动同步
-</li>
+
 <li>
 最好能排除一些不用放在线上的文件
-</li>
+
 <li>
 不能占用太多系统资源
-</li>
+
 </ol>
 
 <p>
@@ -69,7 +93,7 @@
 
 <h3 id="toc_0.1.1">自动提交文件到 Git Server</h3>
 <p>
-先说用 github 的情况。首先<a href="http://github.com/repositories/new">新建一个仓库</a>，我这里使用的项目名是 <strong>kwiki</strong> 。获得SSH地址 <code>git@github.com:ktmud/kwiki.git</code> 。
+先说用 github 的情况。首先[<a href="http://github.com/repositories/new">http://github.com/repositories/new</a> 新建一个仓库]，我这里使用的项目名是 <strong>kwiki</strong> 。获得SSH地址 <code>git@github.com:ktmud/kwiki.git</code> 。
 </p>
 
 <p>
@@ -77,7 +101,7 @@
 </p>
 
 <p>
-接下来就要想办法做到自动提交。首先绕不开的问题就是用户验证。相信会用 Git 的人都已经按照<a href="http://help.github.com/msysgit-key-setup/">Github上的指导</a>建立了 ssh key 。但不知道你试过 ssh-agent 这个东西没有？简单来说，它可以让你不用每次提交修改到 git
+接下来就要想办法做到自动提交。首先绕不开的问题就是用户验证。相信会用 Git 的人都已经按照[<a href="http://help.github.com/msysgit-key-setup/">http://help.github.com/msysgit-key-setup/</a> Github上的指导]建立了 ssh key 。但不知道你试过 ssh-agent 这个东西没有？简单来说，它可以让你不用每次提交修改到 git
 服务器时都输入密码。请参照这篇教程进行设置：<a href="http://help.github.com/working-with-key-passphrases/">http://help.github.com/working-with-key-passphrases/</a> 。
 </p>
 
@@ -119,7 +143,7 @@ exit
 </p>
 
 <p>
-鉴于<a href="http://wiki.ktmud.com/tips/vim/vimwiki-guide.html#toc_0.3.3">我们之前定义的生成HTML快捷键是&lt;F4&gt;</a>，那就定义 &lt;C-F4&gt; 为提交好了：
+鉴于[<a href="http://wiki.ktmud.com/tips/vim/vimwiki-guide.html#toc_0.3.3">http://wiki.ktmud.com/tips/vim/vimwiki-guide.html#toc_0.3.3</a> 我们之前定义的生成HTML快捷键是&lt;F4&gt;]，那就定义 &lt;C-F4&gt; 为提交好了：
 </p>
 <blockquote>
 map &lt;C-F4&gt; :exec 'silent !cmd.exe /k "cd "'.VimwikiGet('path_html').'" &amp; sync"'&lt;cr&gt;
@@ -156,7 +180,7 @@ map &lt;C-F4&gt; &lt;S-F4&gt;:exec 'silent !cmd.exe /k "cd "'.VimwikiGet('path_h
 
 <h3 id="toc_0.2.1">使用 Github Pages</h3>
 <p>
-<strong>请参考</strong> <a href="http://pages.github.com/">Github Pages 帮助文档</a>
+<strong>请参考</strong> [<a href="http://pages.github.com/">http://pages.github.com/</a> Github Pages 帮助文档]
 </p>
 
 <p>
@@ -180,7 +204,7 @@ exit
 </p>
 
 <p>
-接着，按照 <a href="http://pages.github.com/">Github Pages 帮助文档</a> 的说明，添加 CNAME ，一切搞定！
+接着，按照 [<a href="http://pages.github.com/">http://pages.github.com/</a> Github Pages 帮助文档] 的说明，添加 CNAME ，一切搞定！
 </p>
 
 <p>
@@ -205,11 +229,11 @@ Anyway, 老子这个项目就是让 wiki 作为项目本身，怎么着了？好
 </p>
 
 <p>
-请参考： <a href="http://toroid.org/ams/git-website-howto">Using Git to manage a web site</a>。
+请参考： [<a href="http://toroid.org/ams/git-website-howto">http://toroid.org/ams/git-website-howto</a> Using Git to manage a web site]。
 </p>
 
 <p>
-也可以阅读 <a href="http://progit.org/book/zh/ch4-4.html">Pro Git 上有关架设服务器的文档</a> 详细了解一下。
+也可以阅读 [<a href="http://progit.org/book/zh/ch4-4.html">http://progit.org/book/zh/ch4-4.html</a> Pro Git 上有关架设服务器的文档] 详细了解一下。
 </p>
 
 <p>
@@ -227,7 +251,7 @@ ssh user@remotehost 'cat &gt;&gt; ~/.ssh/authorized_keys' &lt; ~/.ssh/id_rsa.pub
 不过，注意了， Using Git to manage a web site　这篇文章中提到的代码：
 </p>
 <blockquote>
-$ git remote add web ssh://server.example.org/home/ams/website.git<br>
+$ git remote add web <a href="ssh://server.example.org/home/ams/website.git<br>">ssh://server.example.org/home/ams/website.git<br></a>
 $ git push web +master:refs/heads/master
 </blockquote>
 
@@ -236,7 +260,7 @@ $ git push web +master:refs/heads/master
 </p>
 
 <p>
-是的，要搞清楚这些问题，你还需要理解 <a href="http://progit.org/book/zh/ch3-0.html">Git 的分支原理</a>。说实话，楼主写到这里已经有点想死了。
+是的，要搞清楚这些问题，你还需要理解 [<a href="http://progit.org/book/zh/ch3-0.html">http://progit.org/book/zh/ch3-0.html</a> Git 的分支原理]。说实话，楼主写到这里已经有点想死了。
 </p>
 
 <p>
@@ -249,7 +273,7 @@ $ git push web +master:refs/heads/master
 </p>
 
 <p>
-然后我发觉登录到 web 比登录 github 的 ssh 要快多了诶。原因不明。所以<a href="http://wiki.ktmud.com/sync.bat">我就把推送到 github 的句子注释掉了</a>。就让 github 上那几个页面随时光慢慢老去吧……
+然后我发觉登录到 web 比登录 github 的 ssh 要快多了诶。原因不明。所以[<a href="http://wiki.ktmud.com/sync.bat">http://wiki.ktmud.com/sync.bat</a> 我就把推送到 github 的句子注释掉了]。就让 github 上那几个页面随时光慢慢老去吧……
 </p>
 
 
@@ -268,7 +292,7 @@ $ git push web +master:refs/heads/master
 </p>
 
 <p>
-唔... Dropbox倒是提供<a href="http://wiki.dropbox.com/TipsAndTricks/TextBasedLinuxInstall">用于Linux服务器的同步程序</a>。如果能把 Dropbox 架好，倒是能一劳永逸了。
+唔... Dropbox倒是提供[<a href="http://wiki.dropbox.com/TipsAndTricks/TextBasedLinuxInstall">http://wiki.dropbox.com/TipsAndTricks/TextBasedLinuxInstall</a> 用于Linux服务器的同步程序]。如果能把 Dropbox 架好，倒是能一劳永逸了。
 </p>
 
 <p>
@@ -280,5 +304,14 @@ $ git push web +master:refs/heads/master
 是的，最后压轴推荐热辣武器， Dreamweaver 的站点管理！还有那些什么杂七杂八的IDEs，都能拿来用的哟！
 </p>
 
-</body>
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">丘迟</a></p>
+				<!--<p><a href="../../SiteMap.html" title="站点地图">给我一点导航吧</a></p>-->
+			</div>
+		</div>
+		<script src="../../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../../vimwiki.js" type="text/javascript"></script>
+	</body>
 </html>

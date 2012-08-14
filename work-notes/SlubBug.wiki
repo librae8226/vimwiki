@@ -888,3 +888,5 @@ And the bug is fixed.
 === 7.	About Makefile ===
 	The sentence "Image arch/arm/boot/uImage is ready" is printed in file "arch/arm/boot/Makefile".
 	
+
+%template header-footer

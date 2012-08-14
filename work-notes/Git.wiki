@@ -2,6 +2,8 @@
 
 %toc index
 
-| [[GitHub]]      | Use Git in GitHub |
-| [[General Git]] | General Usage     |
+| [[GitHub]]     | Use Git in GitHub |
+| [[GeneralGit]] | General Usage     |
 
+
+%template header-footer

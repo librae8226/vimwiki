@@ -64,7 +64,7 @@ kwiki_identifier = 'wiki' + window.location.pathname.replace(/\//g, '_')
 
 $(document).ready(function() {
     if (window.innerWidth >= 460) {
-        var toggler = $('<div class="toggler" title="点击展开/收起，Shift+Z 隐藏或打开">目录</div>'),
+        var toggler = $('<div class="toggler" title="unfold/fold，Shift+Z hide/display">Catalog</div>'),
         toc = $('.toc');
         toc.wrap('<div class="tocWrap">');
 
@@ -113,7 +113,7 @@ $(document).ready(function() {
 
     //Google自定义搜索
     $.getScript('http://www.google.com/jsapi', function() {
-        google.load('search', '1', {language: 'zh-CN', 'callback': cseloaded });
+        google.load('search', '1', {language: 'en-US', 'callback': cseloaded });
     });
 
     function cseloaded() {
@@ -156,9 +156,10 @@ $(document).ready(function() {
                   'js jscript javascript  http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js',
                   'php http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPhp.js',
                   'css CSS Css http://alexgorbatchev.com/pub/sh/current/scripts/shBrushCss.js',
-                  'Bash bash http://alexgorbatchev.com/pub/sh/current/scripts/shBrushBash.js'
+                  'Bash bash http://alexgorbatchev.com/pub/sh/current/scripts/shBrushBash.js',
+                  'C c http://alexgorbatchev.com/pub/sh/current/scripts/shBrushC.js'
                 );
-                 
+
                 SyntaxHighlighter.all();
             });
         });
@@ -172,6 +173,3 @@ _gaq.push(['_setAccount', 'UA-1080811-17']);
 _gaq.push(['_trackPageview']);
 
 $.getScript('http://www.google-analytics.com/ga.js');
-
-
-

@@ -396,3 +396,5 @@ use command below to set it to default, us layout:<br>
 
 == Fedora 16 LXDE Desktop Icons Disappear ==
 `lxde --desktop &`<br>
+
+%template header-footer

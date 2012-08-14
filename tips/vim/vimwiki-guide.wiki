@@ -304,3 +304,5 @@ call writefile(outputlist, path.wwFileNameOnly.'.html')
 
 
 %title 用 vimwiki 搭建你自己的维基世界 - 丘迟的维基世界
+
+%template header-footer
