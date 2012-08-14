@@ -10,7 +10,7 @@ body {
     max-width: 1200px;
     position: relative;
     margin: 40px auto 15px;
-    font: 100 14px/1.5 "Trebuchet MS", Helvetica, SimSun, sans-serif;
+    font: 100 16px/1.5 "Ubuntu", sans-serif;
 }
 p, ul, li, table {
     margin: 0;
@@ -37,8 +37,8 @@ input:focus, a:focus, button:focus {
     -moz-box-shadow: 0 0 3px #cb0;
 }
 
-h1, h2, h3, h4, h5, h6 { 
-    font-family: "Microsoft Yahei", sans-serif;
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Ubuntu", sans-serif;
     margin: 0;
     padding: 0.15em 0;
 }
@@ -111,7 +111,7 @@ img {
 code {
     padding: 2px 4px;
     color: #cae3b6;
-    font-family: 'Lucida Console', 'Courier New', Courier, monospace;
+    font-family: 'Ubuntu Mono', 'Monospace', monospace, monospace;
 }
 
 blockquote, pre {
@@ -121,7 +121,7 @@ blockquote, pre {
     border: 1px solid #614;
     position: relative;
     z-index: 2;
-    font-family: 'Lucida Console', 'Courier New', Courier, monospace;
+    font-family: 'Ubuntu Mono', 'Monospace', monospace, monospace;
     -webkit-transition: all 0.45s linear;
     -moz-transition: all 0.45s linear;
 
@@ -189,7 +189,7 @@ textarea {
 }
 
 .tocWrap {
-    position: fixed; 
+    position: fixed;
     width: 200px;
     z-index: 100;
     top: 16%;
