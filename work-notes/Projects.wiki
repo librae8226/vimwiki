@@ -2,6 +2,9 @@
 
 %toc index
 
+== Categories ==
+| [[Ousia]] | ousia related notes |
+
 == Maple Board ==
 `./stm32loader.py -p/dev/ttyUSB0 -evw maple_boot.bin`<br>
 `./stm32loader.py -a0x08005000 -p/dev/ttyUSB0 -evw maple.bin`<br>
