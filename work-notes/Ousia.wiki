@@ -244,3 +244,5 @@ r4:   0x00000000   | 0x200015FC
 
 -------  SRAM LAYOUT  -------
 }}}
+
+%template header-footer
