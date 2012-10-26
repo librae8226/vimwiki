@@ -48,6 +48,7 @@
 <li><a href="#toc_0.10">substitute word(s)</a>
 <li><a href="#toc_0.11">Change DOS ending to UNIX</a>
 <li><a href="#toc_0.12">Change Syntax Highlight Mode Manually</a>
+<li><a href="#toc_0.13">Batch Rename Files</a>
 </ul>
 </ul>
 </div>
@@ -123,6 +124,11 @@ Replace all "vivian" in each line from the nth line to the last with "sky"<br>
 <p>
 <code>:set syntax=cpp</code><br>
 </p>
+
+<h2 id="toc_0.13">Batch Rename Files</h2>
+<pre>
+for fn in `ls *.ino`; do new=${fn%%ino}cpp; echo $fn $new; done
+</pre>
 
 
 			</div>

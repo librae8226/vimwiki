@@ -50,4 +50,9 @@ Replace all "vivian" in each line from the nth line to the last with "sky"<br>
 == Change Syntax Highlight Mode Manually ==
 `:set syntax=cpp`<br>
 
+== Batch Rename Files ==
+{{{
+for fn in `ls *.ino`; do new=${fn%%ino}cpp; echo $fn $new; done
+}}}
+
 %template header-footer
