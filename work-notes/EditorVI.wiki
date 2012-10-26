@@ -43,10 +43,11 @@ Replace all "vivian" in each line from the nth line to the last with "sky"<br>
 (n is a numeric, if n is ".", means from the current line to the last.)<br>
 
 == Change DOS ending to UNIX ==
+`:e ++ff=unix`<br>
 `:%s/\r//g`<br>
+`:w ++ff=unix`<br>
 
-%template header-footer
-
-%template header-footer
+== Change Syntax Highlight Mode Manually ==
+`:set syntax=cpp`<br>
 
 %template header-footer

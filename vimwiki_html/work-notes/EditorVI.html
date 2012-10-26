@@ -47,6 +47,7 @@
 <li><a href="#toc_0.9">Jump to the matching bracket</a>
 <li><a href="#toc_0.10">substitute word(s)</a>
 <li><a href="#toc_0.11">Change DOS ending to UNIX</a>
+<li><a href="#toc_0.12">Change Syntax Highlight Mode Manually</a>
 </ul>
 </ul>
 </div>
@@ -113,7 +114,14 @@ Replace all "vivian" in each line from the nth line to the last with "sky"<br>
 
 <h2 id="toc_0.11">Change DOS ending to UNIX</h2>
 <p>
+<code>:e ++ff=unix</code><br>
 <code>:%s/\r//g</code><br>
+<code>:w ++ff=unix</code><br>
+</p>
+
+<h2 id="toc_0.12">Change Syntax Highlight Mode Manually</h2>
+<p>
+<code>:set syntax=cpp</code><br>
 </p>
 
 
