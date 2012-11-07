@@ -45,6 +45,7 @@
 <li><a href="#toc_0.7">Modify Last Git Commit</a>
 <li><a href="#toc_0.8">Push Specific Commit/Branch/Tag to Github</a>
 <li><a href="#toc_0.9">Check Those Changes Which Have Been Added</a>
+<li><a href="#toc_0.10">Git Auto-Completion in Bash</a>
 </ul>
 </ul>
 </div>
@@ -102,6 +103,19 @@ cd into specific directory:<br>
 <p>
 <code>git diff --cached</code><br>
 </p>
+
+<h2 id="toc_0.10">Git Auto-Completion in Bash</h2>
+<pre>
+curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+</pre>
+<p>
+Then add some lines to ~/.bashrc<br>
+</p>
+<pre>
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
+fi
+</pre>
 
 
 			</div>

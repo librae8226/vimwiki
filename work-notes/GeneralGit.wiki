@@ -38,4 +38,15 @@ cd into specific directory:<br>
 == Check Those Changes Which Have Been Added ==
 `git diff --cached`<br>
 
+== Git Auto-Completion in Bash ==
+{{{
+curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+}}}
+Then add some lines to ~/.bashrc<br>
+{{{
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
+fi
+}}}
+
 %template header-footer
