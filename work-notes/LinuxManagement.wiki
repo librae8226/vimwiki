@@ -397,4 +397,8 @@ use command below to set it to default, us layout:<br>
 == Fedora 16 LXDE Desktop Icons Disappear ==
 `lxde --desktop &`<br>
 
+== Fedora 16 LXDE Desktop Openbox Reload "lxde-rc.xml" ==
+`openbox --reconfigure`<br>
+
+
 %template header-footer
