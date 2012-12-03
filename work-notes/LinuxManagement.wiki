@@ -399,6 +399,7 @@ use command below to set it to default, us layout:<br>
 
 == Fedora 16 LXDE Desktop Openbox Reload "lxde-rc.xml" ==
 `openbox --reconfigure`<br>
-
+Refer to this link:<br>
+http://linux-commands.wikidot.com/howto-s:lxde <br>
 
 %template header-footer
