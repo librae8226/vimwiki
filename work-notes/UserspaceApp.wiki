@@ -1,0 +1,10 @@
+[[index|Home Page]]
+%toc index
+
+== Static, Shared Dynamic and Loadable Linux Libraries ==
+http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html <br>
+
+== Unix Sockets ==
+http://beej.us/guide/bgipc/output/html/multipage/unixsock.html <br>
+
+%template header-footer
