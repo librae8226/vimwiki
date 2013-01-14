@@ -299,3 +299,49 @@ rm -f $ENV_BAK_PATH/.suspend_resume_lock
 main "$@"
 echo "done" > $ENV_BAK_PATH/.suspend_resume_lock
 }}}
+
+== multiple args support ==
+使用 shift 可以將參數左移，對於不定數量的參數使用上很方便，能使用同一個變數，把所有參數找出來<br>
+例：<br>
+{{{
+while [ "$1" ]
+do
+	echo "$1"
+	shift
+done
+}}}
+使用方式：<br>
+{{{
+./script  aa bb cc dd ee
+}}}
+結果：<br>
+{{{
+aa
+bb
+cc
+dd
+ee
+}}}
+
+
+應用：用在批次建立帳戶與目錄很方便 #!/bin/sh<br>
+#---------------------------------------------------------------------<br>
+#Ex: ./createnfsroot andrew ben ddy kevlin<br>
+#---------------------------------------------------------------------<br>
+{{{
+while [ "$1" ]
+do
+	if [ -d /home/$1/nfsroot ]; then
+		echo "$1/nfsroot already exist"
+	else
+		mkdir $1/nfsroot/
+		chown $1.$1 $1/nfsroot/
+	fi
+	shift
+done
+}}}
+
+Many thanks to the author!<br>
+Original Link: http://blog.yam.com/ddy1280/article/1228495 <br>
+
+%template header-footer
