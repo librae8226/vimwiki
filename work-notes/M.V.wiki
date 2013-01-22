@@ -8,7 +8,6 @@
 | [[SystemManager]] | A small chip runs while idle |
 | [[Bootloader]]    | u-boot & bootloader          |
 | [[M.VGeneric]]    | general notes                |
-
-%template header-footer
+| [[WiFiStuffs]]    | Wifi related stuffs          |
 
 %template header-footer

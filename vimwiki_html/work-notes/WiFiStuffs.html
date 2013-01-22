@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>M.V</title>
+		<title>WiFiStuffs</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="Stylesheet" type="text/css" href="../style.css" />
 		<script>var root_path = '../';</script>
@@ -29,70 +29,51 @@
 			<div id="main">
 
 				
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">M.V. code</a>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">M.V. code</h2>
+
 <p>
-<a href="index.html">Hame Page</a>
+<strong>linux driver:</strong><br>
+<code>arch/arm/mach-mv88de3100/modules/wlan_*/</code>
 </p>
 
-<h1>index</h1>
+<p>
+<strong>linux firmware:</strong><br>
+<code>firmware/mrvl/sd8787_uapsta.bin.ihex</code>
+</p>
 
-<table>
-<tr>
-<td>
-<a href="M.VTasks.html">M.VTasks</a>
-</td>
-<td>
-Nothing much to say
-</td>
-</tr>
-<tr>
-<td>
-<a href="M.VSlubBug.html">M.VSlubBug</a>
-</td>
-<td>
-The very first thing at IES
-</td>
-</tr>
-<tr>
-<td>
-<a href="Marlin.html">Marlin</a>
-</td>
-<td>
-marlin API
-</td>
-</tr>
-<tr>
-<td>
-<a href="SystemManager.html">SystemManager</a>
-</td>
-<td>
-A small chip runs while idle
-</td>
-</tr>
-<tr>
-<td>
-<a href="Bootloader.html">Bootloader</a>
-</td>
-<td>
-u-boot &amp; bootloader
-</td>
-</tr>
-<tr>
-<td>
-<a href="M.VGeneric.html">M.VGeneric</a>
-</td>
-<td>
-general notes
-</td>
-</tr>
-<tr>
-<td>
-<a href="WiFiStuffs.html">WiFiStuffs</a>
-</td>
-<td>
-Wifi related stuffs
-</td>
-</tr>
-</table>
+<p>
+<strong>wpa_supplicant (android):</strong><br>
+<code>external/wpa_supplicant_*/</code>
+</p>
+
+<p>
+<strong>driver control (android):</strong><br>
+<code>hardware/libhardware_legacy/wifi</code>
+</p>
+
+<p>
+<strong>framework (android):</strong><br>
+<code>frameworks/base/wifi</code>
+<code>frameworks/base/services/java/com/android/server/Wifi*.java</code>
+</p>
+
+<p>
+<strong>jni (android):</strong><br>
+<code>frameworks/base/core/jni/android_net_wifi*.cpp</code>
+</p>
+
+<p>
+<strong>ui (android)</strong><br>
+<code>packages/apps/Settings/src/com/android/settings/wifi</code>
+</p>
 
 
 			</div>
