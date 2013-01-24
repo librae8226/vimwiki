@@ -21,7 +21,7 @@ Keep it simple & stupid, if get lost, try here [[SiteMap|site map]].<br>
 </div>
 </div>
 
-== HOTSPOT ==
+== Hotspot ==
 Now you can watch the update on [[https://github.com/librae8226/vimwiki|GitHub]], [[https://github.com/librae8226/vimwiki/commits/librae.github.atom|点此订阅RSS]]！
 
 == Guides ==
@@ -31,6 +31,7 @@ Now you can watch the update on [[https://github.com/librae8226/vimwiki|GitHub]]
 {{{id="no-comment"
 Comment disabled.
 }}}
+
 %title The Pure Ousia of Librae
 
 %template header-footer
