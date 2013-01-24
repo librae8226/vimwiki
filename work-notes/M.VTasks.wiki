@@ -2,7 +2,6 @@
 
 %toc index
 
-
 == System Manager ==
 === sm_uart interrupt mode [k.o.] ===
 *Date:* 2011.10.25 ~ 2011.10.26<br>

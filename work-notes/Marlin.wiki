@@ -22,11 +22,11 @@ Already WBEM has developed three Web-based standards:
 == 2. DRM (Digital Rights Management) ==
 related link:<br>
 	http://en.wikipedia.org/wiki/Digital_rights_management
-	
+
 --------------------------------------------------
 
 == 3. PE (see "~/workspace/marvell/88DE3010 Software API User Manual.pdf") ==
-	PE (Presentation Engine) manages the playing back of the media streams. PE 
+	PE (Presentation Engine) manages the playing back of the media streams. PE
 provides the following services:<br>
 	* Audio codec and post processing
 	* Video decoder and post processing
@@ -36,21 +36,21 @@ provides the following services:<br>
 --------------------------------------------------
 
 == 4. GStreamer(see "http://en.wikipedia.org/wiki/GStreamer") ==
-	A pipeline-based multimedia framework written in the C programming language 
+	A pipeline-based multimedia framework written in the C programming language
 with the type system based on GObject.
 
 --------------------------------------------------
 
 == 5. FFMPEG (see "http://www.ffmpeg.org/") ==
-	FFmpeg(Fast Foward MPEG) is a complete, cross-platform solution to record, convert and stream 
+	FFmpeg(Fast Foward MPEG) is a complete, cross-platform solution to record, convert and stream
 audio and video. It includes libavcodec - the leading audio/video codec library.
 
 --------------------------------------------------
 
 == 6. JNI (Java Native Interface) ==
-	A programming framework that enables Java code running in a Java Virtual 
-Machine (JVM) to call and to be called[1] by native applications (programs 
-specific to a hardware and operating system platform) and libraries written in 
+	A programming framework that enables Java code running in a Java Virtual
+Machine (JVM) to call and to be called[1] by native applications (programs
+specific to a hardware and operating system platform) and libraries written in
 other languages, such as C, C++ and assembly.
 
 --------------------------------------------------
@@ -59,16 +59,16 @@ other languages, such as C, C++ and assembly.
 (refer to "~/workspace/marvell/marlin/SOLS_Marlin_Arch_4_Marvell.pdf")<br>
 	* Register the device to a DRM domain
 	* User navigates and selects a video
-	* Video guide passes content URL, CAD URL, and tokens(for example, user, 
+	* Video guide passes content URL, CAD URL, and tokens(for example, user,
 	  service, and affiliation)
 	* SOLS player uses content URL to stream the video from content server
 	* SOLS player parses MP4/IPMP content to extract DRM data
-	* SOLS player uses CAD URL to download a CAD file, which contains license 
-	  acquisition URL and information about what data are required for 
+	* SOLS player uses CAD URL to download a CAD file, which contains license
+	  acquisition URL and information about what data are required for
 	  retrieving a license
-	* Marlin client uses device information and DRM data from content file to 
+	* Marlin client uses device information and DRM data from content file to
 	  generate a challenge
-	* Marlin client posts the challenge and other required data to request the 
+	* Marlin client posts the challenge and other required data to request the
 	  license
 	* Marlin client decrypts the license to get content key and usage rules
 	* Marlin client checks usage rules
@@ -76,22 +76,22 @@ other languages, such as C, C++ and assembly.
 	* SOLS player decodes content samples
 
 --------------------------------------------------
-	
+
 == 8. MPEG-4 (see "http://en.wikipedia.org/wiki/MPEG-4") ==
-	MPEG-4 is method of defining compression of audio and visual (AV) digital 
-data. It was introduced in late 1998 and designated a standard for a group of 
-audio and video coding formats and related technology agreed upon by the 
-ISO/IEC Moving Picture Experts Group (MPEG) (ISO/IEC JTC1/SC29/WG11) under the 
-formal standard ISO/IEC 14496 - Coding of audio-visual objects. Uses of MPEG-4 
-include compression of AV data for web (streaming media) and CD distribution, 
+	MPEG-4 is method of defining compression of audio and visual (AV) digital
+data. It was introduced in late 1998 and designated a standard for a group of
+audio and video coding formats and related technology agreed upon by the
+ISO/IEC Moving Picture Experts Group (MPEG) (ISO/IEC JTC1/SC29/WG11) under the
+formal standard ISO/IEC 14496 - Coding of audio-visual objects. Uses of MPEG-4
+include compression of AV data for web (streaming media) and CD distribution,
 voice (telephone, videophone) and broadcast television applications.
 
 --------------------------------------------------
 
 == 9. Marlin (See "http://www.marlin-community.com/") ==
 	The content sharing platform for consumer devices and multimedia services.
-	Five companies — Intertrust, Panasonic, Philips, Samsung and Sony - joined 
-together in 2005 to develop specifications for next-generation content and 
+	Five companies — Intertrust, Panasonic, Philips, Samsung and Sony - joined
+together in 2005 to develop specifications for next-generation content and
 rights management technology.
 
 --------------------------------------------------
@@ -111,7 +111,7 @@ rights management technology.
 	*SDP*: Session Description Protocol, a format for describing streaming media initialization parameters. refer to http://en.wikipedia.org/wiki/Session_Description_Protocol<br>
 	*NAL* units: Network Abstraction Layer units. H.264 describes a number of NAL units, a sequence of which can be decoded into video frames. These NAL units have no boundary markers, and rely on some unspecified format to provide framing, refer to http://wiki.multimedia.cx/index.php?title=H.264<br>
 	*NEMO*: <br>
-	
+
     More terms see "MarlinArchitectureOverview.pdf".<br>
 
 --------------------------------------------------
@@ -499,7 +499,7 @@ solution: It works fine by deleting that file. (it will be generated automatical
 See read_frame()<br>
 	[[res/img/CalledByGraph-av_read_frame.png]]<br>
 	[[res/img/CallsGraph-av_read_frame.png]]<br>
-	
+
 == 25. Build SOLSPlayer at Marvell ==
 	1. ssh ies@10.38.120.51<br>
 	   password: 123456<br>

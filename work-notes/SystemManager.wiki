@@ -2,7 +2,6 @@
 
 %toc index
 
-
 == Tasks ==
 === 20110824 ===
 *Description*<br>
@@ -484,3 +483,5 @@ It is changed to *0x0001c410*. So, VFD using SPI, it cannot work.
 
 === libSMAgent.so ===
 libSMAgent.so is built into libPEAgent, so if we need libSMAgent, linking libPEAgent.so is fine.<br>
+
+%template header-footer

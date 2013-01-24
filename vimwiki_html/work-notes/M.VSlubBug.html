@@ -5,7 +5,6 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="Stylesheet" type="text/css" href="../style.css" />
 		<script>var root_path = '../';</script>
-		<!--<link href="http://github.com/ktmud/kwiki/commits/master.atom" rel="alternate" title="Kdmud Wiki 的最新更改" type="application/atom+xml" />-->
 	</head>
 	<body>
 		<div id="all">
@@ -63,14 +62,14 @@ Hardware (* represents for optional connection):
 	serial port -- PC
 	*USB keyboard -- USB port
 	Ethernet wire -- Ethernet port (for booting uImage from nfs)
-	
+
 Software :
 	*U-Boot (already in board)
 	linux-2.6.35.4_20110425 (kernel)
 	GTV_38908_1228 (marvell software)
 	hcroot.0413.leitoies (file system)
-	toolchains (FSF GNU GCC branch-4.4.5. 
-				Marvell GCC 2010q4-113) 
+	toolchains (FSF GNU GCC branch-4.4.5.
+				Marvell GCC 2010q4-113)
 				4.4.5 20100614 (prerelease))
 
 &lt; code SHELL
@@ -95,7 +94,7 @@ Those 3 modules are
 	"arch/arm/mach-mv88de3015/modules/pe/galois_pe.ko"
 
 copy uImage to "smb://192.168.1.92/tftpboot/image_yliao/marvell_gvt_3/"
-copy those 3 modules to 
+copy those 3 modules to
 "/home/yliao/workspace/marvell/jackie/hcroot.0413.leitoies/vendor/lib/modules"
 
 Then boot up board.
@@ -206,7 +205,7 @@ a80 a97cec00
 c10 00000000
 [   54.847505] 1fe0: 00000000 45702930 2ac6234c 2ac63664 88000010 001e9ea0 00000
 000 00000000
-[   54.855958] Backtrace: 
+[   54.855958] Backtrace:
 [   54.858521] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abf4c&gt;] (kmem_cache
 _alloc+0x18/0x1c)
 [   54.867439] [&lt;800abf34&gt;] (kmem_cache_alloc+0x0/0x1c) from [&lt;8013638c&gt;] (nfs_d
@@ -229,7 +228,7 @@ pen+0x64/0x11c)
 0x24/0x28)
 [   54.949264] [&lt;800ae1fc&gt;] (sys_open+0x0/0x28) from [&lt;80020fc0&gt;] (ret_fast_sysc
 all+0x0/0x30)
-[   54.957816] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003) 
+[   54.957816] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003)
 [   55.133147] ---[ end trace b7ceec13258482cc ]---
 [   55.147991] Kernel panic - not syncing: Fatal exception
 &gt;
@@ -241,7 +240,7 @@ all+0x0/0x30)
 
 Kernel panic type (Differentiate by the backtrace function):
 1)
-	[   54.855958] Backtrace: 
+	[   54.855958] Backtrace:
 	[   54.858521] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abf4c&gt;] (kmem_cache_alloc+0x18/0x1c)
 	[   54.867439] [&lt;800abf34&gt;] (kmem_cache_alloc+0x0/0x1c) from [&lt;8013638c&gt;] (nfs_do_access+0x22c/0x470)
 	[   54.876710] [&lt;80136160&gt;] (nfs_do_access+0x0/0x470) from [&lt;801366cc&gt;] (nfs_permission+0xfc/0x1b0)
@@ -255,7 +254,7 @@ Kernel panic type (Differentiate by the backtrace function):
 	[   54.940964] [&lt;800ae0cc&gt;] (do_sys_open+0x0/0x11c) from [&lt;800ae220&gt;] (sys_open+0x24/0x28)
 	[   54.949264] [&lt;800ae1fc&gt;] (sys_open+0x0/0x28) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
 1a)
-	[   46.761282] Backtrace: 
+	[   46.761282] Backtrace:
 	[   46.763845] [&lt;800ab040&gt;] (slab_alloc+0x0/0x5d0) from [&lt;800abae0&gt;] (kmem_cache_alloc+0x18/0x1c)
 	[   46.772767] [&lt;800abac8&gt;] (kmem_cache_alloc+0x0/0x1c) from [&lt;8023275c&gt;] (logger_open+0x8c/0xec)
 	[   46.781687] [&lt;802326d0&gt;] (logger_open+0x0/0xec) from [&lt;801b22c0&gt;] (misc_open+0x1d8/0x294)
@@ -270,10 +269,10 @@ Kernel panic type (Differentiate by the backtrace function):
 	[   46.853415] [&lt;800baf68&gt;] (do_filp_open+0x0/0x300) from [&lt;800add94&gt;] (do_sys_open+0x64/0x11c)
 	[   46.862147] [&lt;800add30&gt;] (do_sys_open+0x0/0x11c) from [&lt;800ade84&gt;] (sys_open+0x24/0x28)
 	[   46.870433] [&lt;800ade60&gt;] (sys_open+0x0/0x28) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
-	[   46.878986] Code: e5905000 e5957000 e3570000 15903010 (17973003) 
+	[   46.878986] Code: e5905000 e5957000 e3570000 15903010 (17973003)
 
 2)
-	[   53.911579] Backtrace: 
+	[   53.911579] Backtrace:
 	[   53.914140] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abf30&gt;] (__kmalloc+0x60/0x64)
 	[   53.922432] [&lt;800abed0&gt;] (__kmalloc+0x0/0x64) from [&lt;800a5358&gt;] (kmalloc+0x10/0x14)
 	[   53.930349]  r5:00000001 r4:9f25de40
@@ -285,9 +284,9 @@ Kernel panic type (Differentiate by the backtrace function):
 	[   53.976418] [&lt;800a1870&gt;] (mmap_region+0x0/0x50c) from [&lt;800a2030&gt;] (do_mmap_pgoff+0x2b4/0x310)
 	[   53.985330] [&lt;800a1d7c&gt;] (do_mmap_pgoff+0x0/0x310) from [&lt;800a2124&gt;] (sys_mmap_pgoff+0x98/0xc8)
 	[   53.994335] [&lt;800a208c&gt;] (sys_mmap_pgoff+0x0/0xc8) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
-	[   54.003425] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003) 
+	[   54.003425] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003)
 3)
-	[   53.556636] Backtrace: 
+	[   53.556636] Backtrace:
 	[   53.559198] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abecc&gt;] (__kmalloc_track_caller+0x60/0x64)
 	[   53.568650] [&lt;800abe6c&gt;] (__kmalloc_track_caller+0x0/0x64) from [&lt;80097e40&gt;] (kstrdup+0x38/0x54)
 	[   53.577733]  r5:0000000b r4:800ba704
@@ -297,9 +296,9 @@ Kernel panic type (Differentiate by the backtrace function):
 	[   53.604246] [&lt;800bb77c&gt;] (sys_renameat+0x0/0x1d8) from [&lt;800bb978&gt;] (sys_rename+0x24/0x28)
 	[   53.612791]  r8:80021168 r7:00000026 r6:2b6d68a8 r5:2c62d5b0 r4:002cbfa8
 	[   53.619822] [&lt;800bb954&gt;] (sys_rename+0x0/0x28) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
-	[   53.628553] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003) 
+	[   53.628553] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003)
 4)
-	[   52.696819] Backtrace: 
+	[   52.696819] Backtrace:
 	[   52.699382] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abf4c&gt;] (kmem_cache_alloc+0x18/0x1c)
 	[   52.708300] [&lt;800abf34&gt;] (kmem_cache_alloc+0x0/0x1c) from [&lt;8013638c&gt;] (nfs_do_access+0x22c/0x470)
 	[   52.717571] [&lt;80136160&gt;] (nfs_do_access+0x0/0x470) from [&lt;801366cc&gt;] (nfs_permission+0xfc/0x1b0)
@@ -319,7 +318,7 @@ Kernel panic type (Differentiate by the backtrace function):
 	[   52.823152] [&lt;800aed90&gt;] (sys_access+0x0/0x20) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
 	[   52.831883] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003)
 5)
-	[   53.536238] Backtrace: 
+	[   53.536238] Backtrace:
 	[   53.538799] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abf30&gt;] (__kmalloc+0x60/0x64)
 	[   53.547142] [&lt;800abed0&gt;] (__kmalloc+0x0/0x64) from [&lt;7f01d024&gt;] (kmalloc+0x10/0x14 [gal3d])
 	[   53.555780]  r5:a97c36c0 r4:00000000
@@ -335,9 +334,9 @@ Kernel panic type (Differentiate by the backtrace function):
 	[   53.636857] r4:a8790a80
 	[   53.639614] [&lt;800bdcf4&gt;] (sys_ioctl+0x0/0x64) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
 	[   53.648249]  r7:00000036 r6:000f6168 r5:4550d744 r4:4550d744
-	[   53.654182] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003) 
+	[   53.654182] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003)
 5a)
-	[   54.029621] Backtrace: 
+	[   54.029621] Backtrace:
 	[   54.032182] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abf30&gt;] (__kmalloc+0x60/0x64)
 	[   54.040474] [&lt;800abed0&gt;] (__kmalloc+0x0/0x64) from [&lt;8022f470&gt;] (T.573+0x14/0x18)
 	[   54.048212]  r5:a84b0c00 r4:804edd38
@@ -351,9 +350,9 @@ Kernel panic type (Differentiate by the backtrace function):
 	[   54.108731] r4:a33e4980
 	[   54.111488] [&lt;800bdcf4&gt;] (sys_ioctl+0x0/0x64) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
 	[   54.120123]  r7:00000036 r6:001aa080 r5:001aa020 r4:001aa050
-	[   54.126056] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003) 
+	[   54.126056] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003)
 6)
-	[   46.309587] Backtrace: 
+	[   46.309587] Backtrace:
 	[   46.312149] [&lt;800ab040&gt;] (slab_alloc+0x0/0x5d0) from [&lt;800aba7c&gt;] (__kmalloc+0x60/0x64)
 	[   46.320440] [&lt;800aba1c&gt;] (__kmalloc+0x0/0x64) from [&lt;8017aa98&gt;] (kmalloc+0x10/0x14)
 	[   46.328356]  r5:9f07f9e0 r4:a330e000
@@ -363,14 +362,14 @@ Kernel panic type (Differentiate by the backtrace function):
 	[   46.352854] [&lt;80054704&gt;] (copy_process+0x0/0xcfc) from [&lt;80055560&gt;] (do_fork+0x160/0x2c4)
 	[   46.361321] [&lt;80055400&gt;] (do_fork+0x0/0x2c4) from [&lt;80024870&gt;] (sys_clone+0x34/0x3c)
 	[   46.369336] [&lt;8002483c&gt;] (sys_clone+0x0/0x3c) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
-	[   46.377979] Code: e5905000 e5957000 e3570000 15903010 (17973003) 
-	
+	[   46.377979] Code: e5905000 e5957000 e3570000 15903010 (17973003)
+
 IMPORTANT!! Find out the kernel panic resulted function.
 1)	Add a C header file "include/linux/debug_private.h" to provide some debug necessity
-2)	In "arch/arm/mach-mv88de3015/modules/Gal3D/hal/os/linux/kernel/gc_hal_kernel_driver.c", 
+2)	In "arch/arm/mach-mv88de3015/modules/Gal3D/hal/os/linux/kernel/gc_hal_kernel_driver.c",
 	add some debug code in function "drv_ioctl()".
 	And in "include/kernel/panic.c", add some debug code in function "panic()".
-3)	Then when kernel panic happens, it turned that program never return from drv_ioctl() 
+3)	Then when kernel panic happens, it turned that program never return from drv_ioctl()
 	at the last time this function was called. As the kernel print info below:
 
 	[   45.877079] Unable to handle kernel paging request at virtual address 1f127a1f
@@ -412,7 +411,7 @@ IMPORTANT!! Find out the kernel panic resulted function.
 	[   46.131177] 7fa0: 80020fc0 800ade68 001e8548 2ab54a24 000c8d28 00000000 00000000 ffffffff
 	[   46.139640] 7fc0: 001e8548 2ab54a24 000c8d28 00000005 45717a18 45503c28 45503c10 00000000
 	[   46.148103] 7fe0: 00000000 45717930 2ac6234c 2ac63664 88000010 000c8d28 00000000 00000000
-	[   46.156557] Backtrace: 
+	[   46.156557] Backtrace:
 	[   46.159119] [&lt;800ab03c&gt;] (slab_alloc+0x0/0x5d0) from [&lt;800abadc&gt;] (kmem_cache_alloc+0x18/0x1c)
 	[   46.168037] [&lt;800abac4&gt;] (kmem_cache_alloc+0x0/0x1c) from [&lt;80135fe0&gt;] (nfs_do_access+0x22c/0x470)
 	[   46.177307] [&lt;80135db4&gt;] (nfs_do_access+0x0/0x470) from [&lt;80136320&gt;] (nfs_permission+0xfc/0x1b0)
@@ -425,7 +424,7 @@ IMPORTANT!! Find out the kernel panic resulted function.
 	[   46.232829] [&lt;800baf68&gt;] (do_filp_open+0x0/0x300) from [&lt;800add90&gt;] (do_sys_open+0x64/0x11c)
 	[   46.241562] [&lt;800add2c&gt;] (do_sys_open+0x0/0x11c) from [&lt;800ade80&gt;] (sys_open+0x24/0x28)
 	[   46.249846] [&lt;800ade5c&gt;] (sys_open+0x0/0x28) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
-	[   46.258398] Code: e5905000 e5957000 e3570000 15903010 (17973003) 
+	[   46.258398] Code: e5905000 e5957000 e3570000 15903010 (17973003)
 	[   46.276124] ---[ end trace d65db917561c4cd3 ]---
 	[   46.281558] drv_ioctl_in_cnt: 6053
 	[   46.281567] drv_ioctl_out_cnt: 6052
@@ -479,7 +478,7 @@ The corresponding kernel print info is as below:
 	[   46.430999] bfa0: 7f018914 7f01a54c a942fd60 a95ebfcc 7f018894 a951d200 a95ebff4 a95ebfc8
 	[   46.439464] bfc0: 8006c78c 7f0188a0 00000000 00000000 a95ebfd0 a95ebfd0 a942fd60 8006c708
 	[   46.447927] bfe0: 80059810 00000013 00000000 a95ebff8 80059810 8006c714 e1a00009 e3003bbe
-	[   46.456381] Backtrace: 
+	[   46.456381] Backtrace:
 	[   46.458947] [&lt;8004f678&gt;] (__wake_up_common+0x0/0x78) from [&lt;80052cc0&gt;] (complete_all+0x4c/0x7c)
 	[   46.468008] [&lt;80052c74&gt;] (complete_all+0x0/0x7c) from [&lt;7f01dff0&gt;] (gckOS_Signal+0x23c/0x2b4 [gal3d])
 	[   46.477543]  r5:a946b8c0 r4:a267a920
@@ -499,15 +498,15 @@ The corresponding kernel print info is as below:
 	[   46.578151] drv_ioctl_in_cnt: 6483
 	[   46.578159] drv_ioctl_out_cnt: 6481
 	[   46.585367] Kernel panic - not syncing: Fatal exception
-	
-function "gckKERNEL_Dispatch()" is at 
+
+function "gckKERNEL_Dispatch()" is at
 	"arch/arm/mach-mv88de3015/modules/Gal3D/hal/kernel/gc_hal_kernel.c"
 	NOTE! This code is the key part of Gal3D linux driver ioctl.
 
 struct "gceHAL_COMMAND_CODES" is at
 	"arch/arm/mach-mv88de3015/modules/Gal3D/hal/inc/gc_hal_driver.h"
-	
-	==========================	
+
+	==========================
 	typedef enum _gceHAL_COMMAND_CODES
 	{
 		/* Generic query. */
@@ -589,9 +588,9 @@ struct "gceHAL_COMMAND_CODES" is at
 	 * err codes: 16 15 11
 	 */
 	==========================
-	
+
 	kernel panic as below:
-	
+
 	[   47.589787] Unable to handle kernel paging request at virtual address 1f0f7b1f
 	[   47.597270] pgd = a33c0000
 	[   47.600076] [1f0f7b1f] *pgd=00000000
@@ -631,24 +630,24 @@ struct "gceHAL_COMMAND_CODES" is at
 	[   47.847587] [&lt;800ae87c&gt;] (sys_faccessat+0x0/0x174) from [&lt;800aea0c&gt;] (sys_access+0x1c/0x20)
 	[   47.856236]  r8:80021168 r7:00000021 r6:2b6d68a8 r5:00000007 r4:00000004
 	[   47.863268] [&lt;800ae9f0&gt;] (sys_access+0x0/0x20) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
-	[   47.872000] Code: e5905000 e5957000 e3570000 15903010 (17973003) 
+	[   47.872000] Code: e5905000 e5957000 e3570000 15903010 (17973003)
 	[   47.883588] ---[ end trace f522c124204df01e ]---
 	[   47.892002] drv_ioctl_in_cnt: 6367
 	[   47.892013] drv_ioctl_out_cnt: 6366
 	[   47.899944] FLAG_isFromUser: Y
 	[   47.903228] gceHAL_COMMAND: 16
 	[   47.906433] Kernel panic - not syncing: Fatal exception
-	
+
 As the command is "16 - gcvHAL_USER_SIGNAL", the corresponding code in "gckKERNEL_Dispatch()" is:
 
 	==========================
-	
+
 	/* Dispatch on command. */
     switch (Interface-&gt;command)
     {
-    
+
     	...
-    	
+
     #if !USE_NEW_LINUX_SIGNAL
     case gcvHAL_USER_SIGNAL:
         /* Dispatch depends on the user signal subcommands. */
@@ -690,13 +689,13 @@ As the command is "16 - gcvHAL_USER_SIGNAL", the corresponding code in "gckKERNE
         }
         break;
 	#endif
-	
+
 		...
-	
+
 	}
-	
+
 	==========================
-	
+
 In code above, "Interface-&gt;u.UserSignal.command"
 	Interface is a struct.
 	u is a union.
@@ -720,17 +719,17 @@ So We track the user signal command codes. It is defined in
 Further more about Gal3D driver:
 
 In "arch/arm/mach-mv88de3015/modules/Gal3D/hal/os/linux/kernel/gc_hal_kernel_device.h",
-if "#define gcdkUSE_MEMORY_RECORD	1", kernel panic would happen. On the contrary, 
+if "#define gcdkUSE_MEMORY_RECORD	1", kernel panic would happen. On the contrary,
 if "#define gcdkUSE_MEMORY_RECORD	0", no panics anymore.
 /*
- * NOTE! We need to modify a sentence in 
+ * NOTE! We need to modify a sentence in
  * "arch/arm/mach-mv88de3015/modules/Gal3D/hal/os/linux/kernel/gc_hal_kernel_os.h"
  * "#ifdef gcdkUSE_MEMORY_RECORD" --&gt;
  * "#if gcdkUSE_MEMORY_RECORD"
  */
-The animation is called in 
+The animation is called in
 "arch/arm/mach-mv88de3015/modules/Gal3D/hal/os/linux/kernel/gc_hal_kernel_os.c" --&gt;
-"gceSTATUS gckOS_WaitSignal()". Another point needs to pay attention to is the 
+"gceSTATUS gckOS_WaitSignal()". Another point needs to pay attention to is the
 comment "Linux bug ?" in this function.
 
 If a file is modified, it will be marked as "DEBUG_LIBRAE"
@@ -742,12 +741,12 @@ Use dump_stack() to backtrace.
 
 <h2 id="toc_0.4">4.	Howto - provide extern symbol when hacking the kernel.</h2>
 <pre>
-	Sometimes we need to use extern viariables or functions both in kernel and 
+	Sometimes we need to use extern viariables or functions both in kernel and
 dynamic modules especially while analyzing kernel panics just like above.
-	e.g. Suppose we need to use "drv_ioctl_in_cnt" and "drv_ioctl_out_cnt" which 
-are declared in "debug_private.h" and defined in "panic.h" in module "Gal3D", We 
+	e.g. Suppose we need to use "drv_ioctl_in_cnt" and "drv_ioctl_out_cnt" which
+are declared in "debug_private.h" and defined in "panic.h" in module "Gal3D", We
 do as below:
-	
+
 	/* =========== debug_private.h =========== */
 
 	#ifndef _DEBUG_PRIVATE_H_
@@ -769,7 +768,7 @@ do as below:
 	#include &lt;linux/debug_private.h&gt;	/* DEBUG_LIBRAE */
 
 		...
-	
+
 	int drv_ioctl(struct inode *inode,
 			      struct file *filp,
 			      unsigned int ioctlCode,
@@ -787,7 +786,7 @@ do as below:
 	#endif
 
 		...
-	
+
 		return 0;
 
 	}
@@ -800,7 +799,7 @@ do as below:
 	#include &lt;linux/debug_private.h&gt;	/* DEBUG_LIBRAE */
 
 		...
-	
+
 	#if DEBUG_LIBRAE
 	volatile unsigned int drv_ioctl_in_cnt = 0;
 	volatile unsigned int drv_ioctl_out_cnt = 0;
@@ -827,7 +826,7 @@ do as below:
 		vsnprintf(buf, sizeof(buf), fmt, args);
 		va_end(args);
 	#if DEBUG_LIBRAE
-		printk(KERN_INFO "drv_ioctl_in_cnt: %d\ndrv_ioctl_out_cnt: %d\n", 
+		printk(KERN_INFO "drv_ioctl_in_cnt: %d\ndrv_ioctl_out_cnt: %d\n",
 									drv_ioctl_in_cnt, drv_ioctl_out_cnt);
 	#endif
 		printk(KERN_EMERG "Kernel panic - not syncing: %s\n",buf);
@@ -836,7 +835,7 @@ do as below:
 	#endif
 
 		...
-	
+
 	}
 
 	EXPORT_SYMBOL(panic);
@@ -885,7 +884,7 @@ do as below:
 [   48.538252] 9fa0: 80020fc0 800ade68 00201d80 2ab54a24 002009b8 00000000 00000000 ffffffff
 [   48.546714] 9fc0: 00201d80 2ab54a24 002009b8 00000005 45717a18 45503c28 45503c10 00000000
 [   48.555177] 9fe0: 00000000 45717930 2ac6234c 2ac63664 88000010 002009b8 00000000 00000000
-[   48.563630] Backtrace: 
+[   48.563630] Backtrace:
 [   48.566192] [&lt;800ab03c&gt;] (slab_alloc+0x0/0x5d0) from [&lt;800abadc&gt;] (kmem_cache_alloc+0x18/0x1c)
 [   48.575111] [&lt;800abac4&gt;] (kmem_cache_alloc+0x0/0x1c) from [&lt;80135fe0&gt;] (nfs_do_access+0x22c/0x470)
 [   48.584382] [&lt;80135db4&gt;] (nfs_do_access+0x0/0x470) from [&lt;80136320&gt;] (nfs_permission+0xfc/0x1b0)
@@ -898,7 +897,7 @@ do as below:
 [   48.639903] [&lt;800baf68&gt;] (do_filp_open+0x0/0x300) from [&lt;800add90&gt;] (do_sys_open+0x64/0x11c)
 [   48.648635] [&lt;800add2c&gt;] (do_sys_open+0x0/0x11c) from [&lt;800ade80&gt;] (sys_open+0x24/0x28)
 [   48.656921] [&lt;800ade5c&gt;] (sys_open+0x0/0x28) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
-[   48.665473] Code: e5905000 e5957000 e3570000 15903010 (17973003) 
+[   48.665473] Code: e5905000 e5957000 e3570000 15903010 (17973003)
 [   49.031778] ---[ end trace 9111c552a2e1a5e1 ]---
 [   49.039340] FLAG_PC: 1
 [   49.041955] drv_ioctl_in_cnt: 6796
@@ -916,10 +915,10 @@ do as below:
 "arch/arm/mach-mv88de3015/modules/Gal3D/hal/os/linux/kernel/gc_hal_kernel_driver.c"
 There is a sort of code:
 	-----------------
-	#ifdef ANDROID                                                                        
-	/* gcmkVERIFY_OK(gckOS_Delay(galDevice-&gt;os, 1000)); */                            
-	#else                                                                                 
-		gcmkVERIFY_OK(gckCOMMAND_Stall(device-&gt;kernel-&gt;command));                         
+	#ifdef ANDROID
+	/* gcmkVERIFY_OK(gckOS_Delay(galDevice-&gt;os, 1000)); */
+	#else
+		gcmkVERIFY_OK(gckCOMMAND_Stall(device-&gt;kernel-&gt;command));
 	#endif
 	#endif
 	-----------------
@@ -938,8 +937,7 @@ And the bug is fixed.
 
 			</div>
 			<div id="footer">
-				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">丘迟</a></p>
-				<!--<p><a href="../SiteMap.html" title="站点地图">给我一点导航吧</a></p>-->
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">ktmud</a></p>
 			</div>
 		</div>
 		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>

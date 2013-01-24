@@ -24,5 +24,4 @@
 *ui (android)*<br>
 `packages/apps/Settings/src/com/android/settings/wifi`
 
-
 %template header-footer

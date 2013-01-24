@@ -2,7 +2,6 @@
 
 %toc index
 
-
 == Marvell Board Boot Args ==
 _*Marvell Board B0:*_<br>
 {{{

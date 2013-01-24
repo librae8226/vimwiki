@@ -2,7 +2,6 @@
 
 %toc index
 
-
 == Burn U-Boot ==
 {{{
 MV88DE3100|> spinit; erase f0000000 f00fffff; tftpboot 0xf0000000 $PATH_TO_UBOOT
