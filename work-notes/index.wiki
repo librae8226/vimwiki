@@ -17,6 +17,5 @@
 
 First of all, I need a newpage - [[VimWikiTutor]],<br>
 and a manuel page - vimwiki_hotoo(should see in VI view).<br>
-%template header-footer
 
 %template header-footer

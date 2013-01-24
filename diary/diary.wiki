@@ -6,6 +6,5 @@ Comment disabled.
 }}}
 
 %title Trail of Heart
-%template header-footer
 
 %template header-footer

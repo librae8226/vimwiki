@@ -37,5 +37,3 @@ MODULE NAME: module<br>
 http://www.newsmth.net/pc/pccon.php?id=6592&nid=378322
 
 %template header-footer
-
-%template header-footer
