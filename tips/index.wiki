@@ -1,6 +1,6 @@
 %toc
 
-= Site Map =
+= Tips =
 
     Retained blank.
 
@@ -8,6 +8,6 @@
 Comment disabled.
 }}}
 
-%title Site Map
+%title Tips
 
 %template header-footer
