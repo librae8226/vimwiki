@@ -10,7 +10,7 @@ body {
     max-width: 1200px;
     position: relative;
     margin: 40px auto 15px;
-    font: 100 16px/1.5 "Ubuntu", sans-serif;
+    font: 100 16px/1.5 "Ubuntu Mono", sans-serif;
 }
 p, ul, li, table {
     margin: 0;
@@ -269,11 +269,14 @@ textarea {
 
 #header {
     border-top: 1px dashed #246;
+    font-weight: bold;
+    font-size: 18px;
 }
+
 #top-nav {
     position: relative;
-    top: -25px;
-    width: 600px;
+    top: -30px;
+    width: 800px;
     margin: 0 auto;
     overflow: hidden;
     zoom: 1;

@@ -8,7 +8,7 @@ Here is Librae's rough site, based on vimwiki, see [[http://code.google.com/p/vi
 Refer to this page for [[tips/vim/vimwiki-guide|vimwiki simple guide]]<br>
 Keep it simple & stupid, if get lost, try here [[SiteMap|site map]].<br>
 
-<div id="whats-special" class="lesser" style="width: 45em">
+<div id="whats-special" class="lesser" style="width: 50em">
 <div class="hd">Any Special?</div>
 <div class="cont">
 # This page is completely hand-written, color scheme is at discretion, either ;)
@@ -25,7 +25,7 @@ Keep it simple & stupid, if get lost, try here [[SiteMap|site map]].<br>
 Now you can watch the update on [[https://github.com/librae8226/vimwiki|GitHub]], [[https://github.com/librae8226/vimwiki/commits/librae.github.atom|点此订阅RSS]]！
 
 == Guides ==
-# [[tips/vimwiki-guide|Build Your Own Wiki by Vimwiki]]
+# Click here to [[tips/vimwiki-guide|Build Your Own Site by Vimwiki]].
 # etc.
 
 {{{id="no-comment"
