@@ -1,3 +1,0 @@
-= Woohoo! =
-
-%template header-footer
