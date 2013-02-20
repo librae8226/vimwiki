@@ -5,7 +5,7 @@
 [[work-notes/index|Every little makes a mickle.]]<br>
 === What Is This? ===
 Here is Librae's rough site, based on vimwiki, see [[http://code.google.com/p/vimwiki|vimwiki - google code]] or [[http://www.vim.org/scripts/script.php?script_id=2226|vim.org]].<br>
-Refer to this page for [[tips/vim/vimwiki-guide|vimwiki simple guide]]<br>
+Refer to this page for [[tips/vimwiki-guide|vimwiki simple guide]]<br>
 Keep it simple & stupid, if get lost, try here [[SiteMap|site map]].<br>
 
 <div id="whats-special" class="lesser" style="width: 50em">
