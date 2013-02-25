@@ -55,4 +55,14 @@ Replace all "vivian" in each line from the nth line to the last with "sky"<br>
 for fn in `ls *.ino`; do new=${fn%%ino}cpp; echo $fn $new; done
 }}}
 
+== Suspend VIM to Shell, then Resume ==
+Turn to shell, in vim:<br>
+{{{
+Ctrl + z
+}}}
+Resume to vim, in shell:<br>
+{{{
+$ fg
+}}}
+
 %template header-footer
