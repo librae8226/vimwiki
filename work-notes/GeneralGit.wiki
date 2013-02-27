@@ -49,4 +49,9 @@ if [ -f ~/.git-completion.bash ]; then
 fi
 }}}
 
+== Fetch Specific Branch Only ==
+{{{
+git fetch shgit :refs/heads/yrliao/berlin/1080/ct_sm_cec
+}}}
+
 %template header-footer
