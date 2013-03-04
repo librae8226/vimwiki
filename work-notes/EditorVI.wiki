@@ -65,4 +65,9 @@ Resume to vim, in shell:<br>
 $ fg
 }}}
 
+== Use cscope to Add Specific Source Files and Headers ==
+{{{
+cscope -Rbq -I Common/include/ -I BDP_CEC_Feature/include/ BDP_CEC_Feature/source/BDP_cec.c
+}}}
+
 %template header-footer
