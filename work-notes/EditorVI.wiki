@@ -67,7 +67,13 @@ $ fg
 
 == Use cscope to Add Specific Source Files and Headers ==
 {{{
-cscope -Rbq -I Common/include/ -I BDP_CEC_Feature/include/ BDP_CEC_Feature/source/BDP_cec.c
+$ cscope -Rb -I Common/include/ -I BDP_CEC_Feature/include/ BDP_CEC_Feature/source/BDP_cec.c
+}}}
+Or multiple files & headers:<br>
+{{{
+$ find PE/ Common/ -name '*.c' -o -name '*.h' > cscope.files
+$ cscope -b
+(or specify explicitly: cscope -i cscope.files)
 }}}
 
 %template header-footer

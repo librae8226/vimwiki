@@ -147,7 +147,15 @@ $ fg
 
 <h2 id="toc_0.15">Use cscope to Add Specific Source Files and Headers</h2>
 <pre>
-cscope -Rbq -I Common/include/ -I BDP_CEC_Feature/include/ BDP_CEC_Feature/source/BDP_cec.c
+$ cscope -Rb -I Common/include/ -I BDP_CEC_Feature/include/ BDP_CEC_Feature/source/BDP_cec.c
+</pre>
+<p>
+Or multiple files &amp; headers:<br>
+</p>
+<pre>
+$ find PE/ Common/ -name '*.c' -o -name '*.h' &gt; cscope.files
+$ cscope -b
+(or specify explicitly: cscope -i cscope.files)
 </pre>
 
 
