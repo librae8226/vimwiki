@@ -54,4 +54,9 @@ fi
 git fetch shgit yrliao/berlin/1080/ct_sm_cec
 }}}
 
+== Show Short Log ==
+{{{
+git log --pretty=short
+}}}
+
 %template header-footer
