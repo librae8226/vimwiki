@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Projects</title>
+		<title>Maple</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="Stylesheet" type="text/css" href="../style.css" />
 		<script>var root_path = '../';</script>
@@ -32,49 +32,24 @@
 <a href="index.html">Hame Page</a>
 </p>
 
+<h1 id="toc_1">Maple</h1>
+
 <h1>index</h1>
 <div class="toc">
 <ul>
-<li><a href="#toc_0.1">Categories</a>
+<li><a href="#toc_1">Maple</a>
+<ul>
+<li><a href="#toc_1.1">Maple Board</a>
 </ul>
 </ul>
 </div>
 
-<h2 id="toc_0.1">Categories</h2>
-<table>
-<tr>
-<td>
-<a href="Ousia.html">Ousia</a>
-</td>
-<td>
-ousia related notes
-</td>
-</tr>
-<tr>
-<td>
-<a href="Maple.html">Maple</a>
-</td>
-<td>
-leaflabs maple
-</td>
-</tr>
-<tr>
-<td>
-<a href="HTCPhone.html">HTCPhone</a>
-</td>
-<td>
-wildfire s ?
-</td>
-</tr>
-<tr>
-<td>
-<a href="RaspberryPi.html">RaspberryPi</a>
-</td>
-<td>
-www.raspberrypi.org
-</td>
-</tr>
-</table>
+<h2 id="toc_1.1">Maple Board</h2>
+<p>
+<code>./stm32loader.py -p/dev/ttyUSB0 -evw maple_boot.bin</code><br>
+<code>./stm32loader.py -a0x08005000 -p/dev/ttyUSB0 -evw maple.bin</code><br>
+<code>./support/scripts/reset.py &amp;&amp; sleep 1 &amp;&amp; dfu-util -a1 -d 1EAF:0003 -D ousia.bin -R</code><br>
+</p>
 
 
 			</div>
