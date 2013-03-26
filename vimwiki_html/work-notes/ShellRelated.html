@@ -40,6 +40,7 @@
 <li><a href="#toc_0.5">Call commands in script and output to a variable</a>
 <li><a href="#toc_0.6">suspend_resume script</a>
 <li><a href="#toc_0.7">multiple args support</a>
+<li><a href="#toc_0.8">Insert a line before/after target search string</a>
 </ul>
 </ul>
 </div>
@@ -561,6 +562,14 @@ done
 Many thanks to the author!<br>
 Original Link: <a href="http://blog.yam.com/ddy1280/article/1228495">http://blog.yam.com/ddy1280/article/1228495</a> <br>
 </p>
+
+<h2 id="toc_0.8">Insert a line before/after target search string</h2>
+<pre>
+#before
+sed -i '/target_to_find/i\things_to_add' FILES
+#after
+sed -i '/target_to_find/a\things_to_add' FILES
+</pre>
 
 
 			</div>
