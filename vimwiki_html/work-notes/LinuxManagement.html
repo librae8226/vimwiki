@@ -48,6 +48,7 @@
 <li><a href="#toc_0.32">Fedora 16 LXDE Keyboard Layout Problem</a>
 <li><a href="#toc_0.33">Fedora 16 LXDE Desktop Icons Disappear</a>
 <li><a href="#toc_0.34">Fedora 16 LXDE Desktop Openbox Reload "lxde-rc.xml"</a>
+<li><a href="#toc_0.35">Fedora 16 Make It Work: Bluetooth Dongle with HC-05 rfcomm</a>
 </ul>
 </ul>
 </div>
@@ -606,6 +607,17 @@ use command below to set it to default, us layout:<br>
 <code>openbox --reconfigure</code><br>
 Refer to this link:<br>
 <a href="http://linux-commands.wikidot.com/howto-s:lxde">http://linux-commands.wikidot.com/howto-s:lxde</a> <br>
+</p>
+
+<h2 id="toc_0.35">Fedora 16 Make It Work: Bluetooth Dongle with HC-05 rfcomm</h2>
+<p>
+1. Install "blueman".<br>
+<code># yum install blueman</code><br>
+2. Connect Bluetooth dongle and slave HC-05.<br>
+3. Search and pair device.<br>
+4. Right click HC-05 in blueman, select "Dev B".<br>
+<code>Serial port connected to /dev/rfcomm0</code><br>
+5. minicom -s (rfcomm0)<br>
 </p>
 
 </body>

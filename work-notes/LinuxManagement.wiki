@@ -402,4 +402,13 @@ use command below to set it to default, us layout:<br>
 Refer to this link:<br>
 http://linux-commands.wikidot.com/howto-s:lxde <br>
 
+== Fedora 16 Make It Work: Bluetooth Dongle with HC-05 rfcomm ==
+1. Install "blueman".<br>
+`# yum install blueman`<br>
+2. Connect Bluetooth dongle and slave HC-05.<br>
+3. Search and pair device.<br>
+4. Right click HC-05 in blueman, select "Dev B".<br>
+`Serial port connected to /dev/rfcomm0`<br>
+5. minicom -s (rfcomm0)<br>
+
 %template header-footer
