@@ -5,7 +5,6 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="Stylesheet" type="text/css" href="../style.css" />
 		<script>var root_path = '../';</script>
-		<!--<link href="http://github.com/ktmud/kwiki/commits/master.atom" rel="alternate" title="Kdmud Wiki 的最新更改" type="application/atom+xml" />-->
 	</head>
 	<body>
 		<div id="all">
@@ -42,6 +41,7 @@
 <ul>
 <li><a href="#toc_1.1">README</a>
 <li><a href="#toc_1.2">SRAM LAYOUT EXAMPLE</a>
+<li><a href="#toc_1.3">Build on x86_64 Machines</a>
 </ul>
 </ul>
 </div>
@@ -287,11 +287,24 @@ r4:   0x00000000   | 0x200015FC
 -------  SRAM LAYOUT  -------
 </pre>
 
+<h2 id="toc_1.3">Build on x86_64 Machines</h2>
+<p>
+For Fedora:<br>
+</p>
+<pre>
+# yum install /lib/ld-linux.so.2
+# yum install /lib/libusb-0.1.so.4
+or
+# yum install /lib/libusb*
+</pre>
+<p>
+Thus we can use i386/i686 toolchains as usual.<br>
+</p>
+
 
 			</div>
 			<div id="footer">
-				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">丘迟</a></p>
-				<!--<p><a href="../SiteMap.html" title="站点地图">给我一点导航吧</a></p>-->
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">ktmud</a></p>
 			</div>
 		</div>
 		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>

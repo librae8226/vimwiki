@@ -245,4 +245,14 @@ r4:   0x00000000   | 0x200015FC
 -------  SRAM LAYOUT  -------
 }}}
 
+== Build on x86_64 Machines ==
+For Fedora:<br>
+{{{
+# yum install /lib/ld-linux.so.2
+# yum install /lib/libusb-0.1.so.4
+or
+# yum install /lib/libusb*
+}}}
+Thus we can use i386/i686 toolchains as usual.<br>
+
 %template header-footer

@@ -344,4 +344,20 @@ done
 Many thanks to the author!<br>
 Original Link: http://blog.yam.com/ddy1280/article/1228495 <br>
 
+== Insert a line before/after target search string ==
+{{{
+#before
+sed -i '/target_to_find/i\things_to_add' FILES
+#after
+sed -i '/target_to_find/a\things_to_add' FILES
+}}}
+
+== Remove the First Character(s) of Each Line ==
+{{{
+# remove the first character in each line of file1.txt
+sed 's/^.//' file1.txt > file2.txt
+# remove the first two characters in each line of file1.txt
+sed 's/^..//' file1.txt > file2.txt
+}}}
+
 %template header-footer

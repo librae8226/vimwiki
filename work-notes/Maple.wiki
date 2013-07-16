@@ -1,0 +1,12 @@
+[[index|Hame Page]]
+
+= Maple =
+
+%toc index
+
+== Maple Board ==
+`./stm32loader.py -p/dev/ttyUSB0 -evw maple_boot.bin`<br>
+`./stm32loader.py -a0x08005000 -p/dev/ttyUSB0 -evw maple.bin`<br>
+`./support/scripts/reset.py && sleep 1 && dfu-util -a1 -d 1EAF:0003 -D ousia.bin -R`<br>
+
+%template header-footer

@@ -49,6 +49,7 @@
 <li><a href="#toc_0.12">Change Syntax Highlight Mode Manually</a>
 <li><a href="#toc_0.13">Batch Rename Files</a>
 <li><a href="#toc_0.14">Suspend VIM to Shell, then Resume</a>
+<li><a href="#toc_0.15">Use cscope to Add Specific Source Files and Headers</a>
 </ul>
 </ul>
 </div>
@@ -142,6 +143,19 @@ Resume to vim, in shell:<br>
 </p>
 <pre>
 $ fg
+</pre>
+
+<h2 id="toc_0.15">Use cscope to Add Specific Source Files and Headers</h2>
+<pre>
+$ cscope -Rb -I Common/include/ -I BDP_CEC_Feature/include/ BDP_CEC_Feature/source/BDP_cec.c
+</pre>
+<p>
+Or multiple files &amp; headers:<br>
+</p>
+<pre>
+$ find PE/ Common/ -name '*.c' -o -name '*.h' &gt; cscope.files
+$ cscope -b
+(or specify explicitly: cscope -i cscope.files)
 </pre>
 
 

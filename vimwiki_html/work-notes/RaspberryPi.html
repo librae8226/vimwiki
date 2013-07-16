@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>RaspberryPi</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_1">Raspberry Pi</a>
+<ul>
+<li><a href="#toc_1.0.1">Arch Linux Hack</a>
+</ul>
+</ul>
+</ul>
+</div>
+
+<h1 id="toc_1">Raspberry Pi</h1>
+
+<h3 id="toc_1.0.1">Arch Linux Hack</h3>
+<p>
+<strong>Update Image</strong><br>
+Installed from official website, use dd to burn img to sdcard directly.<br>
+<strong>Update Packages</strong><br>
+Use <code>pacman</code> to update. See this page <a href="https://wiki.archlinux.org/index.php/Offline_Installation_of_Packages<br>">https://wiki.archlinux.org/index.php/Offline_Installation_of_Packages<br></a>
+<strong>Steps</strong> (e.g. install gcc)<br>
+</p>
+<ol>
+<li>
+<code>mkdir -p /var/lib/pacman/sync/{alarm,aur,community,core,extra}</code>
+
+<li>
+<code>rm -r /var/lib/pacman/sync/{alarm,aur,core,extra,community}/*</code>
+
+<li>
+<code>tar xzf /path/to/alarm.db.tar.gz -C /var/lib/pacman/sync/alarm</code>
+
+<li>
+<code>tar xzf /path/to/aur.db.tar.gz -C /var/lib/pacman/sync/aur</code>
+
+<li>
+<code>tar xzf /path/to/core.db.tar.gz -C /var/lib/pacman/sync/core</code>
+
+<li>
+<code>tar xzf /path/to/community.db.tar.gz -C /var/lib/pacman/sync/community</code>
+
+<li>
+<code>tar xzf /path/to/extra.db.tar.gz -C /var/lib/pacman/sync/extra</code>
+
+<li>
+<code>rm -r /var/lib/pacman/sync/*.db</code>
+
+<li>
+<code>cp /path/to/alarm.db /var/lib/pacman/sync/</code>
+
+<li>
+<code>cp /path/to/aur.db /var/lib/pacman/sync/</code>
+
+<li>
+<code>cp /path/to/community.db /var/lib/pacman/sync/</code>
+
+<li>
+<code>cp /path/to/core.db /var/lib/pacman/sync/</code>
+
+<li>
+<code>cp /path/to/extra.db /var/lib/pacman/sync/</code>
+
+<li>
+<code>pacman -Sup gcc &gt; /path/to/gcc.list</code> (used to check how many libs are there to install in total)
+
+<li>
+<code>wget -P /path/to/gcc/ -i /path/to/gcc.list</code> (this list may need to update manuelly before use wget)
+
+</ol>
+<p>
+Then<br>
+Choice 1:<br>
+</p>
+<ol>
+<li>
+<code>cd /path/to/gcc</code>
+
+<li>
+<code>repo-add gcc.db.tar.gz *.pkg.tar.gz</code>
+
+<li>
+<code>update pacman.conf</code>
+
+</ol>
+<p>
+Choice 2 [suggested]:<br>
+</p>
+<ol>
+<li>
+<code>cp /path/to/gcc/CORRESPONDING_FILE /path/to/ca.us.mirror.archlinuxarm.org/arm/$CORRESPONDING_DIR</code>
+
+<li>
+update /etc/pacman.d/mirrorlist, set <code>Server = file:///path/to/ca.us.mirror.archlinuxarm.org/arm/$CORRESPONDING_DIR</code>
+
+<li>
+<code>pacman -S gcc</code>
+
+</ol>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">ktmud</a></p>
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
+</html>
