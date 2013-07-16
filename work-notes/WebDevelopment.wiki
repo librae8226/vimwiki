@@ -1,0 +1,34 @@
+[[index|Hame Page]]
+
+%toc index
+
+== Jekyll with Github ==
+Official Resources:<br>
+http://jekyllrb.com - jekyll official website<br>
+http://ruby.taobao.org - ruby taobao(China) mirror<br>
+http://mmistakes.github.io/minimal-mistakes/ - a good theme<br>
+
+=== Installation on Fedora 16 ===
+1. install ruby<br>
+{{{
+$ sudo yum install ruby ruby-devel
+}}}
+2. install jekyll dependencies<br>
+{{{
+$ sudo gem install pygments.rb commander safe_yaml colorator redcarpet
+}}}
+3. install jekyll<br>
+{{{
+$ sudo gem install jekyll
+}}}
+
+=== Run A Local Server for Debug ===
+In jekyll website stuffs directory:<br>
+{{{
+$ jekyll --server
+}}}
+Then open web browser to access:<br>
+http://localhost:4000 <br>
+
+
+%template header-footer

@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>WebDevelopment</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">Jekyll with Github</a>
+<ul>
+<li><a href="#toc_0.1.1">Installation on Fedora 16</a>
+<li><a href="#toc_0.1.2">Run A Local Server for Debug</a>
+</ul>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">Jekyll with Github</h2>
+<p>
+Official Resources:<br>
+<a href="http://jekyllrb.com">http://jekyllrb.com</a> - jekyll official website<br>
+<a href="http://ruby.taobao.org">http://ruby.taobao.org</a> - ruby taobao(China) mirror<br>
+<a href="http://mmistakes.github.io/minimal-mistakes/">http://mmistakes.github.io/minimal-mistakes/</a> - a good theme<br>
+</p>
+
+<h3 id="toc_0.1.1">Installation on Fedora 16</h3>
+<p>
+1. install ruby<br>
+</p>
+<pre>
+$ sudo yum install ruby ruby-devel
+</pre>
+<p>
+2. install jekyll dependencies<br>
+</p>
+<pre>
+$ sudo gem install pygments.rb commander safe_yaml colorator redcarpet
+</pre>
+<p>
+3. install jekyll<br>
+</p>
+<pre>
+$ sudo gem install jekyll
+</pre>
+
+<h3 id="toc_0.1.2">Run A Local Server for Debug</h3>
+<p>
+In jekyll website stuffs directory:<br>
+</p>
+<pre>
+$ jekyll --server
+</pre>
+<p>
+Then open web browser to access:<br>
+<a href="http://localhost:4000">http://localhost:4000</a> <br>
+</p>
+
+</body>
+</html>
