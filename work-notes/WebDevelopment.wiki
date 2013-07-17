@@ -9,15 +9,11 @@ http://ruby.taobao.org - ruby taobao(China) mirror<br>
 http://mmistakes.github.io/minimal-mistakes/ - a good theme<br>
 
 === Installation on Fedora 16 ===
-1. install ruby<br>
+1. install ruby and rubygems<br>
 {{{
-$ sudo yum install ruby ruby-devel
+$ sudo yum install ruby ruby-devel rubygems
 }}}
-2. install jekyll dependencies<br>
-{{{
-$ sudo gem install pygments.rb commander safe_yaml colorator redcarpet
-}}}
-3. install jekyll<br>
+2. install jekyll<br>
 {{{
 $ sudo gem install jekyll
 }}}
