@@ -35,16 +35,39 @@
 <h1>index</h1>
 <div class="toc">
 <ul>
-<li><a href="#toc_0.1">Jekyll with Github</a>
+<li><a href="#toc_0.1">Xampp Apache Web Server</a>
+<li><a href="#toc_0.2">Jekyll with Github</a>
 <ul>
-<li><a href="#toc_0.1.1">Installation on Fedora 16</a>
-<li><a href="#toc_0.1.2">Run A Local Server for Debug</a>
+<li><a href="#toc_0.2.1">Installation on Fedora 16</a>
+<li><a href="#toc_0.2.2">Run A Local Server for Debug</a>
 </ul>
 </ul>
 </ul>
 </div>
 
-<h2 id="toc_0.1">Jekyll with Github</h2>
+<h2 id="toc_0.1">Xampp Apache Web Server</h2>
+<p>
+1. Install Xampp.<br>
+</p>
+<pre>
+$ sudo tar xvfz xampp-linux-1.8.1.tar.gz -C /opt
+</pre>
+<p>
+2. Stop all other http/ftp daemon. Below provides some commands to check.<br>
+</p>
+<pre>
+$ sudo netstat -tunap | grep LISTEN
+$ ps aux | grep http
+$ ps aux | grep ftp
+</pre>
+<p>
+3. Start Xampp.
+</p>
+<pre>
+$ sudo /opt/lampp/lampp start
+</pre>
+
+<h2 id="toc_0.2">Jekyll with Github</h2>
 <p>
 Official Resources:<br>
 <a href="http://jekyllrb.com">http://jekyllrb.com</a> - jekyll official website<br>
@@ -52,7 +75,7 @@ Official Resources:<br>
 <a href="http://mmistakes.github.io/minimal-mistakes/">http://mmistakes.github.io/minimal-mistakes/</a> - a good theme<br>
 </p>
 
-<h3 id="toc_0.1.1">Installation on Fedora 16</h3>
+<h3 id="toc_0.2.1">Installation on Fedora 16</h3>
 <p>
 1. install ruby and rubygems<br>
 </p>
@@ -66,7 +89,7 @@ $ sudo yum install ruby ruby-devel rubygems
 $ sudo gem install jekyll
 </pre>
 
-<h3 id="toc_0.1.2">Run A Local Server for Debug</h3>
+<h3 id="toc_0.2.2">Run A Local Server for Debug</h3>
 <p>
 In jekyll website stuffs directory:<br>
 </p>

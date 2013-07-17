@@ -2,6 +2,22 @@
 
 %toc index
 
+== Xampp Apache Web Server ==
+1. Install Xampp.<br>
+{{{
+$ sudo tar xvfz xampp-linux-1.8.1.tar.gz -C /opt
+}}}
+2. Stop all other http/ftp daemon. Below provides some commands to check.<br>
+{{{
+$ sudo netstat -tunap | grep LISTEN
+$ ps aux | grep http
+$ ps aux | grep ftp
+}}}
+3. Start Xampp.
+{{{
+$ sudo /opt/lampp/lampp start
+}}}
+
 == Jekyll with Github ==
 Official Resources:<br>
 http://jekyllrb.com - jekyll official website<br>
