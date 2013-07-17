@@ -13,7 +13,8 @@ $ sudo netstat -tunap | grep LISTEN
 $ ps aux | grep http
 $ ps aux | grep ftp
 }}}
-3. Start Xampp.
+4. Go to firewall settings, add http and port 80 as trusted.<br>
+3. Start Xampp.<br>
 {{{
 $ sudo /opt/lampp/lampp start
 }}}
