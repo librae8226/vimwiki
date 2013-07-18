@@ -16,7 +16,7 @@ $ ps aux | grep ftp
 4. Go to firewall settings, add http and port 80 as trusted.<br>
 3. Start Xampp.<br>
 {{{
-$ sudo /opt/lampp/lampp start
+$ sudo /opt/lampp/lampp startapache
 }}}
 
 == Jekyll with Github ==
@@ -30,18 +30,33 @@ http://mmistakes.github.io/minimal-mistakes/ - a good theme<br>
 {{{
 $ sudo yum install ruby ruby-devel rubygems
 }}}
+If use made-mistakes theme, we might need later version of ruby (>= 1.9.3)<br>
+Then we need to compile build it from source:<br>
+{{{
+ruby-2.0.0-p247]$ ./configure --enable-shared && make
+ruby-2.0.0-p247]$ sudo make install
+}}}
+We'd better remove previous versions of ruby by:<br>
+`$ sudo yum remove ruby ruby-devel rubygems`<br>
 2. install jekyll<br>
 {{{
-$ sudo gem install jekyll
+$ su -c 'gem install jekyll'
+- or -
+$ su -c 'gem install jekyll jekyll-minibundle'
 }}}
 
 === Run A Local Server for Debug ===
 In jekyll website stuffs directory:<br>
 {{{
 $ jekyll --server
+- or -
+$ jekyll serve
 }}}
 Then open web browser to access:<br>
 http://localhost:4000 <br>
+
+`Ps: If access from other PCs, ensure the firewall has add port 4000 for trusted.`<br>
+`Thus Xampp could not be needed any more.`<br>
 
 
 %template header-footer
