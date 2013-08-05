@@ -16,6 +16,7 @@ Change _/etc/paths_, put _/usr/local/bin_ at first will be fine.<br>
 Download source, make && make install
 
 == 6. vim visual mode? ==
+Change ANSI color "white" to a much deeper color.<br>
 
 == 7. vim keymap? ==
 
