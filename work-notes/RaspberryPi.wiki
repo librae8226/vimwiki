@@ -35,4 +35,24 @@ Choice 2 [suggested]:<br>
 # update /etc/pacman.d/mirrorlist, set `Server = file:///path/to/ca.us.mirror.archlinuxarm.org/arm/$CORRESPONDING_DIR`
 # `pacman -S gcc`
 
+=== Auto Connect Wifi after Boot Up ===
+1. Edit _/etc/network/interfaces_<br>
+{{{
+auto lo
+
+iface lo inet loopback
+iface eth0 inet dhcp
+
+allow-hotplug wlan0
+auto wlan0
+
+
+iface wlan0 inet dhcp
+	wpa-ssid "ssid"
+	wpa-psk "password"
+}}}
+2. Reboot. <br>
+ps: Original like here:<br>
+http://learn.adafruit.com/adafruits-raspberry-pi-lesson-3-network-setup/setting-up-wifi-with-occidentalis <br>
+
 %template header-footer
