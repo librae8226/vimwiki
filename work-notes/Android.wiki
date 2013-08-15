@@ -27,5 +27,6 @@ http://blog.csdn.net/lqf20013/article/details/6362267<br>
 == Monitor CPU Usage (better than top) ==
 `mpstat -P ALL 1`<br>
 This guy prints the usage and other stats of each core of cpu every 1 second.<br>
+PS: This is a busybox applet.<br>
 
 %template header-footer
