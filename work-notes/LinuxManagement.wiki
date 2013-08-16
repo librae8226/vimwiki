@@ -411,4 +411,20 @@ http://linux-commands.wikidot.com/howto-s:lxde <br>
 `Serial port connected to /dev/rfcomm0`<br>
 5. minicom -s (rfcomm0)<br>
 
+== Restore Files That Was Removed by rm -rf ==
+1. Download extundelete from http://extundelete.sourceforge.net/ <br>
+2. It needs e2fslib, so install them:<br>
+`# yum install e2fslib*` for Fedora.<br>
+`# apt-get install e2fslib*` for Ubuntu.<br>
+3. Put/excute extundelete in /tmp to avoid expected loss.<br>
+4. Make sure the filesystems to be restore needs unmount. So if it's home, we may use a dual boot OS to do this.<br>
+5. Run:<br>
+{{{
+# extundelete --restore-files [OFFSET_PATH_OF_FS] [FS]
+/*
+ * Such as:
+ * # extundelete --restore-files yrliao/workspace/sandlib/cpu_stat/stat.c /dev/sda6
+ */
+}}}
+
 %template header-footer

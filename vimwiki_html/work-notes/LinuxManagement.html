@@ -1,12 +1,33 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
-<head>
-<link rel="Stylesheet" type="text/css" href="../style.css">
-<title>LinuxManagement</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head>
-<body>
+	<head>
+		<title>LinuxManagement</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
 
+				
 <p>
 <a href="index.html">Hame Page</a>
 </p>
@@ -49,6 +70,7 @@
 <li><a href="#toc_0.33">Fedora 16 LXDE Desktop Icons Disappear</a>
 <li><a href="#toc_0.34">Fedora 16 LXDE Desktop Openbox Reload "lxde-rc.xml"</a>
 <li><a href="#toc_0.35">Fedora 16 Make It Work: Bluetooth Dongle with HC-05 rfcomm</a>
+<li><a href="#toc_0.36">Restore Files That Was Removed by rm -rf</a>
 </ul>
 </ul>
 </div>
@@ -620,5 +642,31 @@ Refer to this link:<br>
 5. minicom -s (rfcomm0)<br>
 </p>
 
-</body>
+<h2 id="toc_0.36">Restore Files That Was Removed by rm -rf</h2>
+<p>
+1. Download extundelete from <a href="http://extundelete.sourceforge.net/">http://extundelete.sourceforge.net/</a> <br>
+2. It needs e2fslib, so install them:<br>
+<code># yum install e2fslib*</code> for Fedora.<br>
+<code># apt-get install e2fslib*</code> for Ubuntu.<br>
+3. Put/excute extundelete in /tmp to avoid expected loss.<br>
+4. Make sure the filesystems to be restore needs unmount. So if it's home, we may use a dual boot OS to do this.<br>
+5. Run:<br>
+</p>
+<pre>
+# extundelete --restore-files [OFFSET_PATH_OF_FS] [FS]
+/*
+ * Such as:
+ * # extundelete --restore-files yrliao/workspace/sandlib/cpu_stat/stat.c /dev/sda6
+ */
+</pre>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">ktmud</a></p>
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
 </html>
