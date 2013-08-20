@@ -71,6 +71,7 @@
 <li><a href="#toc_0.34">Fedora 16 LXDE Desktop Openbox Reload "lxde-rc.xml"</a>
 <li><a href="#toc_0.35">Fedora 16 Make It Work: Bluetooth Dongle with HC-05 rfcomm</a>
 <li><a href="#toc_0.36">Restore Files That Was Removed by rm -rf</a>
+<li><a href="#toc_0.37">Check What Files Are Opened by A Particular Process</a>
 </ul>
 </ul>
 </div>
@@ -658,6 +659,11 @@ Refer to this link:<br>
  * Such as:
  * # extundelete --restore-files yrliao/workspace/sandlib/cpu_stat/stat.c /dev/sda6
  */
+</pre>
+
+<h2 id="toc_0.37">Check What Files Are Opened by A Particular Process</h2>
+<pre>
+	ls -l /proc/7857/fd
 </pre>
 
 

@@ -427,4 +427,9 @@ http://linux-commands.wikidot.com/howto-s:lxde <br>
  */
 }}}
 
+== Check What Files Are Opened by A Particular Process ==
+{{{
+	ls -l /proc/7857/fd
+}}}
+
 %template header-footer
