@@ -1,0 +1,38 @@
+[[index|Hame Page]]
+
+%toc index
+
+
+== Install FreeBSD 8.2 From USB Disk ==
+`dd if=FreeBSD-8.2-RELEASE-i386-memstick.img of=/dev/sdb bs=10240 conv=sync`<br>
+_Be careful of the of=/dev/XXX_<br>
+
+== sshd ==
+In FreeBSD 8.2, sshd is at:<br>
+`/etc/rc.d/sshd`<br>
+
+== Install Bash Under FreeBSD ==
+{{{
+# portsnap update extract
+# cd /usr/ports/shells/bash
+# make install clean
+# bash
+}}}
+If it is needed to change default shell, use:<br>
+`# chsh -s /usr/local/bin/bash USER_NAME`<br>
+
+== Assign USER root Privileges ==
+{{{
+pw groupmod wheel -m <username>
+pw user mod <username> -g wheel
+}}}
+
+== Install Xfce4 on FreeBSD 8.2 ==
+refer to:<br>
+http://my-net.cc/weblog/post/274<br>
+
+== HowTo: Using sudo on FreeBSD ==
+refer to:<br>
+http://linux-bsd-sharing.blogspot.com/2009/03/howto-using-sudo-on-freebsd.html<br>
+
+%template header-footer

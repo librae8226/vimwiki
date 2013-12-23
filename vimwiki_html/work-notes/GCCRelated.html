@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>GCCRelated</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+		<!--<link href="http://github.com/ktmud/kwiki/commits/master.atom" rel="alternate" title="Kdmud Wiki 的最新更改" type="application/atom+xml" />-->
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
+<p>
+<a href="index.html">Home Page</a>
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">AR</a>
+<li><a href="#toc_0.2">GCC</a>
+<ul>
+<li><a href="#toc_0.2.1">General Help</a>
+<li><a href="#toc_0.2.2">Shared Library</a>
+<li><a href="#toc_0.2.3">Make Warning Clock skew detected</a>
+</ul>
+</ul>
+</ul>
+</div>
+</p>
+
+<h2 id="toc_0.1">AR</h2>
+
+<p>
+Usage: ar [emulation options] [-]{dmpqrstx}[abcfilNoPsSuvV] [member-name] [count] archive-file file...<br>
+ar -M [&lt;mri-script]<br>
+ commands:<br>
+  d            - delete file(s) from the archive<br>
+  m[ab]        - move file(s) in the archive<br>
+  p            - print file(s) found in the archive<br>
+  q[f]         - quick append file(s) to the archive<br>
+  r[ab][f][u]  - replace existing or insert new file(s) into the archive<br>
+  t            - display contents of archive<br>
+  x[o]         - extract file(s) from the archive<br>
+ command specific modifiers:<br>
+  [a]          - put file(s) after [member-name]<br>
+  [b]          - put file(s) before [member-name] (same as [i])<br>
+  [N]          - use instance [count] of name<br>
+  [f]          - truncate inserted file names<br>
+  [P]          - use full path names when matching<br>
+  [o]          - preserve original dates<br>
+  [u]          - only replace files that are newer than current archive contents<br>
+ generic modifiers:<br>
+  [c]          - do not warn if the library had to be created<br>
+  [s]          - create an archive index (cf. ranlib)<br>
+  [S]          - do not build a symbol table<br>
+  [T]          - make a thin archive<br>
+  [v]          - be verbose<br>
+  [V]          - display the version number<br>
+  @&lt;file&gt;      - read options from &lt;file&gt;<br>
+</p>
+
+<p>
+We use
+</p>
+<blockquote>
+ar cvq LIBNAME.a SRC1.c SRC2.c ...
+</blockquote>
+<p>
+to create archiive but if run this command again, there will be two several .o files in archive.
+And if we use
+</p>
+<blockquote>
+ar cvr LIBNAME.a SRC1.c SRC2.c ...
+</blockquote>
+<p>
+the newer .o files will replace the older ones in archive.
+</p>
+
+<h2 id="toc_0.2">GCC</h2>
+<h3 id="toc_0.2.1">General Help</h3>
+<p>
+Usage: gcc [options] file...<br>
+Options:<br>
+  -pass-exit-codes         Exit with highest error code from a phase<br>
+  --help                   Display this information<br>
+  --target-help            Display target specific command line options<br>
+  --help={target|optimizers|warnings|undocumented|params}[,{[]joined|[]separate}] Display specific types of command line options<br>
+  (Use '-v --help' to display command line options of sub-processes)<br>
+  -dumpspecs               Display all of the built in spec strings<br>
+  -dumpversion             Display the version of the compiler<br>
+  -dumpmachine             Display the compiler's target processor<br>
+  -print-search-dirs       Display the directories in the compiler's search path<br>
+  -print-libgcc-file-name  Display the name of the compiler's companion library<br>
+  -print-file-name=&lt;lib&gt;   Display the full path to library &lt;lib&gt;<br>
+  -print-prog-name=&lt;prog&gt;  Display the full path to compiler component &lt;prog&gt;<br>
+  -print-multi-directory   Display the root directory for versions of libgcc<br>
+  -print-multi-lib         Display the mapping between command line options and multiple library search directories<br>
+  -print-multi-os-directory Display the relative path to OS libraries<br>
+  -print-sysroot-headers-suffix Display the sysroot suffix used to find headers<br>
+  -Wa,&lt;options&gt;            Pass comma-separated &lt;options&gt; on to the assembler<br>
+  -Wp,&lt;options&gt;            Pass comma-separated &lt;options&gt; on to the preprocessor<br>
+  -Wl,&lt;options&gt;            Pass comma-separated &lt;options&gt; on to the linker<br>
+  -Xassembler &lt;arg&gt;        Pass &lt;arg&gt; on to the assembler<br>
+  -Xpreprocessor &lt;arg&gt;     Pass &lt;arg&gt; on to the preprocessor<br>
+  -Xlinker &lt;arg&gt;           Pass &lt;arg&gt; on to the linker<br>
+  -combine                 Pass multiple source files to compiler at once<br>
+  -save-temps              Do not delete intermediate files<br>
+  -pipe                    Use pipes rather than intermediate files<br>
+  -time                    Time the execution of each subprocess<br>
+  -specs=&lt;file&gt;            Override built-in specs with the contents of &lt;file&gt;<br>
+  -std=&lt;standard&gt;          Assume that the input sources are for &lt;standard&gt;<br>
+  --sysroot=&lt;directory&gt;    Use &lt;directory&gt; as the root directory for headers and libraries<br>
+  -B &lt;directory&gt;           Add &lt;directory&gt; to the compiler's search paths<br>
+  -b &lt;machine&gt;             Run gcc for target &lt;machine&gt;, if installed<br>
+  -V &lt;version&gt;             Run gcc version number &lt;version&gt;, if installed<br>
+  -v                       Display the programs invoked by the compiler<br>
+  -###                     Like -v but options quoted and commands not executed<br>
+  -E                       Preprocess only; do not compile, assemble or link<br>
+  -S                       Compile only; do not assemble or link<br>
+  -c                       Compile and assemble, but do not link<br>
+  -o &lt;file&gt;                Place the output into &lt;file&gt;<br>
+  -x &lt;language&gt;            Specify the language of the following input files Permissible languages include: c c++ assembler none 'none' means revert to the default behavior of guessing the language based on the file's extension<br>
+</p>
+
+<p>
+Options starting with -g, -f, -m, -O, -W, or --param are automatically<br>
+passed on to the various sub-processes invoked by gcc.  In order to pass<br>
+other options on to these processes the -W&lt;letter&gt; options must be used.<br>
+</p>
+<blockquote>
+NOTE! As in marlin project, gcc use a [opt] "--sysroot", see that meanning.
+</blockquote>
+
+<h3 id="toc_0.2.2">Shared Library</h3>
+<p>
+-fpic<br>
+Generate position-independent code (PIC) suitable for use in a shared library, if supported for the target machine.  Such code accesses all constant addresses through a global offset table (GOT).  The dynamic loader resolves the GOT entries when the program starts (the dynamic loader is notpart of GCC; it is part of the operating system).  If the GOT size for the linked executable exceeds a machine-specific maximum size, you get an error message from the linker indicating that -fpic does not work; in that case, recompile with -fPIC instead.  (These maximums are 8k on the SPARC and 32k on the m68k and RS/6000.  The 386 has no such limit.)
+</p>
+
+<p>
+Position-independent code requires special support, and therefore works only on certain machines.  For the 386, GCC supports PIC for System V but not for the Sun 386i.  Code generated for the IBM RS/6000 is always position-independent.
+</p>
+
+<p>
+When this flag is set, the macros "_<em>pic</em><em>" and "</em><em>PIC</em>_" are defined to 1.
+</p>
+
+<p>
+-fPIC<br>
+If supported for the target machine, emit position-independent code, suitable for dynamic linking and avoiding any limit on the size of the global offset table.  This option makes a difference on the m68k, PowerPC and SPARC.
+</p>
+
+<p>
+Position-independent code requires special support, and therefore works only on certain machines.
+</p>
+
+<p>
+When this flag is set, the macros "_<em>pic</em><em>" and "</em><em>PIC</em>_" are defined to 2.
+</p>
+
+<p>
+-shared<br>
+Produce a shared object which can then be linked with other objects to form an executable.  Not all systems support this option.  For predictable results, you must also specify the same set of options that were used to generate code (-fpic, -fPIC, or model suboptions) when you specify this option.[1]
+</p>
+
+<p>
+-Wl,option<br>
+Pass option as an option to the linker.  If option contains commas, it is split into multiple options at the commas.
+</p>
+
+<p>
+NOTE: In Ubuntu 8.10 and later versions, for LDFLAGS, the option -Wl,-z,relro is used.  To disable, use -Wl,-z,norelro.
+</p>
+
+<h3 id="toc_0.2.3">Make Warning Clock skew detected</h3>
+<p>
+make: warning:  Clock skew detected.  Your build may be incomplete.<br>
+<code>touch Makefile</code><br>
+works well.<br>
+</p>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">丘迟</a></p>
+				<!--<p><a href="../SiteMap.html" title="站点地图">给我一点导航吧</a></p>-->
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
+</html>

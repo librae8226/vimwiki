@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Bluetooth</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">Analyze with BPA500 Bluetooth Sniffer</a>
+<ul>
+<li><a href="#toc_0.1.1">Scan/Pair</a>
+<li><a href="#toc_0.1.2">Get Bluetooth Packets</a>
+</ul>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">Analyze with BPA500 Bluetooth Sniffer</h2>
+<hr />
+
+<h3 id="toc_0.1.1">Scan/Pair</h3>
+<hr />
+
+<p>
+0.  Ensure devices disconnected and unpaired.<br>
+1.  Put device (RC) into pairing mode, click Discover Device on BPA500. Choose the corresponding one. Set as Slave.<br>
+2.  Put host (Board) into discoverable mode, click Discover Device on BPA500. Choose the corresponding one. (MAC: /data/misc/bluedroid/bt_config.xml). Set as Master.<br>
+3.  Input Pin Code 0000, then Start.<br>
+4.  Pair device to host.<br>
+*5. Wait for timeout/disconnected.<br>
+6.  Save log.<br>
+7.  Stop.<br>
+</p>
+
+<h3 id="toc_0.1.2">Get Bluetooth Packets</h3>
+<hr />
+
+<p>
+1.  Set device as Master while host has Slave.<br>
+2.  Input Link Key then start. (Key: /data/misc/bluedroid/bt_config.xml)<br>
+3.  Send message from device to host (press some key).<br>
+*4. Wait for timeout/disconnected.<br>
+5.  Save log.<br>
+6.  Stop.<br>
+</p>
+
+<p>
+Ps: In advanced settings, we can uncheck the checkbox "Filter out Nulls and Polls" in ComProbe.<br>
+That enables us to see the Polls (ping from Master to Slave) and Nulls (Feedback from Slave).<br>
+</p>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">ktmud</a></p>
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
+</html>

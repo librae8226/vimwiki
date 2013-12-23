@@ -1,0 +1,37 @@
+= The Pure Ousia of Librae =
+<hr>
+%toc
+=== Let's Turning To... ===
+[[work-notes/index|Every little makes a mickle.]]<br>
+=== What Is This? ===
+Here is Librae's rough site, based on vimwiki, see [[http://code.google.com/p/vimwiki|vimwiki - google code]] or [[http://www.vim.org/scripts/script.php?script_id=2226|vim.org]].<br>
+Refer to this page for [[tips/vimwiki-guide|vimwiki simple guide]]<br>
+Keep it simple & stupid, if get lost, try here [[SiteMap|site map]].<br>
+
+<div id="whats-special" class="lesser" style="width: 50em">
+<div class="hd">Any Special?</div>
+<div class="cont">
+# This page is completely hand-written, color scheme is at discretion, either ;)
+# IE guys' hell here :(
+# "border-image" is cool, isn't it?
+# If you are lucky, a Google Search bar on the up right corner would be there. Go for it!
+# I feel it's pretty nice of the "Catalog" box (try Shift + Z to hide/display).
+# Embeded Disqus service.
+# This site would be good while using an Explorer with the Webkit core.
+</div>
+</div>
+
+== Hotspot ==
+Now you can watch the update on [[https://github.com/librae8226/vimwiki|GitHub]], [[https://github.com/librae8226/vimwiki/commits/librae.github.atom|点此订阅RSS]]！
+
+== Guides ==
+# Click here to [[tips/vimwiki-guide|Build Your Own Site by Vimwiki]].
+# etc.
+
+{{{id="no-comment"
+Comment disabled.
+}}}
+
+%title The Pure Ousia of Librae
+
+%template header-footer

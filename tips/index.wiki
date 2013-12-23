@@ -1,0 +1,13 @@
+%toc
+
+= Tips =
+
+    Retained blank.
+
+{{{id="no-comment"
+Comment disabled.
+}}}
+
+%title Tips
+
+%template header-footer

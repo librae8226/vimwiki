@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>EditorVI</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">Format source code</a>
+<li><a href="#toc_0.2">Colorscheme</a>
+<li><a href="#toc_0.3">jeffy's vim plugin</a>
+<li><a href="#toc_0.4">fx OR Fx</a>
+<li><a href="#toc_0.5">Screen Scroll</a>
+<li><a href="#toc_0.6">Enable mouse select and copy to clipboard</a>
+<li><a href="#toc_0.7">(Block) Indent</a>
+<li><a href="#toc_0.8">Switch windows</a>
+<li><a href="#toc_0.9">Jump to the matching bracket</a>
+<li><a href="#toc_0.10">substitute word(s)</a>
+<li><a href="#toc_0.11">Change DOS ending to UNIX</a>
+<li><a href="#toc_0.12">Change Syntax Highlight Mode Manually</a>
+<li><a href="#toc_0.13">Batch Rename Files</a>
+<li><a href="#toc_0.14">Suspend VIM to Shell, then Resume</a>
+<li><a href="#toc_0.15">Use cscope to Add Specific Source Files and Headers</a>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">Format source code</h2>
+<blockquote>
+gg=G<br>
+</blockquote>
+
+<h2 id="toc_0.2">Colorscheme</h2>
+<blockquote>
+colorscheme is in "/usr/share/vim/vimXX/colors/"<br>
+</blockquote>
+
+<h2 id="toc_0.3">jeffy's vim plugin</h2>
+<p>
+	<a href="http://code.google.com/p/jeffy-vim/">http://code.google.com/p/jeffy-vim/</a>
+</p>
+
+<h2 id="toc_0.4">fx OR Fx</h2>
+<p>
+	The former will move cursor to first 'x' rightside of current position.<br>
+	The latter will move cursor to first 'x' leftside of current position.<br>
+</p>
+
+<h2 id="toc_0.5">Screen Scroll</h2>
+<p>
+	&lt;C-E&gt; &lt;C-Y&gt; | &lt;C-D&gt; &lt;C-U&gt; | &lt;C-F&gt; &lt;C-B&gt;<br>
+	zz, zt, zb<br>
+</p>
+
+<h2 id="toc_0.6">Enable mouse select and copy to clipboard</h2>
+<p>
+	set mouse=v<br>
+</p>
+
+<h2 id="toc_0.7">(Block) Indent</h2>
+<p>
+	&lt; or &gt;<br>
+</p>
+
+<h2 id="toc_0.8">Switch windows</h2>
+<p>
+	&lt;C-h, j, k, OR l&gt;<br>
+</p>
+
+<h2 id="toc_0.9">Jump to the matching bracket</h2>
+<p>
+	%<br>
+</p>
+
+<h2 id="toc_0.10">substitute word(s)</h2>
+<p>
+<code>:s/vivian/sky/</code><br>
+Replace the first "vivian" of current line with "sky"<br>
+<code>:s/vivian/sky/g</code><br>
+Replace all "vivian" of current line with "sky"<br>
+<code>:n,$s/vivian/sky/</code><br>
+Replace the first "vivian" in each line from the nth line to the last with "sky"<br>
+<code>:n,$s/vivian/sky/g</code><br>
+Replace all "vivian" in each line from the nth line to the last with "sky"<br>
+(n is a numeric, if n is ".", means from the current line to the last.)<br>
+</p>
+
+<h2 id="toc_0.11">Change DOS ending to UNIX</h2>
+<p>
+<code>:e ++ff=unix</code><br>
+<code>:%s/\r//g</code><br>
+<code>:w ++ff=unix</code><br>
+</p>
+
+<h2 id="toc_0.12">Change Syntax Highlight Mode Manually</h2>
+<p>
+<code>:set syntax=cpp</code><br>
+</p>
+
+<h2 id="toc_0.13">Batch Rename Files</h2>
+<pre>
+for fn in `ls *.ino`; do new=${fn%%ino}cpp; echo $fn $new; done
+</pre>
+
+<h2 id="toc_0.14">Suspend VIM to Shell, then Resume</h2>
+<p>
+Turn to shell, in vim:<br>
+</p>
+<pre>
+Ctrl + z
+</pre>
+<p>
+Resume to vim, in shell:<br>
+</p>
+<pre>
+$ fg
+</pre>
+
+<h2 id="toc_0.15">Use cscope to Add Specific Source Files and Headers</h2>
+<pre>
+$ cscope -Rb -I Common/include/ -I BDP_CEC_Feature/include/ BDP_CEC_Feature/source/BDP_cec.c
+</pre>
+<p>
+Or multiple files &amp; headers:<br>
+</p>
+<pre>
+$ find PE/ Common/ -name '*.c' -o -name '*.h' &gt; cscope.files
+$ cscope -b
+(or specify explicitly: cscope -i cscope.files)
+</pre>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">ktmud</a></p>
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
+</html>

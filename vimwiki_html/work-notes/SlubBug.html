@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>SlubBug</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+		<!--<link href="http://github.com/ktmud/kwiki/commits/master.atom" rel="alternate" title="Kdmud Wiki 的最新更改" type="application/atom+xml" />-->
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.0.1">1.	"lzop: not found" while build uImage. (2011-04-27)</a>
+<li><a href="#toc_0.0.2">2.	Steps of building marvell-bg2 board. (2011-04-25)</a>
+<li><a href="#toc_0.0.3">3.	Analize the Kernel panic</a>
+<li><a href="#toc_0.0.4">4.	Howto - provide extern symbol when hacking the kernel.</a>
+<li><a href="#toc_0.0.5">5.	Find the very maybe problem.</a>
+<li><a href="#toc_0.0.6">6.	Compile code on compile server.</a>
+<li><a href="#toc_0.0.7">7.	About Makefile</a>
+</ul>
+</ul>
+</ul>
+</div>
+
+<h3 id="toc_0.0.1">1.	"lzop: not found" while build uImage. (2011-04-27)</h3>
+<pre>
+&lt; code SHELL:
+	$ sudo apt-get install lzop
+&gt;
+Then build again and it will work fine.
+</pre>
+<hr />
+
+<h3 id="toc_0.0.2">2.	Steps of building marvell-bg2 board. (2011-04-25)</h3>
+<pre>
+Hardware (* represents for optional connection):
+	HDMI -- Monitor
+	serial port -- PC
+	*USB keyboard -- USB port
+	Ethernet wire -- Ethernet port (for booting uImage from nfs)
+	
+Software :
+	*U-Boot (already in board)
+	linux-2.6.35.4_20110425 (kernel)
+	GTV_38908_1228 (marvell software)
+	hcroot.0413.leitoies (file system)
+	toolchains (FSF GNU GCC branch-4.4.5. 
+				Marvell GCC 2010q4-113) 
+				4.4.5 20100614 (prerelease))
+
+&lt; code SHELL
+	/* configure the environment */
+	$ export PATH=/$(TOOLCHAINS_PATH)/bg2/arm-marvell-eabi/bin:
+			/$(PATHtoTOOLCHAINS)/bg2/arm-marvell-linux-gnueabi/bin:$PATH
+	$ cd /$(KERNEL_PATH)/arch/arm/mach-mv88de3015
+	$ rm GaloisSoftware
+	/* make a soft link */
+	$ ln -s /$(GTV_38908_1228_PATH) GaloisSoftware
+	/* select the SLUB allocator */
+	$ make menuconfig
+	$ make uImage
+	$ make modules
+&gt;
+
+uImage is in
+	"arch/arm/boot/"
+Those 3 modules are
+	"arch/arm/mach-mv88de3015/modules/Gal3D/gal3d.ko"
+	"arch/arm/mach-mv88de3015/modules/gpu/gfx.ko"
+	"arch/arm/mach-mv88de3015/modules/pe/galois_pe.ko"
+
+copy uImage to "smb://192.168.1.92/tftpboot/image_yliao/marvell_gvt_3/"
+copy those 3 modules to 
+"/home/yliao/workspace/marvell/jackie/hcroot.0413.leitoies/vendor/lib/modules"
+
+Then boot up board.
+
+&lt; code minicom
+	/* while running in U-Boot */
+	88DE3010|&gt; printenv
+	88DE3010|&gt; setenv XXX1
+	88DE3010|&gt; setenv XXX2
+	88DE3010|&gt; setenv XXX3
+	88DE3010|&gt; setenv XXX4
+	...
+	88DE3010|&gt; saveenv
+	88DE3010|&gt; bootd
+&gt;
+XXX stands for boot parameters, they should be set as:
+&lt;
+	88DE3010|&gt; printenv
+	baudrate=115200
+	loads_echo=0
+	autoload=n
+	preboot=dhcp
+	verify=n
+	ethact=eth0
+	bootcmd=tftpboot 0x1c400000 $(bootfile); bootm 0x1c400000;
+	ethaddr=00:50:43:01:1E:8E
+	serverip=192.168.1.92
+	bootargs=macaddr=00:50:43:01:1E:8E root=/dev/nfs console=ttyS0,115200 nfsroot=1s
+	nfsroot=192.168.1.145:/home/yliao/workspace/marvell/jackie/hcroot.0413.leitoies
+	stdin=serial
+	stdout=serial
+	stderr=serial
+	bootfile=image_yliao/marvell_gvt_3/uImage
+	gatewayip=192.168.1.1
+	netmask=255.255.255.0
+	ipaddr=192.168.1.193
+
+	Environment size: 627/4091 bytes
+&gt;
+</pre>
+<hr />
+
+<h3 id="toc_0.0.3">3.	Analize the Kernel panic</h3>
+<pre>
+&lt; code minicom log
+[   54.567848] Unable to handle kernel paging request at virtual address 7ffffff
+f
+[   54.575335] pgd = a3338000
+[   54.578142] [7fffffff] *pgd=00000000
+[   54.581864] Internal error: Oops: 15 [#6] PREEMPT
+[   54.586732] last sysfs file: /sys/module/lowmemorykiller/parameters/debug_lev
+el
+[   54.594291] Modules linked in: gal3d gfx galois_pe
+[   54.599323] CPU: 0    Tainted: G      D      (2.6.35.10+ #321)
+[   54.605369] PC is at slab_alloc+0x568/0x770
+[   54.609702] LR is at kmem_cache_alloc+0x18/0x1c
+[   54.614394] pc : [&lt;800abbb8&gt;]    lr : [&lt;800abf4c&gt;]    psr: 20000093
+[   54.614404] sp : a2741d50  ip : a2741da0  fp : a2741d9c
+[   54.626278] r10: fffffffe  r9 : ffffffff  r8 : 00000024
+[   54.631685] r7 : 7fffffff  r6 : 00000000  r5 : 804d4ee0  r4 : 804cc294
+[   54.638437] r3 : 00000000  r2 : 60000013  r1 : 000000d0  r0 : 804cc294
+[   54.645191] Flags: nzCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment use
+r
+[   54.652661] Control: 10c53c7d  Table: 23738059  DAC: 00000015
+[   54.658605] Process AsyncTask #1 (pid: 642, stack limit = 0xa27402f0)
+[   54.665268] Stack: (0xa2741d50 to 0xa2742000)
+[   54.669783] 1d40:                                     a2741d6c a2741d60 800ab
+5e8 800ab1fc
+[   54.678246] 1d60: 8013638c a2741d70 60000013 000000d0 804d62c8 a90ac378 a24c7
+f00 00000000
+[   54.686709] 1d80: a90ac258 00000024 00000000 fffffffe a2741dac a2741da0 800ab
+f4c 800ab65c
+[   54.695173] 1da0: a2741dfc a2741db0 8013638c 800abf40 a2741dec a2741dc0 802a2
+760 802a31a0
+[   54.703636] 1dc0: 00002717 ffff9e49 a24c7f00 00000005 a90ac378 a90ac378 a958b
+600 00000024
+[   54.712099] 1de0: a24c7f00 00000000 00000000 a9082200 a2741e24 a2741e00 80136
+6cc 8013616c
+[   54.720562] 1e00: a2741ec4 a2741f24 00000000 a90ac378 00000000 00000024 a2741
+e34 a2741e28
+[   54.729025] 1e20: 800b87d4 801365dc a2741e54 a2741e38 800bac54 800b877c a2741
+ec4 00000000
+[   54.737488] 1e40: 00000000 00000024 a2741e8c a2741e58 800bb1b8 800babc8 a24c7
+cc0 804e9a40
+[   54.745951] 1e60: a2741e8c 00000000 a2741ec4 00000024 00000000 a2741f24 a264c
+000 00000000
+[   54.754414] 1e80: a2741f5c a2741e90 800bb480 800bae7c 00000000 a264c000 00000
+3e8 a2741f1c
+[   54.762876] 1ea0: 00000001 a2741ed8 ffffff9c 00000000 00000000 003e8439 a2740
+000 00000001
+[   54.771340] 1ec0: a2741eec a944b680 a9082e00 17316dc1 00000009 a264c00c a944b
+680 a9005900
+[   54.779802] 1ee0: 00000101 00000000 00000000 80024928 a2741f5c a2741f30 80050
+264 800c6828
+[   54.788265] 1f00: 00000000 80050264 a2741f2c a2741f18 00000001 00000000 a260c
+a80 a97cec00
+[   54.796728] 1f20: a2741f5c a944b680 a9082e00 800501b4 00000000 00000000 00000
+025 00000000
+[   54.805191] 1f40: 00000000 a264c000 a2740000 00000000 a2741f94 a2741f60 800ae
+130 800bb310
+[   54.813653] 1f60: 00000000 00000000 4db4e1c3 001e7f20 2ab54a24 001e9ea0 00000
+005 80021168
+[   54.822116] 1f80: a2740000 00000000 a2741fa4 a2741f98 800ae220 800ae0d8 00000
+000 a2741fa8
+[   54.830579] 1fa0: 80020fc0 800ae208 001e7f20 2ab54a24 001e9ea0 00000000 00000
+000 ffffffff
+[   54.839042] 1fc0: 001e7f20 2ab54a24 001e9ea0 00000005 45702a18 45603c28 45603
+c10 00000000
+[   54.847505] 1fe0: 00000000 45702930 2ac6234c 2ac63664 88000010 001e9ea0 00000
+000 00000000
+[   54.855958] Backtrace: 
+[   54.858521] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abf4c&gt;] (kmem_cache
+_alloc+0x18/0x1c)
+[   54.867439] [&lt;800abf34&gt;] (kmem_cache_alloc+0x0/0x1c) from [&lt;8013638c&gt;] (nfs_d
+o_access+0x22c/0x470)
+[   54.876710] [&lt;80136160&gt;] (nfs_do_access+0x0/0x470) from [&lt;801366cc&gt;] (nfs_per
+mission+0xfc/0x1b0)
+[   54.885806] [&lt;801365d0&gt;] (nfs_permission+0x0/0x1b0) from [&lt;800b87d4&gt;] (inode_
+permission+0x64/0x7c)
+[   54.895068]  r7:00000024 r6:00000000 r5:a90ac378 r4:00000000
+[   54.901004] [&lt;800b8770&gt;] (inode_permission+0x0/0x7c) from [&lt;800bac54&gt;] (may_o
+pen+0x98/0x12c)
+[   54.909738] [&lt;800babbc&gt;] (may_open+0x0/0x12c) from [&lt;800bb1b8&gt;] (do_last+0x34
+8/0x494)
+[   54.917833]  r7:00000024 r6:00000000 r5:00000000 r4:a2741ec4
+[   54.923767] [&lt;800bae70&gt;] (do_last+0x0/0x494) from [&lt;800bb480&gt;] (do_filp_open+
+0x17c/0x300)
+[   54.932232] [&lt;800bb304&gt;] (do_filp_open+0x0/0x300) from [&lt;800ae130&gt;] (do_sys_o
+pen+0x64/0x11c)
+[   54.940964] [&lt;800ae0cc&gt;] (do_sys_open+0x0/0x11c) from [&lt;800ae220&gt;] (sys_open+
+0x24/0x28)
+[   54.949264] [&lt;800ae1fc&gt;] (sys_open+0x0/0x28) from [&lt;80020fc0&gt;] (ret_fast_sysc
+all+0x0/0x30)
+[   54.957816] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003) 
+[   55.133147] ---[ end trace b7ceec13258482cc ]---
+[   55.147991] Kernel panic - not syncing: Fatal exception
+&gt;
+&lt; code SHELL
+	/* use gdb to disassemble the panic point */
+	$ arm-marvell-linux-gnueabi-gdb ./mm/slub.o
+	(gdb) disassemble slab_alloc
+&gt;
+
+Kernel panic type (Differentiate by the backtrace function):
+1)
+	[   54.855958] Backtrace: 
+	[   54.858521] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abf4c&gt;] (kmem_cache_alloc+0x18/0x1c)
+	[   54.867439] [&lt;800abf34&gt;] (kmem_cache_alloc+0x0/0x1c) from [&lt;8013638c&gt;] (nfs_do_access+0x22c/0x470)
+	[   54.876710] [&lt;80136160&gt;] (nfs_do_access+0x0/0x470) from [&lt;801366cc&gt;] (nfs_permission+0xfc/0x1b0)
+	[   54.885806] [&lt;801365d0&gt;] (nfs_permission+0x0/0x1b0) from [&lt;800b87d4&gt;] (inode_permission+0x64/0x7c)
+	[   54.895068]  r7:00000024 r6:00000000 r5:a90ac378 r4:00000000
+	[   54.901004] [&lt;800b8770&gt;] (inode_permission+0x0/0x7c) from [&lt;800bac54&gt;] (may_open+0x98/0x12c)
+	[   54.909738] [&lt;800babbc&gt;] (may_open+0x0/0x12c) from [&lt;800bb1b8&gt;] (do_last+0x348/0x494)
+	[   54.917833]  r7:00000024 r6:00000000 r5:00000000 r4:a2741ec4
+	[   54.923767] [&lt;800bae70&gt;] (do_last+0x0/0x494) from [&lt;800bb480&gt;] (do_filp_open+0x17c/0x300)
+	[   54.932232] [&lt;800bb304&gt;] (do_filp_open+0x0/0x300) from [&lt;800ae130&gt;] (do_sys_open+0x64/0x11c)
+	[   54.940964] [&lt;800ae0cc&gt;] (do_sys_open+0x0/0x11c) from [&lt;800ae220&gt;] (sys_open+0x24/0x28)
+	[   54.949264] [&lt;800ae1fc&gt;] (sys_open+0x0/0x28) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
+1a)
+	[   46.761282] Backtrace: 
+	[   46.763845] [&lt;800ab040&gt;] (slab_alloc+0x0/0x5d0) from [&lt;800abae0&gt;] (kmem_cache_alloc+0x18/0x1c)
+	[   46.772767] [&lt;800abac8&gt;] (kmem_cache_alloc+0x0/0x1c) from [&lt;8023275c&gt;] (logger_open+0x8c/0xec)
+	[   46.781687] [&lt;802326d0&gt;] (logger_open+0x0/0xec) from [&lt;801b22c0&gt;] (misc_open+0x1d8/0x294)
+	[   46.790150] [&lt;801b20e8&gt;] (misc_open+0x0/0x294) from [&lt;800b2a38&gt;] (chrdev_open+0x1b8/0x1d8)
+	[   46.798695]  r9:00000000 r8:00000000 r7:00000000 r6:a9402b80 r5:9f17c100[   46.805522] r4:a94de060
+	[   46.808278] [&lt;800b2880&gt;] (chrdev_open+0x0/0x1d8) from [&lt;800ae014&gt;] (__dentry_open+0x170/0x288)
+	[   46.817181]  r8:800b2880 r7:a94de060 r6:a901cb00 r5:a9485e00 r4:9f17c100
+	[   46.824213] [&lt;800adea4&gt;] (__dentry_open+0x0/0x288) from [&lt;800ae204&gt;] (nameidata_to_filp+0x48/0x60)
+	[   46.833489] [&lt;800ae1bc&gt;] (nameidata_to_filp+0x0/0x60) from [&lt;800bae40&gt;] (do_last+0x36c/0x494)
+	[   46.842303]  r4:9f1a7ec4
+	[   46.844952] [&lt;800baad4&gt;] (do_last+0x0/0x494) from [&lt;800bb0e4&gt;] (do_filp_open+0x17c/0x300)
+	[   46.853415] [&lt;800baf68&gt;] (do_filp_open+0x0/0x300) from [&lt;800add94&gt;] (do_sys_open+0x64/0x11c)
+	[   46.862147] [&lt;800add30&gt;] (do_sys_open+0x0/0x11c) from [&lt;800ade84&gt;] (sys_open+0x24/0x28)
+	[   46.870433] [&lt;800ade60&gt;] (sys_open+0x0/0x28) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
+	[   46.878986] Code: e5905000 e5957000 e3570000 15903010 (17973003) 
+
+2)
+	[   53.911579] Backtrace: 
+	[   53.914140] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abf30&gt;] (__kmalloc+0x60/0x64)
+	[   53.922432] [&lt;800abed0&gt;] (__kmalloc+0x0/0x64) from [&lt;800a5358&gt;] (kmalloc+0x10/0x14)
+	[   53.930349]  r5:00000001 r4:9f25de40
+	[   53.934097] [&lt;800a5348&gt;] (kmalloc+0x0/0x14) from [&lt;800a6b74&gt;] (__get_vm_area_node+0xa8/0x118)
+	[   53.942919] [&lt;800a6acc&gt;] (__get_vm_area_node+0x0/0x118) from [&lt;800a6d48&gt;] (get_vm_area+0x4c/0x58)
+	[   53.952107] [&lt;800a6cfc&gt;] (get_vm_area+0x0/0x58) from [&lt;8022f524&gt;] (binder_mmap+0xb0/0x1fc)
+	[   53.960662] [&lt;8022f474&gt;] (binder_mmap+0x0/0x1fc) from [&lt;800a1b50&gt;] (mmap_region+0x2e0/0x50c)
+	[   53.969386]  r8:44f60000 r7:00200071 r6:a254f900 r5:a260c680 r4:a3133d10
+	[   53.976418] [&lt;800a1870&gt;] (mmap_region+0x0/0x50c) from [&lt;800a2030&gt;] (do_mmap_pgoff+0x2b4/0x310)
+	[   53.985330] [&lt;800a1d7c&gt;] (do_mmap_pgoff+0x0/0x310) from [&lt;800a2124&gt;] (sys_mmap_pgoff+0x98/0xc8)
+	[   53.994335] [&lt;800a208c&gt;] (sys_mmap_pgoff+0x0/0xc8) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
+	[   54.003425] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003) 
+3)
+	[   53.556636] Backtrace: 
+	[   53.559198] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abecc&gt;] (__kmalloc_track_caller+0x60/0x64)
+	[   53.568650] [&lt;800abe6c&gt;] (__kmalloc_track_caller+0x0/0x64) from [&lt;80097e40&gt;] (kstrdup+0x38/0x54)
+	[   53.577733]  r5:0000000b r4:800ba704
+	[   53.581484] [&lt;80097e08&gt;] (kstrdup+0x0/0x54) from [&lt;800ba704&gt;] (vfs_rename+0xc0/0x48c)
+	[   53.589579]  r7:a90dd480 r6:a9076cd8 r5:00000000 r4:a90dd900
+	[   53.595513] [&lt;800ba644&gt;] (vfs_rename+0x0/0x48c) from [&lt;800bb8dc&gt;] (sys_renameat+0x160/0x1d8)
+	[   53.604246] [&lt;800bb77c&gt;] (sys_renameat+0x0/0x1d8) from [&lt;800bb978&gt;] (sys_rename+0x24/0x28)
+	[   53.612791]  r8:80021168 r7:00000026 r6:2b6d68a8 r5:2c62d5b0 r4:002cbfa8
+	[   53.619822] [&lt;800bb954&gt;] (sys_rename+0x0/0x28) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
+	[   53.628553] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003) 
+4)
+	[   52.696819] Backtrace: 
+	[   52.699382] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abf4c&gt;] (kmem_cache_alloc+0x18/0x1c)
+	[   52.708300] [&lt;800abf34&gt;] (kmem_cache_alloc+0x0/0x1c) from [&lt;8013638c&gt;] (nfs_do_access+0x22c/0x470)
+	[   52.717571] [&lt;80136160&gt;] (nfs_do_access+0x0/0x470) from [&lt;801366cc&gt;] (nfs_permission+0xfc/0x1b0)
+	[   52.726667] [&lt;801365d0&gt;] (nfs_permission+0x0/0x1b0) from [&lt;800b8684&gt;] (exec_permission+0x24/0x6c)
+	[   52.735839]  r7:a2412000 r6:a264800b r5:a264800b r4:a2413ee8
+	[   52.741775] [&lt;800b8660&gt;] (exec_permission+0x0/0x6c) from [&lt;800b9340&gt;] (link_path_walk+0x7c/0x574)
+	[   52.750946]  r5:a264800b r4:a2413ee8
+	[   52.754689] [&lt;800b92c4&gt;] (link_path_walk+0x0/0x574) from [&lt;800b99a0&gt;] (path_walk+0x9c/0x14c)
+	[   52.763421] [&lt;800b9904&gt;] (path_walk+0x0/0x14c) from [&lt;800b9f18&gt;] (do_path_lookup+0x2c/0x54)
+	[   52.772054]  r6:00000000 r5:a2648000 r4:a2413ee8
+	[   52.776896] [&lt;800b9eec&gt;] (do_path_lookup+0x0/0x54) from [&lt;800bc074&gt;] (user_path_at+0x60/0x90)
+	[   52.785709]  r7:a2413f68 r6:ffffff9c r5:a2413ee8 r4:a2648000
+	[   52.791647] [&lt;800bc014&gt;] (user_path_at+0x0/0x90) from [&lt;800aecbc&gt;] (sys_faccessat+0xa0/0x174)
+	[   52.800461]  r8:ffffff9c r7:45216778 r6:a24c7ae0 r5:00000000 r4:9f0dca80
+	[   52.807490] [&lt;800aec1c&gt;] (sys_faccessat+0x0/0x174) from [&lt;800aedac&gt;] (sys_access+0x1c/0x20)
+	[   52.816124]  r8:80021168 r7:00000021 r6:2b6d68a8 r5:00000007 r4:00000000
+	[   52.823152] [&lt;800aed90&gt;] (sys_access+0x0/0x20) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
+	[   52.831883] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003)
+5)
+	[   53.536238] Backtrace: 
+	[   53.538799] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abf30&gt;] (__kmalloc+0x60/0x64)
+	[   53.547142] [&lt;800abed0&gt;] (__kmalloc+0x0/0x64) from [&lt;7f01d024&gt;] (kmalloc+0x10/0x14 [gal3d])
+	[   53.555780]  r5:a97c36c0 r4:00000000
+	[   53.559574] [&lt;7f01d014&gt;] (kmalloc+0x0/0x14 [gal3d]) from [&lt;7f01f610&gt;] (gckOS_MapUserMemory+0x364/0x828 [gal3d])
+	[   53.570063] [&lt;7f01f2ac&gt;] (gckOS_MapUserMemory+0x0/0x828 [gal3d]) from [&lt;7f028cd0&gt;] (gckKERNEL_Dispatch+0x7ac/0xb9c [gal3d])
+	[   53.581616] [&lt;7f028524&gt;] (gckKERNEL_Dispatch+0x0/0xb9c [gal3d]) from [&lt;7f019a28&gt;] (drv_ioctl+0x1e0/0x370 [gal3d])
+	[   53.592224]  r7:00007530 r6:a87c0000 r5:a97c36c0 r4:a95f7100
+	[   53.598183] [&lt;7f019848&gt;] (drv_ioctl+0x0/0x370 [gal3d]) from [&lt;800bd640&gt;] (vfs_ioctl+0x84/0xb4)
+	[   53.607098] [&lt;800bd5bc&gt;] (vfs_ioctl+0x0/0xb4) from [&lt;800bdcac&gt;] (do_vfs_ioctl+0x548/0x590)
+	[   53.615641]  r7:00000024 r6:a97fb060 r5:a8790a80 r4:4550d710
+	[   53.621578] [&lt;800bd764&gt;] (do_vfs_ioctl+0x0/0x590) from [&lt;800bdd34&gt;] (sys_ioctl+0x40/0x64)
+	[   53.630032]  r9:a87c0000 r8:80021168 r7:00000024 r6:00007530 r5:4550d710
+	[   53.636857] r4:a8790a80
+	[   53.639614] [&lt;800bdcf4&gt;] (sys_ioctl+0x0/0x64) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
+	[   53.648249]  r7:00000036 r6:000f6168 r5:4550d744 r4:4550d744
+	[   53.654182] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003) 
+5a)
+	[   54.029621] Backtrace: 
+	[   54.032182] [&lt;800ab650&gt;] (slab_alloc+0x0/0x770) from [&lt;800abf30&gt;] (__kmalloc+0x60/0x64)
+	[   54.040474] [&lt;800abed0&gt;] (__kmalloc+0x0/0x64) from [&lt;8022f470&gt;] (T.573+0x14/0x18)
+	[   54.048212]  r5:a84b0c00 r4:804edd38
+	[   54.051958] [&lt;8022f45c&gt;] (T.573+0x0/0x18) from [&lt;80230490&gt;] (binder_thread_write+0xb0c/0x1fc0)
+	[   54.060872] [&lt;8022f984&gt;] (binder_thread_write+0x0/0x1fc0) from [&lt;80231d6c&gt;] (binder_ioctl+0x1e0/0x5d8)
+	[   54.070509] [&lt;80231b8c&gt;] (binder_ioctl+0x0/0x5d8) from [&lt;800bd5f0&gt;] (vfs_ioctl+0x34/0xb4)
+	[   54.078972] [&lt;800bd5bc&gt;] (vfs_ioctl+0x0/0xb4) from [&lt;800bdcac&gt;] (do_vfs_ioctl+0x548/0x590)
+	[   54.087516]  r7:0000000a r6:a950d390 r5:a33e4980 r4:7eef81a0
+	[   54.093452] [&lt;800bd764&gt;] (do_vfs_ioctl+0x0/0x590) from [&lt;800bdd34&gt;] (sys_ioctl+0x40/0x64)
+	[   54.101906]  r9:a240a000 r8:80021168 r7:0000000a r6:c0186201 r5:7eef81a0
+	[   54.108731] r4:a33e4980
+	[   54.111488] [&lt;800bdcf4&gt;] (sys_ioctl+0x0/0x64) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
+	[   54.120123]  r7:00000036 r6:001aa080 r5:001aa020 r4:001aa050
+	[   54.126056] Code: eafffed1 e3a07000 ea000050 e5903010 (e7976003) 
+6)
+	[   46.309587] Backtrace: 
+	[   46.312149] [&lt;800ab040&gt;] (slab_alloc+0x0/0x5d0) from [&lt;800aba7c&gt;] (__kmalloc+0x60/0x64)
+	[   46.320440] [&lt;800aba1c&gt;] (__kmalloc+0x0/0x64) from [&lt;8017aa98&gt;] (kmalloc+0x10/0x14)
+	[   46.328356]  r5:9f07f9e0 r4:a330e000
+	[   46.332100] [&lt;8017aa88&gt;] (kmalloc+0x0/0x14) from [&lt;8017aadc&gt;] (copy_semundo+0x40/0x98)
+	[   46.340298] [&lt;8017aa9c&gt;] (copy_semundo+0x0/0x98) from [&lt;80054acc&gt;] (copy_process+0x3c8/0xcfc)
+	[   46.349111]  r5:003d0f00 r4:9f07f9e0
+	[   46.352854] [&lt;80054704&gt;] (copy_process+0x0/0xcfc) from [&lt;80055560&gt;] (do_fork+0x160/0x2c4)
+	[   46.361321] [&lt;80055400&gt;] (do_fork+0x0/0x2c4) from [&lt;80024870&gt;] (sys_clone+0x34/0x3c)
+	[   46.369336] [&lt;8002483c&gt;] (sys_clone+0x0/0x3c) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
+	[   46.377979] Code: e5905000 e5957000 e3570000 15903010 (17973003) 
+	
+IMPORTANT!! Find out the kernel panic resulted function.
+1)	Add a C header file "include/linux/debug_private.h" to provide some debug necessity
+2)	In "arch/arm/mach-mv88de3015/modules/Gal3D/hal/os/linux/kernel/gc_hal_kernel_driver.c", 
+	add some debug code in function "drv_ioctl()".
+	And in "include/kernel/panic.c", add some debug code in function "panic()".
+3)	Then when kernel panic happens, it turned that program never return from drv_ioctl() 
+	at the last time this function was called. As the kernel print info below:
+
+	[   45.877079] Unable to handle kernel paging request at virtual address 1f127a1f
+	[   45.884564] pgd = a2418000
+	[   45.887369] [1f127a1f] *pgd=00000000
+	[   45.891092] Internal error: Oops: 15 [#3] PREEMPT
+	[   45.895958] last sysfs file: /sys/module/lowmemorykiller/parameters/debug_level
+	[   45.903517] Modules linked in: gal3d gfx galois_pe
+	[   45.908550] CPU: 0    Tainted: G      D      (2.6.35.10 #338)
+	[   45.914505] PC is at slab_alloc+0x48/0x5d0
+	[   45.918748] LR is at kmem_cache_alloc+0x18/0x1c
+	[   45.923440] pc : [&lt;800ab084&gt;]    lr : [&lt;800abadc&gt;]    psr: 20000093
+	[   45.923450] sp : a26f7d60  ip : a26f7da0  fp : a26f7d9c
+	[   45.935324] r10: fffffffe  r9 : ffffffff  r8 : 00000024
+	[   45.940731] r7 : 1f127a1f  r6 : 00000000  r5 : 804d4ee0  r4 : 804cc294
+	[   45.947483] r3 : 00000000  r2 : 60000013  r1 : 000000d0  r0 : 804cc294
+	[   45.954236] Flags: nzCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment user
+	[   45.961708] Control: 10c53c7d  Table: 22818059  DAC: 00000015
+	[   45.967652] Process AsyncTask #1 (pid: 636, stack limit = 0xa26f62f0)
+	[   45.974316] Stack: (0xa26f7d60 to 0xa26f8000)
+	[   45.978833] 7d60: 80135fe0 a26f7d70 60000013 000000d0 804d62c8 a909b890 a24dc240 00000000
+	[   45.987298] 7d80: a909b770 00000024 00000000 fffffffe a26f7dac a26f7da0 800abadc 800ab048
+	[   45.995762] 7da0: a26f7dfc a26f7db0 80135fe0 800abad0 a26f7dec a26f7dc0 802a236c 802a2dac
+	[   46.004225] 7dc0: 00002717 ffff9c38 a24dc240 00000005 a909b890 a909b890 a95d4600 00000024
+	[   46.012689] 7de0: a24dc240 00000000 00000000 a9082200 a26f7e24 a26f7e00 80136320 80135dc0
+	[   46.021152] 7e00: a26f7ec4 a26f7f24 00000000 a909b890 00000000 00000024 a26f7e34 a26f7e28
+	[   46.029616] 7e20: 800b8438 80136230 a26f7e54 a26f7e38 800ba8b8 800b83e0 a26f7ec4 00000000
+	[   46.038079] 7e40: 00000000 00000024 a26f7e8c a26f7e58 800bae1c 800ba82c a24dc360 804e9a40
+	[   46.046542] 7e60: a26f7e8c 00000000 a26f7ec4 00000024 00000000 a26f7f24 a971d000 00000000
+	[   46.055006] 7e80: a26f7f5c a26f7e90 800bb0e4 800baae0 00000000 a971d000 000003e8 a26f7f1c
+	[   46.063469] 7ea0: 00000001 a26f7ed8 ffffff9c 00000000 00000000 003e8456 a26f6000 00000001
+	[   46.071933] 7ec0: a26f7eec a9485680 a9082900 5e89474b 00000016 a971d00c a9485680 a9006280
+	[   46.080396] 7ee0: 00000101 00000000 00000000 80024928 a26f7f5c a26f7f30 8005026c 800c648c
+	[   46.088860] 7f00: 00000000 8005026c a26f7f2c a26f7f18 00000001 00000000 9f184200 a97d3a80
+	[   46.097323] 7f20: a26f7f5c a9485680 a9082900 800501bc 00000000 00000000 00000025 00000000
+	[   46.105786] 7f40: 00000000 a971d000 a26f6000 00000000 a26f7f94 a26f7f60 800add90 800baf74
+	[   46.114250] 7f60: 00000000 00000000 4db4e1c2 001e8548 2ab54a24 000c8d28 00000005 80021168
+	[   46.122713] 7f80: a26f6000 00000000 a26f7fa4 a26f7f98 800ade80 800add38 00000000 a26f7fa8
+	[   46.131177] 7fa0: 80020fc0 800ade68 001e8548 2ab54a24 000c8d28 00000000 00000000 ffffffff
+	[   46.139640] 7fc0: 001e8548 2ab54a24 000c8d28 00000005 45717a18 45503c28 45503c10 00000000
+	[   46.148103] 7fe0: 00000000 45717930 2ac6234c 2ac63664 88000010 000c8d28 00000000 00000000
+	[   46.156557] Backtrace: 
+	[   46.159119] [&lt;800ab03c&gt;] (slab_alloc+0x0/0x5d0) from [&lt;800abadc&gt;] (kmem_cache_alloc+0x18/0x1c)
+	[   46.168037] [&lt;800abac4&gt;] (kmem_cache_alloc+0x0/0x1c) from [&lt;80135fe0&gt;] (nfs_do_access+0x22c/0x470)
+	[   46.177307] [&lt;80135db4&gt;] (nfs_do_access+0x0/0x470) from [&lt;80136320&gt;] (nfs_permission+0xfc/0x1b0)
+	[   46.186403] [&lt;80136224&gt;] (nfs_permission+0x0/0x1b0) from [&lt;800b8438&gt;] (inode_permission+0x64/0x7c)
+	[   46.195666]  r7:00000024 r6:00000000 r5:a909b890 r4:00000000
+	[   46.201602] [&lt;800b83d4&gt;] (inode_permission+0x0/0x7c) from [&lt;800ba8b8&gt;] (may_open+0x98/0x12c)
+	[   46.210334] [&lt;800ba820&gt;] (may_open+0x0/0x12c) from [&lt;800bae1c&gt;] (do_last+0x348/0x494)
+	[   46.218429]  r7:00000024 r6:00000000 r5:00000000 r4:a26f7ec4
+	[   46.224364] [&lt;800baad4&gt;] (do_last+0x0/0x494) from [&lt;800bb0e4&gt;] (do_filp_open+0x17c/0x300)
+	[   46.232829] [&lt;800baf68&gt;] (do_filp_open+0x0/0x300) from [&lt;800add90&gt;] (do_sys_open+0x64/0x11c)
+	[   46.241562] [&lt;800add2c&gt;] (do_sys_open+0x0/0x11c) from [&lt;800ade80&gt;] (sys_open+0x24/0x28)
+	[   46.249846] [&lt;800ade5c&gt;] (sys_open+0x0/0x28) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
+	[   46.258398] Code: e5905000 e5957000 e3570000 15903010 (17973003) 
+	[   46.276124] ---[ end trace d65db917561c4cd3 ]---
+	[   46.281558] drv_ioctl_in_cnt: 6053
+	[   46.281567] drv_ioctl_out_cnt: 6052
+	[   46.288838] Kernel panic - not syncing: Fatal exception
+
+Exclude some possible bug code and comfirm the problem, in :"gc_hal_kernel_driver.c":
+
+	==============================
+	#if DEBUG_LIBRAE
+		drv_ioctl_in_cnt = drv_ioctl_in_cnt &gt; 60000 ? 0 : drv_ioctl_in_cnt + 1;
+	#endif
+
+		status = gckKERNEL_Dispatch(device-&gt;kernel,
+			(ioctlCode == IOCTL_GCHAL_INTERFACE) , &amp;iface);
+
+	#if DEBUG_LIBRAE
+		drv_ioctl_out_cnt = drv_ioctl_out_cnt &gt; 60000 ? 0 : drv_ioctl_out_cnt + 1;
+	#endif
+	==============================
+
+The corresponding kernel print info is as below:
+
+	[   46.245243] Unable to handle kernel NULL pointer dereference at virtual address 00000004
+	[   46.253622] pgd = 80004000
+	[   46.256427] [00000004] *pgd=00000000
+	[   46.260150] Internal error: Oops: 80000007 [#1] PREEMPT
+	[   46.265556] last sysfs file: /sys/module/lowmemorykiller/parameters/debug_level
+	[   46.273114] Modules linked in: gal3d gfx galois_pe
+	[   46.278147] CPU: 0    Not tainted  (2.6.35.10 #339)
+	[   46.283198] PC is at 0x4
+	[   46.285839] LR is at __wake_up_common+0x34/0x78
+	[   46.290532] pc : [&lt;00000004&gt;]    lr : [&lt;8004f6ac&gt;]    psr: 20000093
+	[   46.290542] sp : a95ebe70  ip : a267a914  fp : a95ebe9c
+	[   46.302415] r10: 00000003  r9 : 00000000  r8 : ffff9bc8
+	[   46.307822] r7 : 00000000  r6 : a267a924  r5 : 00000006  r4 : 2267a913
+	[   46.314573] r3 : 00000000  r2 : 00000000  r1 : 00000003  r0 : a267a914
+	[   46.321326] Flags: nzCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment kernel
+	[   46.328977] Control: 10c53c7d  Table: 29914059  DAC: 00000015
+	[   46.334921] Process gal3d daemon th (pid: 372, stack limit = 0xa95ea2f0)
+	[   46.341854] Stack: (0xa95ebe70 to 0xa95ec000)
+	[   46.346366] be60:                                     00000000 20000013 a267a920 00000001
+	[   46.354830] be80: aa03bcd8 0000048e 00000488 00020000 a95ebebc a95ebea0 80052cc0 8004f684
+	[   46.363293] bea0: 00000000 800501bc a267a920 a946b8c0 a95ebeec a95ebec0 7f01dff0 80052c80
+	[   46.371756] bec0: 00000e96 a946b8c0 a267a920 00000001 aa03bb18 aa03bb18 00000000 aa03ac18
+	[   46.380219] bee0: a95ebf3c a95ebef0 7f02efa0 7f01ddc0 00000411 00000000 00000004 800232f4
+	[   46.388681] bf00: 00000001 00020000 7fffffff 00000000 a95ebf44 00000000 aa03bf48 aa03bb18
+	[   46.397145] bf20: a951d264 00000000 00000000 00000000 a95ebf74 a95ebf40 7f03c39c 7f02ea68
+	[   46.405608] bf40: 0000087b aa03bf48 00000000 80024928 a95ebfa4 a95ebf90 aa03bfd0 00000000
+	[   46.414072] bf60: 00000000 a951d264 a95ebfa4 a95ebf78 7f01a728 7f03bfac 00000179 aa03bfd0
+	[   46.422535] bf80: 00000000 00000000 8007141c a951d200 7f04795c 00000000 a95ebfc4 a95ebfa8
+	[   46.430999] bfa0: 7f018914 7f01a54c a942fd60 a95ebfcc 7f018894 a951d200 a95ebff4 a95ebfc8
+	[   46.439464] bfc0: 8006c78c 7f0188a0 00000000 00000000 a95ebfd0 a95ebfd0 a942fd60 8006c708
+	[   46.447927] bfe0: 80059810 00000013 00000000 a95ebff8 80059810 8006c714 e1a00009 e3003bbe
+	[   46.456381] Backtrace: 
+	[   46.458947] [&lt;8004f678&gt;] (__wake_up_common+0x0/0x78) from [&lt;80052cc0&gt;] (complete_all+0x4c/0x7c)
+	[   46.468008] [&lt;80052c74&gt;] (complete_all+0x0/0x7c) from [&lt;7f01dff0&gt;] (gckOS_Signal+0x23c/0x2b4 [gal3d])
+	[   46.477543]  r5:a946b8c0 r4:a267a920
+	[   46.481340] [&lt;7f01ddb4&gt;] (gckOS_Signal+0x0/0x2b4 [gal3d]) from [&lt;7f02efa0&gt;] (gckEVENT_Notify+0x544/0xb28 [gal3d])
+	[   46.491950]  r6:aa03ac18 r5:00000000 r4:aa03bb18
+	[   46.496852] [&lt;7f02ea5c&gt;] (gckEVENT_Notify+0x0/0xb28 [gal3d]) from [&lt;7f03c39c&gt;] (gckHARDWARE_Interrupt+0x3fc/0x468 [gal3d])
+	[   46.508327] [&lt;7f03bfa0&gt;] (gckHARDWARE_Interrupt+0x0/0x468 [gal3d]) from [&lt;7f01a728&gt;] (gckKERNEL_Notify+0x1e8/0x244 [gal3d])
+	[   46.519832]  r7:a951d264 r6:00000000 r5:00000000 r4:aa03bfd0
+	[   46.525799] [&lt;7f01a540&gt;] (gckKERNEL_Notify+0x0/0x244 [gal3d]) from [&lt;7f018914&gt;] (threadRoutine+0x80/0x8c [gal3d])
+	[   46.536409]  r6:00000000 r5:7f04795c r4:a951d200
+	[   46.541269] [&lt;7f018894&gt;] (threadRoutine+0x0/0x8c [gal3d]) from [&lt;8006c78c&gt;] (kthread+0x84/0x8c)
+	[   46.550263]  r7:a951d200 r6:7f018894 r5:a95ebfcc r4:a942fd60
+	[   46.556206] [&lt;8006c708&gt;] (kthread+0x0/0x8c) from [&lt;80059810&gt;] (do_exit+0x0/0x624)
+	[   46.563944]  r7:00000013 r6:80059810 r5:8006c708 r4:a942fd60
+	[   46.569876] Code: bad PC value
+	[   46.573290] ---[ end trace b71f285fe2648d5e ]---
+	[   46.578151] drv_ioctl_in_cnt: 6483
+	[   46.578159] drv_ioctl_out_cnt: 6481
+	[   46.585367] Kernel panic - not syncing: Fatal exception
+	
+function "gckKERNEL_Dispatch()" is at 
+	"arch/arm/mach-mv88de3015/modules/Gal3D/hal/kernel/gc_hal_kernel.c"
+	NOTE! This code is the key part of Gal3D linux driver ioctl.
+
+struct "gceHAL_COMMAND_CODES" is at
+	"arch/arm/mach-mv88de3015/modules/Gal3D/hal/inc/gc_hal_driver.h"
+	
+	==========================	
+	typedef enum _gceHAL_COMMAND_CODES
+	{
+		/* Generic query. */
+/*0*/	gcvHAL_QUERY_VIDEO_MEMORY,
+/*1*/	gcvHAL_QUERY_CHIP_IDENTITY,
+
+		/* Contiguous memory. */
+/*2*/	gcvHAL_ALLOCATE_NON_PAGED_MEMORY,
+/*3*/	gcvHAL_FREE_NON_PAGED_MEMORY,
+/*4*/	gcvHAL_ALLOCATE_CONTIGUOUS_MEMORY,
+/*5*/	gcvHAL_FREE_CONTIGUOUS_MEMORY,
+
+		/* Video memory allocation. */
+/*6*/	gcvHAL_ALLOCATE_VIDEO_MEMORY,           /* Enforced alignment. */
+/*7*/	gcvHAL_ALLOCATE_LINEAR_VIDEO_MEMORY,    /* No alignment. */
+/*8*/	gcvHAL_FREE_VIDEO_MEMORY,
+
+		/* Physical-to-logical mapping. */
+/*9*/	gcvHAL_MAP_MEMORY,
+/*10*/	gcvHAL_UNMAP_MEMORY,
+
+		/* Logical-to-physical mapping. */
+/*11*/	gcvHAL_MAP_USER_MEMORY,
+/*12*/	gcvHAL_UNMAP_USER_MEMORY,
+
+		/* Surface lock/unlock. */
+/*13*/	gcvHAL_LOCK_VIDEO_MEMORY,
+/*14*/	gcvHAL_UNLOCK_VIDEO_MEMORY,
+
+		/* Event queue. */
+/*15*/	gcvHAL_EVENT_COMMIT,
+
+/*16*/	gcvHAL_USER_SIGNAL,
+/*17*/	gcvHAL_SIGNAL,
+/*18*/	gcvHAL_WRITE_DATA,
+
+/*19*/	gcvHAL_COMMIT,
+/*20*/	gcvHAL_STALL,
+
+/*21*/	gcvHAL_READ_REGISTER,
+/*22*/	gcvHAL_WRITE_REGISTER,
+
+/*23*/	gcvHAL_GET_PROFILE_SETTING,
+/*24*/	gcvHAL_SET_PROFILE_SETTING,
+
+/*25*/	gcvHAL_READ_ALL_PROFILE_REGISTERS,
+/*26*/	gcvHAL_PROFILE_REGISTERS_2D,
+
+		/* Power management. */
+/*27*/	gcvHAL_SET_POWER_MANAGEMENT_STATE,
+/*28*/	gcvHAL_QUERY_POWER_MANAGEMENT_STATE,
+
+/*29*/	gcvHAL_GET_BASE_ADDRESS,
+
+/*30*/	gcvHAL_SET_IDLE, /* reserved */
+
+		/* Queries. */
+/*31*/	gcvHAL_QUERY_KERNEL_SETTINGS,
+
+		/* Reset. */
+/*32*/	gcvHAL_RESET,
+
+		/* Map physical address into handle. */
+/*33*/	gcvHAL_MAP_PHYSICAL,
+
+		/* Debugger stuff. */
+/*34*/	gcvHAL_DEBUG,
+
+		/* Cache stuff. */
+/*35*/	gcvHAL_CACHE,
+
+	#if gcdGPU_TIMEOUT
+		/* Broadcast GPU stuck */
+/*36*/	gcvHAL_BROADCAST_GPU_STUCK,
+	#endif
+	}
+	gceHAL_COMMAND_CODES;
+	/*
+	 * err codes: 16 15 11
+	 */
+	==========================
+	
+	kernel panic as below:
+	
+	[   47.589787] Unable to handle kernel paging request at virtual address 1f0f7b1f
+	[   47.597270] pgd = a33c0000
+	[   47.600076] [1f0f7b1f] *pgd=00000000
+	[   47.603799] Internal error: Oops: 15 [#5] PREEMPT
+	[   47.608666] last sysfs file: /sys/module/lowmemorykiller/parameters/debug_level
+	[   47.616224] Modules linked in: gal3d gfx galois_pe
+	[   47.621258] CPU: 0    Tainted: G      D      (2.6.35.10 #346)
+	[   47.627212] PC is at slab_alloc+0x48/0x5d0
+	[   47.631457] LR is at kmem_cache_alloc+0x18/0x1c
+	[   47.636150] pc : [&lt;800ab084&gt;]    lr : [&lt;800abadc&gt;]    psr: 20000193
+	[   47.636160] sp : a3163e90  ip : a3163ed0  fp : a3163ecc
+	[   47.648034] r10: fffffffe  r9 : ffffffff  r8 : 00000014
+	[   47.653442] r7 : 1f0f7b1f  r6 : 00000000  r5 : 804d4ee8  r4 : 804cc294
+	[   47.660193] r3 : 00000000  r2 : 60000113  r1 : 000000d0  r0 : 804cc294
+	[   47.666947] Flags: nzCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment user
+	[   47.674417] Control: 10c53c7d  Table: 237c0059  DAC: 00000015
+	[   47.680361] Process SharedPreferenc (pid: 674, stack limit = 0xa31622f0)
+	[   47.687294] Stack: (0xa3163e90 to 0xa3164000)
+	[   47.691807] 3e80:                                     80135fe0 a3163ea0 60000113 000000d0
+	[   47.700270] 3ea0: 804d62d0 a90d1d40 a2602000 00000000 a90d1c20 00000014 a3162000 fffffffe
+	[   47.708733] 3ec0: a3163edc a3163ed0 800abadc 800ab048 a3163f2c a3163ee0 80135fe0 800abad0
+	[   47.717196] 3ee0: a3163f1c a3163ef0 802a236c 802a2dac 00002710 ffff9ca2 a2602000 00000006
+	[   47.725660] 3f00: a90d1d40 a90d1d40 a95d4600 00000014 a2602000 00000000 a3162000 00000000
+	[   47.734123] 3f20: a3163f54 a3163f30 80136320 80135dc0 a3163f4c 9f237140 9f1ef420 00000004
+	[   47.742587] 3f40: a24f3f00 a90d1d40 a3163f64 a3163f58 800b8438 80136230 a3163f94 a3163f68
+	[   47.751050] 3f60: 800ae964 800b83e0 a9485680 a90e5a00 00000038 00000004 00000007 2b6d68a8
+	[   47.759514] 3f80: 00000021 80021168 a3163fa4 a3163f98 800aea0c 800ae888 00000000 a3163fa8
+	[   47.767977] 3fa0: 80020fc0 800ae9fc 00000004 00000007 002624e8 00000004 2ba057f0 2ba057f0
+	[   47.776441] 3fc0: 00000004 00000007 2b6d68a8 00000021 46afea10 456d7f5c 456d7f48 00000000
+	[   47.784903] 3fe0: 456d7f64 46afe9f0 2ae9dc89 2adc7ecc 20000010 002624e8 00000000 00000000
+	[   47.793358] Backtrace: [   47.795920] [&lt;800ab03c&gt;] (slab_alloc+0x0/0x5d0) from [&lt;800abadc&gt;] (kmem_cache_alloc+0x18/0x1c)
+	[   47.804837] [&lt;800abac4&gt;] (kmem_cache_alloc+0x0/0x1c) from [&lt;80135fe0&gt;] (nfs_do_access+0x22c/0x470)
+	[   47.814107] [&lt;80135db4&gt;] (nfs_do_access+0x0/0x470) from [&lt;80136320&gt;] (nfs_permission+0xfc/0x1b0)
+	[   47.823204] [&lt;80136224&gt;] (nfs_permission+0x0/0x1b0) from [&lt;800b8438&gt;] (inode_permission+0x64/0x7c)
+	[   47.832466]  r7:a90d1d40 r6:a24f3f00 r5:00000004 r4:9f1ef420
+	[   47.838404] [&lt;800b83d4&gt;] (inode_permission+0x0/0x7c) from [&lt;800ae964&gt;] (sys_faccessat+0xe8/0x174)
+	[   47.847587] [&lt;800ae87c&gt;] (sys_faccessat+0x0/0x174) from [&lt;800aea0c&gt;] (sys_access+0x1c/0x20)
+	[   47.856236]  r8:80021168 r7:00000021 r6:2b6d68a8 r5:00000007 r4:00000004
+	[   47.863268] [&lt;800ae9f0&gt;] (sys_access+0x0/0x20) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
+	[   47.872000] Code: e5905000 e5957000 e3570000 15903010 (17973003) 
+	[   47.883588] ---[ end trace f522c124204df01e ]---
+	[   47.892002] drv_ioctl_in_cnt: 6367
+	[   47.892013] drv_ioctl_out_cnt: 6366
+	[   47.899944] FLAG_isFromUser: Y
+	[   47.903228] gceHAL_COMMAND: 16
+	[   47.906433] Kernel panic - not syncing: Fatal exception
+	
+As the command is "16 - gcvHAL_USER_SIGNAL", the corresponding code in "gckKERNEL_Dispatch()" is:
+
+	==========================
+	
+	/* Dispatch on command. */
+    switch (Interface-&gt;command)
+    {
+    
+    	...
+    	
+    #if !USE_NEW_LINUX_SIGNAL
+    case gcvHAL_USER_SIGNAL:
+        /* Dispatch depends on the user signal subcommands. */
+        switch(Interface-&gt;u.UserSignal.command)
+        {
+        case gcvUSER_SIGNAL_CREATE:
+            /* Create a signal used in the user space. */
+            gcmkONERROR(
+                gckOS_CreateUserSignal(Kernel-&gt;os,
+                                       Interface-&gt;u.UserSignal.manualReset,
+                                       &amp;Interface-&gt;u.UserSignal.id));
+            break;
+
+        case gcvUSER_SIGNAL_DESTROY:
+            /* Destroy the signal. */
+            gcmkONERROR(
+                gckOS_DestroyUserSignal(Kernel-&gt;os,
+                                        Interface-&gt;u.UserSignal.id));
+            break;
+
+        case gcvUSER_SIGNAL_SIGNAL:
+            /* Signal the signal. */
+            gcmkONERROR(
+                gckOS_SignalUserSignal(Kernel-&gt;os,
+                                       Interface-&gt;u.UserSignal.id,
+                                       Interface-&gt;u.UserSignal.state));
+            break;
+
+        case gcvUSER_SIGNAL_WAIT:
+            /* Wait on the signal. */
+            status = gckOS_WaitUserSignal(Kernel-&gt;os,
+                                          Interface-&gt;u.UserSignal.id,
+                                          Interface-&gt;u.UserSignal.wait);
+            break;
+
+        default:
+            /* Invalid user signal command. */
+            gcmkONERROR(gcvSTATUS_INVALID_ARGUMENT);
+        }
+        break;
+	#endif
+	
+		...
+	
+	}
+	
+	==========================
+	
+In code above, "Interface-&gt;u.UserSignal.command"
+	Interface is a struct.
+	u is a union.
+	UserSignal is a struct.
+	command is a member of UserSignal.
+
+So We track the user signal command codes. It is defined in
+	"arch/arm/mach-mv88de3015/modules/Gal3D/hal/inc/gc_hal.h", as shown below:
+
+	==========================
+	/* User signal command codes. */
+	typedef enum _gceUSER_SIGNAL_COMMAND_CODES
+	{
+/*0*/	gcvUSER_SIGNAL_CREATE,
+/*1*/	gcvUSER_SIGNAL_DESTROY,
+/*2*/	gcvUSER_SIGNAL_SIGNAL,
+/*3*/	gcvUSER_SIGNAL_WAIT,
+	}
+	==========================
+
+Further more about Gal3D driver:
+
+In "arch/arm/mach-mv88de3015/modules/Gal3D/hal/os/linux/kernel/gc_hal_kernel_device.h",
+if "#define gcdkUSE_MEMORY_RECORD	1", kernel panic would happen. On the contrary, 
+if "#define gcdkUSE_MEMORY_RECORD	0", no panics anymore.
+/*
+ * NOTE! We need to modify a sentence in 
+ * "arch/arm/mach-mv88de3015/modules/Gal3D/hal/os/linux/kernel/gc_hal_kernel_os.h"
+ * "#ifdef gcdkUSE_MEMORY_RECORD" --&gt;
+ * "#if gcdkUSE_MEMORY_RECORD"
+ */
+The animation is called in 
+"arch/arm/mach-mv88de3015/modules/Gal3D/hal/os/linux/kernel/gc_hal_kernel_os.c" --&gt;
+"gceSTATUS gckOS_WaitSignal()". Another point needs to pay attention to is the 
+comment "Linux bug ?" in this function.
+
+If a file is modified, it will be marked as "DEBUG_LIBRAE"
+If some code need to pay attention to, it will be marked as "ATTENTION_LIBRAE"
+
+Use dump_stack() to backtrace.
+</pre>
+<hr />
+
+<h3 id="toc_0.0.4">4.	Howto - provide extern symbol when hacking the kernel.</h3>
+<pre>
+	Sometimes we need to use extern viariables or functions both in kernel and 
+dynamic modules especially while analyzing kernel panics just like above.
+	e.g. Suppose we need to use "drv_ioctl_in_cnt" and "drv_ioctl_out_cnt" which 
+are declared in "debug_private.h" and defined in "panic.h" in module "Gal3D", We 
+do as below:
+	
+	/* =========== debug_private.h =========== */
+
+	#ifndef _DEBUG_PRIVATE_H_
+	#define _DEBUG_PRIVATE_H_
+
+	#ifndef DEBUG_LIBRAE
+	#define DEBUG_LIBRAE	1
+	#endif
+
+	extern volatile unsigned int drv_ioctl_in_cnt;
+	extern volatile unsigned int drv_ioctl_out_cnt;
+
+	#endif	/* _DEBUG_PRIVATE_H_ */
+
+	/* ======= end of debug_private.h ======== */
+
+	/* ======== gc_hal_kernel_driver.c ======= */
+
+	#include &lt;linux/debug_private.h&gt;	/* DEBUG_LIBRAE */
+
+		...
+	
+	int drv_ioctl(struct inode *inode,
+			      struct file *filp,
+			      unsigned int ioctlCode,
+			  unsigned long arg)
+	{
+		gcsHAL_INTERFACE iface;
+		gctUINT32 copyLen;
+		DRIVER_ARGS drvArgs;
+		gckGALDEVICE device;
+		gceSTATUS status;
+		gcsHAL_PRIVATE_DATA_PTR private;
+
+	#if DEBUG_LIBRAE
+		drv_ioctl_in_cnt = drv_ioctl_in_cnt &gt; 60000 ? 0 : drv_ioctl_in_cnt + 1;
+	#endif
+
+		...
+	
+		return 0;
+
+	}
+
+	/* ==== end of gc_hal_kernel_driver.c ==== */
+
+	/* =============== panic.c =============== */
+
+	#include &lt;linux/module.h&gt;
+	#include &lt;linux/debug_private.h&gt;	/* DEBUG_LIBRAE */
+
+		...
+	
+	#if DEBUG_LIBRAE
+	volatile unsigned int drv_ioctl_in_cnt = 0;
+	volatile unsigned int drv_ioctl_out_cnt = 0;
+	EXPORT_SYMBOL(drv_ioctl_in_cnt);
+	EXPORT_SYMBOL(drv_ioctl_out_cnt);
+	#endif
+
+	NORET_TYPE void panic(const char * fmt, ...)
+	{
+		static char buf[1024];
+		va_list args;
+		long i;
+
+		/*
+		 * It's possible to come here directly from a panic-assertion and
+		 * not have preempt disabled. Some functions called from here want
+		 * preempt to be disabled. No point enabling it later though...
+		 */
+		preempt_disable();
+
+		console_verbose();
+		bust_spinlocks(1);
+		va_start(args, fmt);
+		vsnprintf(buf, sizeof(buf), fmt, args);
+		va_end(args);
+	#if DEBUG_LIBRAE
+		printk(KERN_INFO "drv_ioctl_in_cnt: %d\ndrv_ioctl_out_cnt: %d\n", 
+									drv_ioctl_in_cnt, drv_ioctl_out_cnt);
+	#endif
+		printk(KERN_EMERG "Kernel panic - not syncing: %s\n",buf);
+	#ifdef CONFIG_DEBUG_BUGVERBOSE
+		dump_stack();
+	#endif
+
+		...
+	
+	}
+
+	EXPORT_SYMBOL(panic);
+
+		...
+
+	/* =========== end of panic.c ============ */
+
+
+[   48.284155] Unable to handle kernel paging request at virtual address 22787d5f
+[   48.291639] pgd = a3178000
+[   48.294445] [22787d5f] *pgd=00000000
+[   48.298169] Internal error: Oops: 15 [#3] PREEMPT
+[   48.303036] last sysfs file: /sys/module/lowmemorykiller/parameters/debug_level
+[   48.310594] Modules linked in: gal3d gfx galois_pe
+[   48.315629] CPU: 0    Tainted: G      D      (2.6.35.10 #358)
+[   48.321585] PC is at slab_alloc+0x48/0x5d0
+[   48.325828] LR is at kmem_cache_alloc+0x18/0x1c
+[   48.330519] pc : [&lt;800ab084&gt;]    lr : [&lt;800abadc&gt;]    psr: 20000093
+[   48.330529] sp : a2689d60  ip : a2689da0  fp : a2689d9c
+[   48.342403] r10: fffffffe  r9 : ffffffff  r8 : 00000024
+[   48.347810] r7 : 22787d5f  r6 : 00000000  r5 : 804d4ee8  r4 : 804cc294
+[   48.354562] r3 : 00000000  r2 : 60000013  r1 : 000000d0  r0 : 804cc294
+[   48.361315] Flags: nzCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment user
+[   48.368785] Control: 10c53c7d  Table: 23578059  DAC: 00000015
+[   48.374729] Process AsyncTask #1 (pid: 642, stack limit = 0xa26882f0)
+[   48.381392] Stack: (0xa2689d60 to 0xa268a000)
+[   48.385909] 9d60: 80135fe0 a2689d70 60000013 000000d0 804d62d0 a90ae5d0 a24bca80 00000000
+[   48.394373] 9d80: a90ae4b0 00000024 00000000 fffffffe a2689dac a2689da0 800abadc 800ab048
+[   48.402837] 9da0: a2689dfc a2689db0 80135fe0 800abad0 a2689dec a2689dc0 802a236c 802a2dac
+[   48.411300] 9dc0: 00002717 ffff9d35 a24bca80 00000005 a90ae5d0 a90ae5d0 a95d5600 00000024
+[   48.419764] 9de0: a24bca80 00000000 00000000 a9084200 a2689e24 a2689e00 80136320 80135dc0
+[   48.428227] 9e00: a2689ec4 a2689f24 00000000 a90ae5d0 00000000 00000024 a2689e34 a2689e28
+[   48.436690] 9e20: 800b8438 80136230 a2689e54 a2689e38 800ba8b8 800b83e0 a2689ec4 00000000
+[   48.445154] 9e40: 00000000 00000024 a2689e8c a2689e58 800bae1c 800ba82c a24bccc0 804e9a40
+[   48.453617] 9e60: a2689e8c 00000000 a2689ec4 00000024 00000000 a2689f24 a97c6000 00000000
+[   48.462081] 9e80: a2689f5c a2689e90 800bb0e4 800baae0 00000000 a97c6000 000003e8 a2689f1c
+[   48.470544] 9ea0: 00000001 a2689ed8 ffffff9c 00000000 00000000 003e8439 a2688000 00000001
+[   48.479009] 9ec0: a2689eec a9486680 a908c080 17316dc1 00000009 a97c600c a9486680 a9006280
+[   48.487471] 9ee0: 00000101 00000000 00000000 80024928 a2689f5c a2689f30 8005026c 800c648c
+[   48.495935] 9f00: 00000000 8005026c a2689f2c a2689f18 00000001 00000000 9ee4c780 a9441cc0
+[   48.504398] 9f20: a2689f5c a9486680 a908c080 800501bc 00000000 00000000 00000025 00000000
+[   48.512862] 9f40: 00000000 a97c6000 a2688000 00000000 a2689f94 a2689f60 800add90 800baf74
+[   48.521325] 9f60: 00000000 00000000 4db4e1c3 00201d80 2ab54a24 002009b8 00000005 80021168
+[   48.529789] 9f80: a2688000 00000000 a2689fa4 a2689f98 800ade80 800add38 00000000 a2689fa8
+[   48.538252] 9fa0: 80020fc0 800ade68 00201d80 2ab54a24 002009b8 00000000 00000000 ffffffff
+[   48.546714] 9fc0: 00201d80 2ab54a24 002009b8 00000005 45717a18 45503c28 45503c10 00000000
+[   48.555177] 9fe0: 00000000 45717930 2ac6234c 2ac63664 88000010 002009b8 00000000 00000000
+[   48.563630] Backtrace: 
+[   48.566192] [&lt;800ab03c&gt;] (slab_alloc+0x0/0x5d0) from [&lt;800abadc&gt;] (kmem_cache_alloc+0x18/0x1c)
+[   48.575111] [&lt;800abac4&gt;] (kmem_cache_alloc+0x0/0x1c) from [&lt;80135fe0&gt;] (nfs_do_access+0x22c/0x470)
+[   48.584382] [&lt;80135db4&gt;] (nfs_do_access+0x0/0x470) from [&lt;80136320&gt;] (nfs_permission+0xfc/0x1b0)
+[   48.593479] [&lt;80136224&gt;] (nfs_permission+0x0/0x1b0) from [&lt;800b8438&gt;] (inode_permission+0x64/0x7c)
+[   48.602741]  r7:00000024 r6:00000000 r5:a90ae5d0 r4:00000000
+[   48.608677] [&lt;800b83d4&gt;] (inode_permission+0x0/0x7c) from [&lt;800ba8b8&gt;] (may_open+0x98/0x12c)
+[   48.617410] [&lt;800ba820&gt;] (may_open+0x0/0x12c) from [&lt;800bae1c&gt;] (do_last+0x348/0x494)
+[   48.625504]  r7:00000024 r6:00000000 r5:00000000 r4:a2689ec4
+[   48.631438] [&lt;800baad4&gt;] (do_last+0x0/0x494) from [&lt;800bb0e4&gt;] (do_filp_open+0x17c/0x300)
+[   48.639903] [&lt;800baf68&gt;] (do_filp_open+0x0/0x300) from [&lt;800add90&gt;] (do_sys_open+0x64/0x11c)
+[   48.648635] [&lt;800add2c&gt;] (do_sys_open+0x0/0x11c) from [&lt;800ade80&gt;] (sys_open+0x24/0x28)
+[   48.656921] [&lt;800ade5c&gt;] (sys_open+0x0/0x28) from [&lt;80020fc0&gt;] (ret_fast_syscall+0x0/0x30)
+[   48.665473] Code: e5905000 e5957000 e3570000 15903010 (17973003) 
+[   49.031778] ---[ end trace 9111c552a2e1a5e1 ]---
+[   49.039340] FLAG_PC: 1
+[   49.041955] drv_ioctl_in_cnt: 6796
+[   49.041962] drv_ioctl_out_cnt: 6795
+[   49.049231] FLAG_isFromUser: Y
+[   49.052452] gceHAL_COMMAND_CODE: 16
+[   49.056124] gceUSER_SIGNAL_COMMAND_CODE: 3
+[   49.060407] Kernel panic - not syncing: Fatal exception
+</pre>
+<hr />
+
+<h3 id="toc_0.0.5">5.	Find the very maybe problem.</h3>
+<pre>
+	In function "drv_release()" in file:
+"arch/arm/mach-mv88de3015/modules/Gal3D/hal/os/linux/kernel/gc_hal_kernel_driver.c"
+There is a sort of code:
+	-----------------
+	#ifdef ANDROID                                                                        
+	/* gcmkVERIFY_OK(gckOS_Delay(galDevice-&gt;os, 1000)); */                            
+	#else                                                                                 
+		gcmkVERIFY_OK(gckCOMMAND_Stall(device-&gt;kernel-&gt;command));                         
+	#endif
+	#endif
+	-----------------
+	The "#define ANDROID" is lost. Add this macro in file
+"arch/arm/mach-mv88de3015/modules/Gal3D/hal/os/linux/kernel/gc_hal_kernel_linux.h"
+And the bug is fixed.
+</pre>
+<hr />
+
+<h3 id="toc_0.0.6">6.	Compile code on compile server.</h3>
+<h3 id="toc_0.0.7">7.	About Makefile</h3>
+<p>
+	The sentence "Image arch/arm/boot/uImage is ready" is printed in file "arch/arm/boot/Makefile".
+</p>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">丘迟</a></p>
+				<!--<p><a href="../SiteMap.html" title="站点地图">给我一点导航吧</a></p>-->
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
+</html>

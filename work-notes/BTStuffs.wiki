@@ -1,0 +1,16 @@
+[[index|Hame Page]]
+
+%toc index
+
+== Bluetooth Related Bugs ==
+---------
+
+=== Settings->Bluetooth rename device does not work after power cycle ===
+*external/bluetooth/bluedroid/btif/src/btif_core.c*:<br>
+    BTIF_CORE_STORAGE_REMOTE_WRITE
+*external/bluetooth/bluedroid/btif/src/btif_storage.c*:<br>
+    BT_PROPERTY_REMOTE_FRIENDLY_NAME
+
+It does not save to config file.<br>
+
+%template header-footer

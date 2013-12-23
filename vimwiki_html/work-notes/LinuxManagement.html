@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>LinuxManagement</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">Modify the authority of folder(s) or file(s)</a>
+<li><a href="#toc_0.2">TAR</a>
+<li><a href="#toc_0.3">Mount Compile Server</a>
+<li><a href="#toc_0.4">Run scripts automatically</a>
+<li><a href="#toc_0.5">Run command in another process without suspend terminal</a>
+<li><a href="#toc_0.6">find and delete</a>
+<li><a href="#toc_0.7">find only dir or file to do something</a>
+<li><a href="#toc_0.8">find text and replace</a>
+<li><a href="#toc_0.9">remove trailing white spaces</a>
+<li><a href="#toc_0.10">install openssh-server for remote accessing by others</a>
+<li><a href="#toc_0.11">scp simple usage</a>
+<li><a href="#toc_0.12">Concatenate files and output to a new file</a>
+<li><a href="#toc_0.13">Bluetooth Driver in Fedora 15</a>
+<li><a href="#toc_0.14">tftp server</a>
+<li><a href="#toc_0.15">Sourcery Tools Support Portal (Also resolve the problem to run 32-bit excutables on a 64-bit)</a>
+<li><a href="#toc_0.16">Install Sun Java in Ubuntu 11.04</a>
+<li><a href="#toc_0.17">Download Directories from FTP use wget</a>
+<li><a href="#toc_0.18">Components Needed for Fedora 15</a>
+<li><a href="#toc_0.19">Fedora Group Install Development Tools</a>
+<li><a href="#toc_0.20">Call a Command, a Program or a Script, then Print the Log to a File</a>
+<li><a href="#toc_0.21">shortcuts in LXDE</a>
+<li><a href="#toc_0.22">Fedora 16 NFS Server</a>
+<li><a href="#toc_0.23">Check pts no. &amp; Communication Between Terminals</a>
+<li><a href="#toc_0.24">Build RaLink RT3090 WLAN Card Driver Manually (FC16)</a>
+<li><a href="#toc_0.25">Fedora 16 Fail to Bootup into Graphics Because of NVIDIA Driver</a>
+<li><a href="#toc_0.26">Fedora 16 Get USB access priority</a>
+<li><a href="#toc_0.27">Fedora 16 Chrome Shockwave Flash Player Crash</a>
+<li><a href="#toc_0.28">Fedora 16 Disable SELinux</a>
+<li><a href="#toc_0.29">Fedora 16 Setup TFTP Server</a>
+<li><a href="#toc_0.30">Fedora 16 Samba Service</a>
+<li><a href="#toc_0.31">Make ssh/scp/rsync work Without Password</a>
+<li><a href="#toc_0.32">Fedora 16 LXDE Keyboard Layout Problem</a>
+<li><a href="#toc_0.33">Fedora 16 LXDE Desktop Icons Disappear</a>
+<li><a href="#toc_0.34">Fedora 16 LXDE Desktop Openbox Reload "lxde-rc.xml"</a>
+<li><a href="#toc_0.35">Fedora 16 Make It Work: Bluetooth Dongle with HC-05 rfcomm</a>
+<li><a href="#toc_0.36">Restore Files That Was Removed by rm -rf</a>
+<li><a href="#toc_0.37">Check What Files Are Opened by A Particular Process</a>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">Modify the authority of folder(s) or file(s)</h2>
+<p>
+	1) To modify the ownership of file(s).<br>
+</p>
+<blockquote>
+$ chown -R USER.NAME OBJ.NAME<br>
+</blockquote>
+<p>
+	2) To modify the group ownership of file(s).<br>
+</p>
+<blockquote>
+$ chgrp -R GROUP.NAME OBJ.NAME<br>
+OR directly like this to change ownership and group at a time:<br>
+</blockquote>
+<p>
+	<code>$ chown -R USER.NAME:GROUP.NAME OBJ.NAME</code><br>
+</p>
+
+<h2 id="toc_0.2">TAR</h2>
+<p>
+	1) Extract.<br>
+</p>
+<blockquote>
+tar xvfj TARBALL.tar.bz2<br>
+tar xvfz TARBALL.tar.gz<br>
+</blockquote>
+<p>
+	2) Compress.<br>
+</p>
+<blockquote>
+tar cvfj TARBALL.tar.bz2 FOLDERtoCOMPRESS<br>
+tar cvfz TARBALL.tar.gz FOLDERtoCOMPRESS<br>
+</blockquote>
+
+<h2 id="toc_0.3">Mount Compile Server</h2>
+<p>
+Problem description<br>
+</p>
+<blockquote>
+$ sudo mount -t nfs -o nolock 192.168.1.71:/home/yliao /home/yliao/mnt/compile_server<br>
+mount.nfs: access denied by server while mounting 192.168.1.71:/home/yliao<br>
+</blockquote>
+
+<p>
+Solution<br>
+</p>
+<blockquote>
+$ sudo /etc/init.d/nfs-kernel-server start<br>
+</blockquote>
+<p>
+(NOTE: Run this command on server.)<br>
+</p>
+
+<h2 id="toc_0.4">Run scripts automatically</h2>
+<p>
+	Just modify this file "/etc/rc.d/rc.local", cause this script will run on each boot up.<br>
+</p>
+
+<h2 id="toc_0.5">Run command in another process without suspend terminal</h2>
+<p>
+	Add a &amp; just follow the command sequence, such as:<br>
+	<code>$ gedit xxx.c &amp;</code><br>
+	Then there will print a PID repesent that process. When it is finished, there will print some message, too.<br>
+</p>
+
+<h2 id="toc_0.6">find and delete</h2>
+<p>
+	Delete specific files(dirs). As,<br>
+	<code>find . -name ".svn" -exec rm -rf {} \;</code><br>
+</p>
+
+<h2 id="toc_0.7">find only dir or file to do something</h2>
+<p>
+chmod only for directories:<br>
+	<code>find . -type d -exec chmod 755 {} \;</code><br>
+chmod only for files:<br>
+	<code>find . -type f -exec chmod 644 {} \;</code><br>
+</p>
+
+<h2 id="toc_0.8">find text and replace</h2>
+<p>
+	<code>sed -i 's/TO_BE_REPLACED/NEW_STRING/g' FILE_NAME1 FILE_NAME2 ...</code><br>
+and we can also use following line to delete the last line:<br>
+	<code>sed -i '$d' FILE_NAME</code><br>
+</p>
+
+<h2 id="toc_0.9">remove trailing white spaces</h2>
+<p>
+	<code>sed -i 's/[ \t]*$//g' FILE_NAME1 FILE_NAME2 ...</code><br>
+</p>
+
+
+<h2 id="toc_0.10">install openssh-server for remote accessing by others</h2>
+<p>
+	<code>sudo apt-get install openssh-server</code><br>
+</p>
+
+<h2 id="toc_0.11">scp simple usage</h2>
+<p>
+	<code>scp yliao@192.168.1.71:/home/yliao/work/marlin4xxu.tar.bz2 .</code><br>
+</p>
+
+<h2 id="toc_0.12">Concatenate files and output to a new file</h2>
+<p>
+	cat file1 file2 &gt; newfile<br>
+</p>
+
+<h2 id="toc_0.13">Bluetooth Driver in Fedora 15</h2>
+<p>
+The three main command we may use: <strong>hciattach</strong>, <strong>hciconfig</strong>, <strong>hcitool</strong><br>
+<code>$ lsusb</code><br>
+<em>Bus 006 Device 003: ID 0a12:0001 Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)</em><br>
+<code>$ sudo hciconfig hci0 down</code><br>
+<code>$ sudo hciconfig hci0 up</code><br>
+<code>$ hcitool scan</code><br>
+If succeed, it would be like this:<br>
+<em>Scanning ...</em><br>
+	<em>00:10:11:07:00:05	HC-05</em><br>
+Then we can use hci to control the Bluetooth Adapter.<br>
+</p>
+
+<h2 id="toc_0.14">tftp server</h2>
+<p>
+<strong>(on UBUNTU 11.04 32-bit)</strong><br>
+1) <code>sudo apt-get install xinetd tftp tftpd-hpa</code><br>
+2) Create a new file /etc/default/tftpd-hpa:<br>
+</p>
+<pre>
+#/etc/default/tftpd-hpa
+
+TFTP_USERNAME="tftp"
+TFTP_DIRECTORY="/opt/tftpboot"
+TFTP_ADDRESS="192.168.1.130:69"
+TFTP_OPTIONS="--secure"
+</pre>
+<p>
+3) <code>sudo service tftpd-hpa start</code><br>
+<code>tftpd-hpa start/running, process 17318</code>
+That is ok.<br>
+4) Testing<br>
+<code>tftp 192.168.1.130</code><br>
+</p>
+<pre>
+tftp&gt; get image_yliao/sm/uImage
+</pre>
+
+<h2 id="toc_0.15">Sourcery Tools Support Portal (Also resolve the problem to run 32-bit excutables on a 64-bit)</h2>
+<p>
+<em>On Android building, I got: bash: arm-eabi-gcc: no such file or directory</em><br>
+<em>After I resolve the CodeSourcery 64-bit problem, the GTV building can continue.</em><br>
+<em>Maybe just need some packages to install.</em><br>
+Source: <a href="https://sourcery.mentor.com/GNUToolchain/kbentry62<br>">https://sourcery.mentor.com/GNUToolchain/kbentry62<br></a>
+</p>
+
+<p>
+What do I need to do to install and run Sourcery CodeBench on an x86 64-bit Linux host system?<br>
+In order to use Sourcery CodeBench on an x86 64-bit Linux host system, you must have 32-bit system libraries installed. You can install these 32-bit libraries using your system's package management tool, or build them from source.<br>
+Distribution Notes:<br>
+</p>
+
+<p>
+<strong>Debian/Ubuntu</strong><br>
+The following 32-bit libraries are available as packages that can be installed using apt-get on the command line or graphically using Synaptic:<br>
+</p>
+<blockquote>
+ia32-libs<br>
+ia32-libs-gtk (not required for Hardy 8.04 and later)<br>
+</blockquote>
+
+<p>
+To install these packages from the command line:<br>
+<code>sudo apt-get install ia32-libs ia32-libs-gtk</code><br>
+Next you will need to use Getlibs to install a 32-bit version of xulrunner:<br>
+</p>
+<blockquote>
+Download getlibs-all.deb<br>
+Install getlibs-all.deb by running:<br>
+<code>sudo dpkg -i getlibs-all.deb</code><br>
+Install the 32-bit xulrunner by running:<br>
+<code>sudo getlibs -p xulrunner-1.9.2</code> (not necessary)<br>
+Setup the IDE to use your recently installed 32-bit xulrunner:<br>
+<code>export MOZILLA_FIVE_HOME=/usr/lib32/xulrunner-1.9.2.X</code> (not necessary)<br>
+Substitute X for the version you see installed on your system. You will need to set this environment variable every time you start the IDE.
+</blockquote>
+
+<p>
+<strong>Red Hat Enterprise Linux</strong><br>
+The following 32-bit library is available as a package that can be installed using the up2date command:<br>
+</p>
+<blockquote>
+glibc-devel<br>
+</blockquote>
+
+<p>
+To install this package from the command line:<br>
+<code>up2date-nox -i --arch=i386 glibc</code><br>
+</p>
+
+<p>
+<strong>Fedora</strong><br>
+If working with a new installation of the operating system please run yum update before attempting the following steps.<br>
+Logged in as the root user run the following:<br>
+</p>
+<blockquote>
+Fedora 14:<br>
+<code>yum install glibc-devel.i686 gtk2-devel.i686 gtk-nodoka-engine.i686 \</code><br>
+<code>libcanberra.i686 libcanberra-gtk2.i686 PackageKit-gtk-module.i686 \</code><br>
+<code>GConf2.i686 ncurses-libs.i686 xulrunner.i686</code><br>
+</blockquote>
+<blockquote>
+Fedora 11:<br>
+<code>yum install glibc-devel.i586 gtk2-devel.i586 gtk-nodoka-engine.i586 \</code><br>
+<code>libcanberra.i586 libcanberra-gtk2.i586 PackageKit-gtk-module.i586 \</code><br>
+<code>GConf2.i586 ncurses-libs.i586 xulrunner.i586</code><br>
+</blockquote>
+
+<p>
+<strong>Generic Linux</strong><br>
+The following 32-bit libraries must be installed with versions greater than or equal to those listed here:<br>
+</p>
+<blockquote>
+GLIBC 2.3<br>
+GTK 2.2.1<br>
+ATK 1.2.0<br>
+glib 2.2.1<br>
+Pango 1.2.1<br>
+Freetype 2.1.3<br>
+Ncurses 5.0<br>
+XULRunner 1.9.1<br>
+</blockquote>
+
+<h2 id="toc_0.16">Install Sun Java in Ubuntu 11.04</h2>
+<p>
+Since sun java is not in ubuntu official repo source, we need to add it:<br>
+<code>sudo add-apt-repository ppa:ferramroberto/java</code><br>
+<code>sudo apt-get update</code><br>
+<code>sudo apt-get install sun-java6-jre sun-java6-plugin sun-java6-jdk</code><br>
+</p>
+
+<h2 id="toc_0.17">Download Directories from FTP use wget</h2>
+<p>
+Such as:<br>
+<code>wget ftp://ftp.cn.freebsd.org/pub/FreeBSD/releases/amd64/8.2-RELEASE/* -r</code><br>
+</p>
+
+<h2 id="toc_0.18">Components Needed for Fedora 15</h2>
+<p>
+gnome-tweak-tool<br>
+dconf-editor<br>
+</p>
+
+<h2 id="toc_0.19">Fedora Group Install Development Tools</h2>
+<p>
+<code>sudo yum groupinstall 'Development Tools'</code>
+</p>
+
+<h2 id="toc_0.20">Call a Command, a Program or a Script, then Print the Log to a File</h2>
+<p>
+<em>COMMAND</em> <strong>&gt;&amp;</strong> <em>FILENAME</em><br>
+e.g.<br>
+<code>ls / &gt;&amp; log</code><br>
+Or even the command does not exist, the result "command not found" will also be there:<br>
+<code>lk / &gt;&amp; log</code><br>
+</p>
+
+<h2 id="toc_0.21">shortcuts in LXDE</h2>
+<p>
+For now, I just find the only way to modify shortcut keys.<br>
+modify this file: <strong>/home/USERNAME/.config/openbox/lxde_rc.xml</strong> or something alike.<br>
+</p>
+
+<h2 id="toc_0.22">Fedora 16 NFS Server</h2>
+<p>
+First of all,<br>
+<code>sudo yum install nfs-utils</code><br>
+Then, run<br>
+<code>system-config-firewall</code><br>
+In this application, open ports related to nfs: 111, 2049<br>
+Next, edit <code>etc/exports</code> to add the directory you would like to use as nfs, like:<br>
+<code>/home/librae/workspace/tq *(rw,sync,no_root_squash)</code><br>
+Operation above can be checked with <code>sudo exportfs -v</code><br>
+After that, go to edit nfs configuration files,<br>
+<code>sudo mv /etc/sysconfig/nfs /etc/sysconfig/nfs.bak</code><br>
+<code>sudo mv /etc/sysconfig/nfs.rpmnew /etc/sysconfig/nfs</code><br>
+Then edit <code>/etc/sysconfig/nfs</code> to include whatever you actually need from <code>/etc/sysconfig/nfs.bak</code><br>
+My <code>/etc/sysconfig/nfs</code> file:<br>
+</p>
+<pre>
+#
+# Path to remote quota server. See rquotad(8)
+#RQUOTAD="/usr/sbin/rpc.rquotad"
+# Port rquotad should listen on.
+RQUOTAD_PORT=875
+# Optinal options passed to rquotad
+RPCRQUOTADOPTS=""
+#
+# Optional arguments passed to in-kernel lockd
+#LOCKDARG=
+# TCP port rpc.lockd should listen on.
+LOCKD_TCPPORT=32803
+# UDP port rpc.lockd should listen on.
+LOCKD_UDPPORT=32769
+#
+# Optional arguments passed to rpc.nfsd. See rpc.nfsd(8)
+RPCNFSDARGS=""
+# Number of nfs server processes to be started.
+# The default is 8.
+RPCNFSDCOUNT=8
+# Set V4 grace period in seconds
+#NFSD_V4_GRACE=90
+#
+# Optional arguments passed to rpc.mountd. See rpc.mountd(8)
+RPCMOUNTDOPTS=""
+#
+# Optional arguments passed to rpc.statd. See rpc.statd(8)
+STATDARG=""
+#
+# Optional arguments passed to rpc.idmapd. See rpc.idmapd(8)
+RPCIDMAPDARGS=""
+#
+# Optional arguments passed to rpc.gssd. See rpc.gssd(8)
+RPCGSSDARGS=""
+#
+# Optional arguments passed to rpc.svcgssd. See rpc.svcgssd(8)
+RPCSVCGSSDARGS=""
+#
+# To enable RDMA support on the server by setting this to
+# the port the server should listen on
+#RDMA_PORT=20049
+#
+# Optional arguments passed to blkmapd. See blkmapd(8)
+BLKMAPDARGS=""
+</pre>
+<p>
+Well, config ok now, let's enable and start nfs-server service<br>
+<code>sudo systemctl enable nfs-server.service</code><br>
+<code>sudo systemctl start nfs-server.service</code><br>
+All done. <strong>Reboot</strong> computer and use this to verify:<br>
+<code>sudo systemctl status nfs-server.service</code><br>
+<code>rpcinfo -p</code><br>
+<strong>NOTE!</strong><br>
+We <strong>MUST</strong> ensure these services are running:<br>
+</p>
+<pre>
+systemctl status rpcbind.service
+systemctl status nfs-server.service
+systemctl status nfs-lock.service
+systemctl status nfs-idmap.service
+</pre>
+<p>
+On client machines, we use following command to mount this nfs server, like:<br>
+<code>sudo mount -t nfs 192.168.11.6:/home/librae /home/librae/mnt/nbook</code><br>
+</p>
+<blockquote>
+<strong>Tips:</strong><br>
+check nfs service: <code>systemctl -a | grep nfs</code><br>
+nfs config files are located in <code>/etc/sysconfig</code><br>
+external links:<br>
+<a href="http://www.server-world.info/en/note?os=Fedora_16&amp;p=nfs<br>">http://www.server-world.info/en/note?os=Fedora_16&amp;p=nfs<br></a>
+<a href="http://weisjohn.blog.163.com/blog/#m=0&amp;t=3&amp;c=nfs<br>">http://weisjohn.blog.163.com/blog/#m=0&amp;t=3&amp;c=nfs<br></a>
+<a href="http://forums.fedoraforum.org/showthread.php?t=273173<br>">http://forums.fedoraforum.org/showthread.php?t=273173<br></a>
+</blockquote>
+
+<p>
+Actually, this version of nfs can be started easily, steps above are redundent.<br>
+</p>
+<ol>
+<li>
+edit <code>/etc/exports</code>
+
+<li>
+start those four services
+
+<li>
+All done!
+
+</ol>
+
+<h2 id="toc_0.23">Check pts no. &amp; Communication Between Terminals</h2>
+<p>
+<code>ls -hl /proc/self/fd</code><br>
+This will print the pts no. you are on.<br>
+e.g.:<br>
+</p>
+<pre>
+yliao@yliao-l-d:~/Public/librae8226.github.com$ ls /proc/self/fd -hl
+total 0
+lrwx------ 1 yliao yliao 64 2011-12-19 15:08 0 -&gt; /dev/pts/10
+lrwx------ 1 yliao yliao 64 2011-12-19 15:08 1 -&gt; /dev/pts/10
+lrwx------ 1 yliao yliao 64 2011-12-19 15:08 2 -&gt; /dev/pts/10
+lr-x------ 1 yliao yliao 64 2011-12-19 15:08 3 -&gt; /proc/1610/fd
+</pre>
+<p>
+Then if we type<br>
+<code>echo "Hi there" &gt; /dev/pts/10</code><br>
+See what will happen :P<br>
+</p>
+
+<h2 id="toc_0.24">Build RaLink RT3090 WLAN Card Driver Manually (FC16)</h2>
+<p>
+<strong>Foreword</strong><br>
+<strong>--------</strong><br>
+Machine: Lenovo B450 (RT3090 Wireless 802.11n 1T/1R PCIe) (use <code>lspci -vnn</code> to see it)<br>
+OS: Fedora 16<br>
+Results: Failed to connect my notebook to wifi ap router, but use this driver, we can scan the environment, indeed. That is, it works.<br>
+</p>
+
+<p>
+<strong>Procedure</strong><br>
+<strong>---------</strong><br>
+</p>
+<ol>
+<li>
+Download rpm src from RussianFedora: <a href="http://koji.russianfedora.ru/koji/buildinfo?buildID=750<br>">http://koji.russianfedora.ru/koji/buildinfo?buildID=750<br></a>
+
+<li>
+Extract it and we can see a folder like <strong>rt3090-kmod-2.4.0.4-3.fc16.8.R.src</strong><br>
+
+<li>
+Patch all the patches in the folder to src files in <strong>2010_1217_RT3090_LinuxSTA_V2.4.0.4_WiFiBTCombo_DPO.zip</strong><br>use <code>patch -p0 xxx.patch</code> in the <strong>.src</strong> root folder is just fine.<br>
+
+<li>
+<code>make</code><br>
+
+<li>
+<code>sudo make install</code><br>
+
+<li>
+blacklist rt2800, rt28xx drivers in <strong>/etc/modprobe.d/blacklist.conf</strong><br>
+
+<li>
+<code>depmod -a ${shell uname -r}</code><br>
+
+<li>
+reboot<br>
+
+<li>
+bringup: <code>sudo ifconfig ra0 up</code><br>
+
+<li>
+scan: <code>iwlist ra0 scan</code><br>
+
+<li>
+connect: <code>sudo iwconfig ra0 essid XXXX</code><br>
+
+<li>
+longging to further debugging....<br>
+
+</ol>
+
+<h2 id="toc_0.25">Fedora 16 Fail to Bootup into Graphics Because of NVIDIA Driver</h2>
+<p>
+<strong>Do</strong> below steps to remove nvidia driver and enable default noveau driver,<br>
+then install nvidia driver again.<br>
+</p>
+<pre>
+su
+yum remove nvidia*
+mv /boot/initramfs-$(uname -r)-nouveau.img /boot/initramfs-$(uname -r).img
+dracut /boot/initramfs-$(uname -r).img $(uname -r)
+removed "rdblacklist=nouveau nouveau.modeset=0" from GRUB_CMDLINE_LINUX
+grub2-mkconfig -o /boot/grub2/grub.cfg
+reboot
+</pre>
+
+<h2 id="toc_0.26">Fedora 16 Get USB access priority</h2>
+<p>
+<code>sudo usermod -a -G uucp,dialout,lock $USER</code><br>
+Then logout -&gt; login<br>
+</p>
+
+<h2 id="toc_0.27">Fedora 16 Chrome Shockwave Flash Player Crash</h2>
+<p>
+Add line below in Chrome script <strong>/opt/google/chrome/google-chrome</strong><br>
+<code>export LD_PRELOAD=/usr/lib/libGL.so.1</code><br>
+</p>
+
+<h2 id="toc_0.28">Fedora 16 Disable SELinux</h2>
+<p>
+Temporary:<br>
+<code>sudo setenforce 0</code><br>
+Always:<br>
+<code>vi /etc/sysconfig/selinux</code><br>
+Then set it to <strong>disabled</strong><br>
+</p>
+
+<h2 id="toc_0.29">Fedora 16 Setup TFTP Server</h2>
+<pre>
+sudo yum install tftp*
+vi /etc/xinetd.d/tftp
+--------------------------------------------
+service tftp
+{
+	disable		= no
+	socket_type	= dgram
+	protocol	= udp
+	wait		= yes
+	user		= root
+	server		= /usr/sbin/in.tftpd
+	server_args	= -s /opt/tftpboot
+	per_source	= 11
+	cps		= 100 2
+	flags		= IPv4
+}
+--------------------------------------------
+sudo /sbin/chkconfig tftp on
+sudo systemctl enable xinetd.service
+sudo systemctl start xinetd.service
+
+vi /etc/sysconfig/iptables
+----------------------------------------------------------------
+-A INPUT -m state --state NEW -m udp -p udp --dport 69 -j ACCEPT
+----------------------------------------------------------------
+
+vi /etc/sysconfig/selinux
+----------------
+SELINUX=disabled
+----------------
+</pre>
+
+<h2 id="toc_0.30">Fedora 16 Samba Service</h2>
+<pre>
+sudo yum install samba samba-client
+sudo systemctl enable smb.service
+sudo systemctl start smb.service
+</pre>
+<p>
+Use below command to mount target samba server:<br>
+<code>sudo mount.cifs //10.38.120.39/tftpboot /home/yrliao/mnt/tftp_mv -o username=yrliao,password=123456</code><br>
+</p>
+
+<h2 id="toc_0.31">Make ssh/scp/rsync work Without Password</h2>
+<p>
+Make use of a file <strong>~/.ssh/authorized_keys</strong> (mode 700) is just fine. <br>
+Refer to externel link:<br>
+<a href="https://blogs.oracle.com/jkini/entry/how_to_scp_scp_and<br>">https://blogs.oracle.com/jkini/entry/how_to_scp_scp_and<br></a>
+</p>
+
+<h2 id="toc_0.32">Fedora 16 LXDE Keyboard Layout Problem</h2>
+<p>
+use command below to set it to default, us layout:<br>
+<code>setxkbmap us</code><br>
+</p>
+
+<h2 id="toc_0.33">Fedora 16 LXDE Desktop Icons Disappear</h2>
+<p>
+<code>lxde --desktop &amp;</code><br>
+</p>
+
+<h2 id="toc_0.34">Fedora 16 LXDE Desktop Openbox Reload "lxde-rc.xml"</h2>
+<p>
+<code>openbox --reconfigure</code><br>
+Refer to this link:<br>
+<a href="http://linux-commands.wikidot.com/howto-s:lxde">http://linux-commands.wikidot.com/howto-s:lxde</a> <br>
+</p>
+
+<h2 id="toc_0.35">Fedora 16 Make It Work: Bluetooth Dongle with HC-05 rfcomm</h2>
+<p>
+1. Install "blueman".<br>
+<code># yum install blueman</code><br>
+2. Connect Bluetooth dongle and slave HC-05.<br>
+3. Search and pair device.<br>
+4. Right click HC-05 in blueman, select "Dev B".<br>
+<code>Serial port connected to /dev/rfcomm0</code><br>
+5. minicom -s (rfcomm0)<br>
+</p>
+
+<h2 id="toc_0.36">Restore Files That Was Removed by rm -rf</h2>
+<p>
+1. Download extundelete from <a href="http://extundelete.sourceforge.net/">http://extundelete.sourceforge.net/</a> <br>
+2. It needs e2fslib, so install them:<br>
+<code># yum install e2fslib*</code> for Fedora.<br>
+<code># apt-get install e2fslib*</code> for Ubuntu.<br>
+3. Put/excute extundelete in /tmp to avoid unexpected loss.<br>
+4. Make sure the filesystem to be restored is unmount. So if it's home, we may use a dual boot OS to do this.<br>
+5. Run:<br>
+</p>
+<pre>
+# extundelete --restore-files [OFFSET_PATH_OF_FS] [FS]
+/*
+ * Such as:
+ * # extundelete --restore-files yrliao/workspace/sandlib/cpu_stat/stat.c /dev/sda6
+ */
+</pre>
+
+<h2 id="toc_0.37">Check What Files Are Opened by A Particular Process</h2>
+<pre>
+	ls -l /proc/7857/fd
+</pre>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">ktmud</a></p>
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
+</html>

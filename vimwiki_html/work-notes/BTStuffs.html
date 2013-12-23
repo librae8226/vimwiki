@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BTStuffs</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">Bluetooth Related Bugs</a>
+<ul>
+<li><a href="#toc_0.1.1">Settings-&gt;Bluetooth rename device does not work after power cycle</a>
+</ul>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">Bluetooth Related Bugs</h2>
+<hr />
+
+<h3 id="toc_0.1.1">Settings-&gt;Bluetooth rename device does not work after power cycle</h3>
+<p>
+<strong>external/bluetooth/bluedroid/btif/src/btif_core.c</strong>:<br>
+</p>
+<blockquote>
+BTIF_CORE_STORAGE_REMOTE_WRITE
+</blockquote>
+<p>
+<strong>external/bluetooth/bluedroid/btif/src/btif_storage.c</strong>:<br>
+</p>
+<blockquote>
+BT_PROPERTY_REMOTE_FRIENDLY_NAME
+</blockquote>
+
+<p>
+It does not save to config file.<br>
+</p>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">ktmud</a></p>
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
+</html>

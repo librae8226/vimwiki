@@ -1,0 +1,7 @@
+[[index|Home Page]]
+%toc index
+
+Here is Message Queue notes.
+
+
+%template header-footer

@@ -1,0 +1,10 @@
+[[index|Hame Page]]
+
+%toc index
+
+== Review SHM, SEM, MSGQ ==
+
+After programming to init a shm/sem/msgq, we can use below command to review and manage them:<br>
+*ipcs*, *ipcmk*, *ipcrm*<br>
+
+%template header-footer

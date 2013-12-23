@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Ousia</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1 id="toc_1">Ousia</h1>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_1">Ousia</a>
+<ul>
+<li><a href="#toc_1.1">README</a>
+<li><a href="#toc_1.2">SRAM LAYOUT EXAMPLE</a>
+<li><a href="#toc_1.3">Build on x86_64 Machines</a>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_1.1">README</h2>
+<pre>
+Ousia
+=======================
+COPYRIGHT (C) LEAFGRASS
+
+
+Introduction
+------------
+"Ousia" is picked from Greek.
+Mainly intend to represent the essence of Real-Time Theory.
+Developed following K-I-S-S principle.
+
+
+Source Tree Architecture
+------------------------
+* core/
+    Ousia core routines. Ousia porting code are also placed here.
+
+* doc/
+    Complete documentation of Ousia.
+
+* driver/
+    Different kinds of device drivers based on Ousia.
+    They are all configurable.
+
+* framework/
+    Framework based on Ousia. Such as shell, vfs, etc.
+    They are scalable and configurable, either.
+
+* include/
+    Header files of main routines of Ousia.
+
+* platform/
+    Chip and board specific code, e.g. low-level library.
+
+* project/
+    Project source code. Include several sample project instances.
+
+* script/
+    Useful scripts used while Ousia developing.
+
+* support/
+    Basic supporting stuffs for Ousia developing and building.
+    Useful template files are placed here, such as porting code template.
+
+
+How to Start for Fresh New Environment
+--------------------------------------
+-   Install toolchain
+-   Make
+    For a general purpose, these steps are enough, but there are some more
+    steps needs to do for each platform.
+
+    As for stm32 on linux host, we use dfu/serial/jtag to upload firmware,
+    setup like below:
+-   Install Codesourcery toolchain. (e.g. arm-2011.03-42-arm-none-eabi)
+-   Install dfu-util/pyserial/openocd (it's up to your preference).
+    Ps: In fedora or ubuntu, yum/apt-get install them is ok.
+-   Resolve usb or serial access problems.
+    (e.g. copy ousia/support/dfu/45-maple.rules to /etc/udev/rules.d/)
+-   Install minicom for console print if you want to debug with uart.
+    Ps: Default port is /dev/ttyACMx
+-   Do 'make' and 'make install'.
+
+
+Create User Project Steps
+-------------------------
+-   Create a directory named PROJECT_NAME in folder "project".
+-   Add user source code.
+-   Create a file rules.mk to specify source code related rules for makefile.
+-   Update TARGET_PLATFORM and PROJECT_NAME in main Makefile, then make.
+
+Ps: Refer to existing projects for further detailed information.
+
+
+Core Developing Steps
+---------------------
+-   Choose or create a branch of yourself to work on.
+-   Update source code, include those version related strings.
+-   Modify related Makefiles and configuration files.
+-   Build then do some testing on this branch.
+-   Commit it.
+-   Tag a new one if a new version is commited.
+-   Push this branch to remote repo.
+-   If this is a release version, update Ousia Release Notes.
+
+
+Porting Steps
+-------------
+-   Create a directory named PLATFORM_NAME in folder "platform", then enter it.
+-   Create three files: rules.mk config.mk target.mk.
+        @rules.mk: makefile source code related rules
+        @config.mk: parameters or flags for toolchains and environment
+        @target.mk: rules for building target
+-   Create a directory named "port" there then create three files in it.
+        @ousia_cfg.h: os scalability related configurations
+        @ousia_port.h: header of porting code
+        @ousia_port.c: implentation of porting
+-   Create other porting related stuffs, such as linker scripts, if necessary.
+-   Update TARGET_PLATFORM and PROJECT_NAME in main Makefile, then make.
+
+Ps: If modified porting related code, should not edit directly in "core/port",
+do that in specific platform directory instead, e.g. "platform/stm32/port".
+Makefile will copy them into "core/port" automatically depend on specific cpu
+types.
+
+
+Build A Different Platform
+--------------------------
+Only modify the header TODO in root Makefile
+-   Assign specific TARGET_PLATFORM and PROJECT_NAME
+
+
+Download Code to Target Chip
+----------------------------
+-   Modify related User Customization Items in Makefile in source tree.
+    For stm32, you need to decide which MEMORY_TARGET to use:
+    jtag, flash, or ram.
+-   Do proper operation on hardware. (i.e. change boot jumper or reset or sth.)
+-   Then type 'make install' and it will do everything for you.
+
+Ps: For stm32, there may be a bootloader, 'make bootloader' will download
+bootloader code to chip via serial. And for simulation on x86, no code
+downloading procedure is needed. See Makefile for detailed information.
+
+
+Acknowledgments
+---------------
+Parts of make system and libmaple stm32 low-level code are borrowed from libmaple.
+Thanks to their excellent works! - http://leaflabs.com
+</pre>
+
+<h2 id="toc_1.2">SRAM LAYOUT EXAMPLE</h2>
+<pre>
+new pcb: 0x200016BC, stack_base: 0x20001638
+pcb:  0x200016BC, stk: 0x200015FC
+xpsr: 0x01000000   | 0x20001638
+pc:   0x08005691   | 0x20001634
+lr:   0x08005691   | 0x20001630
+r12:  0x00000000   | 0x2000162C
+r3:   0x00000000   | 0x20001628
+r2:   0x00000000   | 0x20001624
+r1:   0x00000000   | 0x20001620
+r0:   0x00000000   | 0x2000161C
+r11:  0x00000000   | 0x20001618
+r10:  0x00000000   | 0x20001614
+r9:   0x00000000   | 0x20001610
+r8:   0x00000000   | 0x2000160C
+r7:   0x00000000   | 0x20001608
+r6:   0x00000000   | 0x20001604
+r5:   0x00000000   | 0x20001600
+r4:   0x00000000   | 0x200015FC
+
+-------  SRAM LAYOUT  -------
+
+        +-----------+ 0x20005000 (stack bottom)
+        |           |
+        +-----------+ 0x20004FFC
+        |           |
+        +-----------+ 0x20004FFC
+        |           |
+        +   ~   ~   +
+        |     .     |
+        |     .     |
+        |     .     |
+        +   ~   ~   +
+        |           |
+        +-----------+ 0x200016C4
+        | 08005691  |
+        +-----------+ 0x200016C0 (pcb-&gt;pentry, __ps_init() entry)
+        | 200015FC  |
+        +-----------+ 0x200016BC (pcb, pcb-&gt;stack_ptr)
+        |           |
+        +   ~   ~   +
+        |     .     |
+        |     .     |
+        |     .     |
+        +   ~   ~   +
+        |           |
+        +-----------+
+        |           |
+ ---    +-----------+ 0x2000163C
+  |     |    xpsr   |
+  |     +-----------+ 0x20001638
+        |    pc     |
+        +-----------+ 0x20001634
+        |    lr     |
+        +-----------+ 0x20001630
+        |    r12    |
+        +-----------+ 0x2000162C
+        |    r3     |
+        +-----------+ 0x20001628
+        |    r2     |
+        +-----------+ 0x20001624
+        |    r1     |
+        +-----------+ 0x20001620
+        |    r0     |
+        +-----------+ 0x2000161C
+        |    r11    |
+        +-----------+ 0x20001618
+        |    r10    |
+ stk    +-----------+ 0x20001614
+ 128B   |    r9     |
+        +-----------+ 0x20001610
+        |    r8     |
+        +-----------+ 0x2000160C
+        |    r7     |
+        +-----------+ 0x20001608
+        |    r6     |
+        +-----------+ 0x20001604
+        |    r5     |
+        +-----------+ 0x20001600
+        |    r4     |
+        +-----------+ 0x200015FC
+        |           |
+        +   ~   ~   +
+        |     .     |
+        |     .     |
+        |     .     |
+        +   ~   ~   +
+        |           |
+  |     +-----------+
+  |     |           |
+ ---    +-----------+ 0x200015BC
+        |           |
+        +   ~   ~   +
+        |     .     |
+        |     .     |
+        |     .     |
+        +   ~   ~   +
+        |           |
+        +-----------+
+        |           |
+        +-----------+ 0x20000004
+        |           |
+        +-----------+ 0x20000000 (stack top)
+
+-------  SRAM LAYOUT  -------
+</pre>
+
+<h2 id="toc_1.3">Build on x86_64 Machines</h2>
+<p>
+For Fedora:<br>
+</p>
+<pre>
+# yum install /lib/ld-linux.so.2
+# yum install /lib/libusb-0.1.so.4
+or
+# yum install /lib/libusb*
+</pre>
+<p>
+Thus we can use i386/i686 toolchains as usual.<br>
+</p>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">ktmud</a></p>
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
+</html>

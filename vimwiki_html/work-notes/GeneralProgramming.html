@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>GeneralProgramming</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+		<!--<link href="http://github.com/ktmud/kwiki/commits/master.atom" rel="alternate" title="Kdmud Wiki 的最新更改" type="application/atom+xml" />-->
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">Modularized Programming</a>
+<li><a href="#toc_0.2">Optimize Applications with gcc and glibc</a>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">Modularized Programming</h2>
+<p>
+MODULE NAME: module<br>
+</p>
+<pre class="brush: C;">
+	typedef struct _module_handle_s /* module handler struct */
+	{
+		/* status enum, element type */
+		status_e (*init)(element_t a, element_t b);
+		/* ... (ohter module interface provided as function pointer) */
+		status_e (*fin)(element_t c, element_t d);
+
+		/* private data whitch would be point to module_data while initialize */
+		void *priv_data;
+	}
+
+	public:
+		/* functions would be called directly by other modules, etc */
+		module_create() /* may only do some function pointer assigning */
+		module_delete() /* may only do some function pointer dis-assigning */
+	private:
+		/* private functions would be used by function pointer */
+		/* implement own logic by call internal private functions */
+		module_init()
+		/* ... (other module interface) */
+		module_fin()
+
+		/* internal private functions */
+		process1()
+		process2()
+		/* ... (other processes) */
+</pre>
+
+<h2 id="toc_0.2">Optimize Applications with gcc and glibc</h2>
+<p>
+<a href="http://www.newsmth.net/pc/pccon.php?id=6592&amp;nid=378322">http://www.newsmth.net/pc/pccon.php?id=6592&amp;nid=378322</a>
+</p>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">丘迟</a></p>
+				<!--<p><a href="../SiteMap.html" title="站点地图">给我一点导航吧</a></p>-->
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
+</html>

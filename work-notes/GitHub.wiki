@@ -1,0 +1,43 @@
+[[index|Hame Page]]
+
+%toc index
+
+== Git delete remote branch/tag ==
+{{{
+	$ git push origin :heads/gh-pages
+	$ git push origin :tags/tag_name
+}}}
+"gh-pages" is the name of branch.<br>
+"tag_name" is the name of tag.<br>
+
+== push rejected! ==
+Sometimes you may find you cannot push, like this:<br>
+{{{
+Created commit 36efffb: 201106021810
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+pushing...
+To git@github.com:librae8226/leafos.git
+ ! [rejected]        master -> master (non-fast forward)
+error: failed to push some refs to 'git@github.com:librae8226/leafos.git'
+Everything up-to-date
+}}}
+
+just do this first:<br>
+{{{
+	$ git pull
+}}}
+
+== git archive ==
+	`git archive master | bzip2 > source-tree.tar.bz2`
+
+== git restore deleted file(s) ==
+	`git checkout FILE_NAME`
+
+== git list remote repo(s) ==
+	`git remote -v`
+
+== Fix gitk ugly fonts in ubuntu ==
+http://www.myscienceisbetter.info/fix-gitk-ugly-fonts-in-ubuntu.html
+
+
+%template header-footer

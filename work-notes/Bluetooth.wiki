@@ -1,0 +1,33 @@
+[[index|Hame Page]]
+
+%toc index
+
+== Analyze with BPA500 Bluetooth Sniffer ==
+---------
+
+=== Scan/Pair ===
+---------
+
+0.  Ensure devices disconnected and unpaired.<br>
+1.  Put device (RC) into pairing mode, click Discover Device on BPA500. Choose the corresponding one. Set as Slave.<br>
+2.  Put host (Board) into discoverable mode, click Discover Device on BPA500. Choose the corresponding one. (MAC: /data/misc/bluedroid/bt_config.xml). Set as Master.<br>
+3.  Input Pin Code 0000, then Start.<br>
+4.  Pair device to host.<br>
+*5. Wait for timeout/disconnected.<br>
+6.  Save log.<br>
+7.  Stop.<br>
+
+=== Get Bluetooth Packets ===
+---------------------
+
+1.  Set device as Master while host has Slave.<br>
+2.  Input Link Key then start. (Key: /data/misc/bluedroid/bt_config.xml)<br>
+3.  Send message from device to host (press some key).<br>
+*4. Wait for timeout/disconnected.<br>
+5.  Save log.<br>
+6.  Stop.<br>
+
+Ps: In advanced settings, we can uncheck the checkbox "Filter out Nulls and Polls" in ComProbe.<br>
+That enables us to see the Polls (ping from Master to Slave) and Nulls (Feedback from Slave).<br>
+
+%template header-footer

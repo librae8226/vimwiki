@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BSDManagement</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+		<!--<link href="http://github.com/ktmud/kwiki/commits/master.atom" rel="alternate" title="Kdmud Wiki 的最新更改" type="application/atom+xml" />-->
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">Install FreeBSD 8.2 From USB Disk</a>
+<li><a href="#toc_0.2">sshd</a>
+<li><a href="#toc_0.3">Install Bash Under FreeBSD</a>
+<li><a href="#toc_0.4">Assign USER root Privileges</a>
+<li><a href="#toc_0.5">Install Xfce4 on FreeBSD 8.2</a>
+<li><a href="#toc_0.6">HowTo: Using sudo on FreeBSD</a>
+</ul>
+</ul>
+</div>
+
+
+<h2 id="toc_0.1">Install FreeBSD 8.2 From USB Disk</h2>
+<p>
+<code>dd if=FreeBSD-8.2-RELEASE-i386-memstick.img of=/dev/sdb bs=10240 conv=sync</code><br>
+<em>Be careful of the of=/dev/XXX</em><br>
+</p>
+
+<h2 id="toc_0.2">sshd</h2>
+<p>
+In FreeBSD 8.2, sshd is at:<br>
+<code>/etc/rc.d/sshd</code><br>
+</p>
+
+<h2 id="toc_0.3">Install Bash Under FreeBSD</h2>
+<pre>
+# portsnap update extract
+# cd /usr/ports/shells/bash
+# make install clean
+# bash
+</pre>
+<p>
+If it is needed to change default shell, use:<br>
+<code># chsh -s /usr/local/bin/bash USER_NAME</code><br>
+</p>
+
+<h2 id="toc_0.4">Assign USER root Privileges</h2>
+<pre>
+pw groupmod wheel -m &lt;username&gt;
+pw user mod &lt;username&gt; -g wheel
+</pre>
+
+<h2 id="toc_0.5">Install Xfce4 on FreeBSD 8.2</h2>
+<p>
+refer to:<br>
+<a href="http://my-net.cc/weblog/post/274<br>">http://my-net.cc/weblog/post/274<br></a>
+</p>
+
+<h2 id="toc_0.6">HowTo: Using sudo on FreeBSD</h2>
+<p>
+refer to:<br>
+<a href="http://linux-bsd-sharing.blogspot.com/2009/03/howto-using-sudo-on-freebsd.html<br>">http://linux-bsd-sharing.blogspot.com/2009/03/howto-using-sudo-on-freebsd.html<br></a>
+</p>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">丘迟</a></p>
+				<!--<p><a href="../SiteMap.html" title="站点地图">给我一点导航吧</a></p>-->
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
+</html>

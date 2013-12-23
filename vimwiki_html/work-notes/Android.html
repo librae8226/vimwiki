@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Android</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
+
+<h3 id="toc_0.0.1"><a href="index.html">Home Page</a></h3>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.0.1">Home Page</a>
+</ul>
+<li><a href="#toc_0.1">Setup Build Environment (java)</a>
+<li><a href="#toc_0.2">Setup a new build environment for GTV on a 64-bit machine</a>
+<li><a href="#toc_0.3">Android KeyEvent mapping</a>
+<li><a href="#toc_0.4">Monitor CPU Usage (better than top)</a>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">Setup Build Environment (java)</h2>
+<p>
+if haven't installed yet,<br>
+	<code>sudo update-alternatives --install /usr/bin/java java /home/yliao/.../jdk1.5.0_22/bin/java 300</code><br>
+	<code>sudo update-alternatives --install /usr/bin/javac javac /home/yliao/.../jdk1.5.0_22/bin/javac 300</code><br>
+<br>
+then, we can use these to change java version:<br>
+	<code>sudo update-alternatives --config java</code><br>
+	<code>sudo update-alternatives --config javac</code><br>
+<br>
+there will create a link like:<br>
+	<code>/usr/bin/java -&gt; /etc/alternatives/java /home/yliao/.../jdk1.5.0_22/bin/java</code><br>
+OR<br>
+	<code>/usr/bin/java -&gt; /etc/alternatives/java/usr/lib/jvm/java-6-sun/jre/bin/java</code><br>
+</p>
+
+<h2 id="toc_0.2">Setup a new build environment for GTV on a 64-bit machine</h2>
+<p>
+Refer to:<br>
+<a href="http://blog.csdn.net/lqf20013/article/details/6362267<br>">http://blog.csdn.net/lqf20013/article/details/6362267<br></a>
+</p>
+
+<h2 id="toc_0.3">Android KeyEvent mapping</h2>
+<p>
+<code>./frameworks/base/core/java/android/view/KeyEvent.java</code><br>
+</p>
+
+<h2 id="toc_0.4">Monitor CPU Usage (better than top)</h2>
+<p>
+<code>mpstat -P ALL 1</code><br>
+This guy prints the usage and other stats of each core of cpu every 1 second.<br>
+PS: This is a busybox applet.<br>
+</p>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">ktmud</a></p>
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
+</html>

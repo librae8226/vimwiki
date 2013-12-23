@@ -1,0 +1,94 @@
+
+=== [[index|Home Page]] ===
+
+%toc index
+
+== Enable LED ==
+1. Add following lines in `bar-descriptor.xml`:<br>
+{{{
+<!--  The permissions requested by your application. -->
+	<permission>access_led_control</permission>
+}}}
+
+2. Add dynamic lib to be linked against in `.pro` file:<br>
+{{{
+LIBS += -lbbdevice
+}}}
+
+3. Update `main.cpp`.<br>
+{{{
+#include <bb/device/Led>
+
+...
+
+Q_DECL_EXPORT int main(int argc, char **argv)
+{
+	...
+
+
+	// Register our class that wraps the C++ Led interface with QML so that we
+	// can make calls into the Led and get results, through QML.
+	qmlRegisterType<bb::device::Led>("bb.device", 1, 0, "Led");
+	qmlRegisterUncreatableType<bb::device::LedColor>("bb.device", 1, 0, "LedColor", "");
+
+	...
+}
+
+}}}
+
+4. Update `.qml` file.<br>
+{{{
+import bb.device 1.0
+
+Page {
+	Container {
+		...
+	}
+	attachedObjects: [
+		Led {
+			id: redLED
+			color: LedColor.Red
+		},
+		Led {
+			id: blueLED
+			color: LedColor.Blue
+		},
+		Led {
+			id: greenLED
+			color: LedColor.Green
+		},
+		Led {
+			id: whiteLED
+			color: LedColor.White
+		}
+	]
+}
+}}}
+
+5. Put something there to trigger the LED, such as a button: <br>
+{{{
+Button {
+	text: "Blink White"
+	onClicked: {
+		whiteLED.flash(1);
+	}
+	horizontalAlignment: HorizontalAlignment.Center
+}
+}}}
+
+Done. Try the app right now!<br>
+
+== Deployment Failed: Info: Sending request: Launch ==
+It could be caused by crash of the app on the device, thus we may try below fixes:<br>
+1. Clean build and retry.<br>
+2. Re-enable development mode on devices.<br>
+3. Other "Re..."<br>
+
+== Blackberry 10 Development over WiFi ==
+http://www.ezequielaceto.com.ar/techblog/?p=797 <br>
+
+== Cascades Documentation ==
+http://developer.blackberry.com/native/documentation/cascades/getting_started/ <br>
+
+%template header-footer
+

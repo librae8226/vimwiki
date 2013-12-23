@@ -1,0 +1,11 @@
+[[index|Hame Page]]
+
+%toc index
+
+= HTC Phone =
+
+== HTC Phone ==
+*HTC Linux Project*<br>
+http://htc-linux.org/wiki/index.php?title=Main_Page<br>
+
+%template header-footer

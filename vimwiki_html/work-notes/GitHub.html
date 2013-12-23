@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>GitHub</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+		<!--<link href="http://github.com/ktmud/kwiki/commits/master.atom" rel="alternate" title="Kdmud Wiki 的最新更改" type="application/atom+xml" />-->
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
+<p>
+<a href="index.html">Hame Page</a>
+</p>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.1">Git delete remote branch/tag</a>
+<li><a href="#toc_0.2">push rejected!</a>
+<li><a href="#toc_0.3">git archive</a>
+<li><a href="#toc_0.4">git restore deleted file(s)</a>
+<li><a href="#toc_0.5">git list remote repo(s)</a>
+<li><a href="#toc_0.6">Fix gitk ugly fonts in ubuntu</a>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">Git delete remote branch/tag</h2>
+<pre>
+	$ git push origin :heads/gh-pages
+	$ git push origin :tags/tag_name
+</pre>
+<p>
+"gh-pages" is the name of branch.<br>
+"tag_name" is the name of tag.<br>
+</p>
+
+<h2 id="toc_0.2">push rejected!</h2>
+<p>
+Sometimes you may find you cannot push, like this:<br>
+</p>
+<pre>
+Created commit 36efffb: 201106021810
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+pushing...
+To git@github.com:librae8226/leafos.git
+ ! [rejected]        master -&gt; master (non-fast forward)
+error: failed to push some refs to 'git@github.com:librae8226/leafos.git'
+Everything up-to-date
+</pre>
+
+<p>
+just do this first:<br>
+</p>
+<pre>
+	$ git pull
+</pre>
+
+<h2 id="toc_0.3">git archive</h2>
+<p>
+	<code>git archive master | bzip2 &gt; source-tree.tar.bz2</code>
+</p>
+
+<h2 id="toc_0.4">git restore deleted file(s)</h2>
+<p>
+	<code>git checkout FILE_NAME</code>
+</p>
+
+<h2 id="toc_0.5">git list remote repo(s)</h2>
+<p>
+	<code>git remote -v</code>
+</p>
+
+<h2 id="toc_0.6">Fix gitk ugly fonts in ubuntu</h2>
+<p>
+<a href="http://www.myscienceisbetter.info/fix-gitk-ugly-fonts-in-ubuntu.html">http://www.myscienceisbetter.info/fix-gitk-ugly-fonts-in-ubuntu.html</a>
+</p>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">丘迟</a></p>
+				<!--<p><a href="../SiteMap.html" title="站点地图">给我一点导航吧</a></p>-->
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
+</html>

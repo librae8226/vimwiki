@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BlackBerry</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="Stylesheet" type="text/css" href="../style.css" />
+		<script>var root_path = '../';</script>
+	</head>
+	<body>
+		<div id="all">
+			<div id="header">
+				<ul id="top-nav">
+					<li>
+					<a href="../index.html">Home</a>
+					</li>
+					<li>
+					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
+					</li>
+					<li>
+					<a href="../diary/diary.html">Trail of Heart</a>
+					</li>
+					<li>
+					<a href="../work-notes/index.html">Work Notes</a>
+					</li>
+				</ul>
+			</div>
+			<div id="cse"></div>
+			<div id="main">
+
+				
+
+<h3 id="toc_0.0.1"><a href="index.html">Home Page</a></h3>
+
+<h1>index</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_0.0.1">Home Page</a>
+</ul>
+<li><a href="#toc_0.1">Enable LED</a>
+<li><a href="#toc_0.2">Deployment Failed: Info: Sending request: Launch</a>
+<li><a href="#toc_0.3">Blackberry 10 Development over WiFi</a>
+<li><a href="#toc_0.4">Cascades Documentation</a>
+</ul>
+</ul>
+</div>
+
+<h2 id="toc_0.1">Enable LED</h2>
+<p>
+1. Add following lines in <code>bar-descriptor.xml</code>:<br>
+</p>
+<pre>
+&lt;!--  The permissions requested by your application. --&gt;
+	&lt;permission&gt;access_led_control&lt;/permission&gt;
+</pre>
+
+<p>
+2. Add dynamic lib to be linked against in <code>.pro</code> file:<br>
+</p>
+<pre>
+LIBS += -lbbdevice
+</pre>
+
+<p>
+3. Update <code>main.cpp</code>.<br>
+</p>
+<pre>
+#include &lt;bb/device/Led&gt;
+
+...
+
+Q_DECL_EXPORT int main(int argc, char **argv)
+{
+	...
+
+
+	// Register our class that wraps the C++ Led interface with QML so that we
+	// can make calls into the Led and get results, through QML.
+	qmlRegisterType&lt;bb::device::Led&gt;("bb.device", 1, 0, "Led");
+	qmlRegisterUncreatableType&lt;bb::device::LedColor&gt;("bb.device", 1, 0, "LedColor", "");
+
+	...
+}
+
+</pre>
+
+<p>
+4. Update <code>.qml</code> file.<br>
+</p>
+<pre>
+import bb.device 1.0
+
+Page {
+	Container {
+		...
+	}
+	attachedObjects: [
+		Led {
+			id: redLED
+			color: LedColor.Red
+		},
+		Led {
+			id: blueLED
+			color: LedColor.Blue
+		},
+		Led {
+			id: greenLED
+			color: LedColor.Green
+		},
+		Led {
+			id: whiteLED
+			color: LedColor.White
+		}
+	]
+}
+</pre>
+
+<p>
+5. Put something there to trigger the LED, such as a button: <br>
+</p>
+<pre>
+Button {
+	text: "Blink White"
+	onClicked: {
+		whiteLED.flash(1);
+	}
+	horizontalAlignment: HorizontalAlignment.Center
+}
+</pre>
+
+<p>
+Done. Try the app right now!<br>
+</p>
+
+<h2 id="toc_0.2">Deployment Failed: Info: Sending request: Launch</h2>
+<p>
+It could be caused by crash of the app on the device, thus we may try below fixes:<br>
+1. Clean build and retry.<br>
+2. Re-enable development mode on devices.<br>
+3. Other "Re..."<br>
+</p>
+
+<h2 id="toc_0.3">Blackberry 10 Development over WiFi</h2>
+<p>
+<a href="http://www.ezequielaceto.com.ar/techblog/?p=797">http://www.ezequielaceto.com.ar/techblog/?p=797</a> <br>
+</p>
+
+<h2 id="toc_0.4">Cascades Documentation</h2>
+<p>
+<a href="http://developer.blackberry.com/native/documentation/cascades/getting_started/">http://developer.blackberry.com/native/documentation/cascades/getting_started/</a> <br>
+</p>
+
+
+			</div>
+			<div id="footer">
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">ktmud</a></p>
+			</div>
+		</div>
+		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="../vimwiki.js" type="text/javascript"></script>
+	</body>
+</html>

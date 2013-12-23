@@ -1,0 +1,27 @@
+%toc index
+
+== M.V. code ==
+
+*linux driver:*<br>
+`arch/arm/mach-mv88de3100/modules/wlan_*/`
+
+*linux firmware:*<br>
+`firmware/mrvl/sd8787_uapsta.bin.ihex`
+
+*wpa_supplicant (android):*<br>
+`external/wpa_supplicant_*/`
+
+*driver control (android):*<br>
+`hardware/libhardware_legacy/wifi`
+
+*framework (android):*<br>
+`frameworks/base/wifi`
+`frameworks/base/services/java/com/android/server/Wifi*.java`
+
+*jni (android):*<br>
+`frameworks/base/core/jni/android_net_wifi*.cpp`
+
+*ui (android)*<br>
+`packages/apps/Settings/src/com/android/settings/wifi`
+
+%template header-footer

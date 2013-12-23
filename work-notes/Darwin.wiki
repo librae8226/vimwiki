@@ -1,0 +1,32 @@
+[[index|Hame Page]]
+
+%toc index
+
+== 1. new version of gcc ==
+
+== @2. vim taglist ==
+We need to use the ctags that we manually installed.<br>
+Change _/etc/paths_, put _/usr/local/bin_ at first will be fine.<br>
+
+== 3. bash/git auto-complete ==
+
+== 4. bank/taobao/payment ==
+
+== @5. dfu-util ==
+Download source, make && make install
+
+== 6. vim visual mode? ==
+Change ANSI color "white" to a much deeper color.<br>
+
+== 7. vim keymap? ==
+
+== @8. minicom meta key? ==
+Terminal -> Preferences -> Settings -> Keyboard:<br>
+Checkbox: Use option as meta key.<br>
+
+== @9. home .bashrc? ==
+There is only a `~/.bash_profile__`<br>
+
+== 10. vimwiki ==
+
+%template header-footer

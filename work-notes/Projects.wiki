@@ -1,0 +1,11 @@
+[[index|Hame Page]]
+
+%toc index
+
+== Categories ==
+| [[Ousia]]       | ousia related notes |
+| [[Maple]]       | leaflabs maple      |
+| [[HTCPhone]]    | wildfire s ?        |
+| [[RaspberryPi]] | www.raspberrypi.org |
+
+%template header-footer

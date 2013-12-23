@@ -1,0 +1,10 @@
+= Diary =
+| [[2012-08-14|Settle Down]] |
+
+{{{id="no-comment"
+Comment disabled.
+}}}
+
+%title Trail of Heart
+
+%template header-footer

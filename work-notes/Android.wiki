@@ -1,0 +1,32 @@
+
+=== [[index|Home Page]] ===
+
+%toc index
+
+== Setup Build Environment (java) ==
+if haven't installed yet,<br>
+	`sudo update-alternatives --install /usr/bin/java java /home/yliao/.../jdk1.5.0_22/bin/java 300`<br>
+	`sudo update-alternatives --install /usr/bin/javac javac /home/yliao/.../jdk1.5.0_22/bin/javac 300`<br>
+<br>
+then, we can use these to change java version:<br>
+	`sudo update-alternatives --config java`<br>
+	`sudo update-alternatives --config javac`<br>
+<br>
+there will create a link like:<br>
+	`/usr/bin/java -> /etc/alternatives/java /home/yliao/.../jdk1.5.0_22/bin/java`<br>
+OR<br>
+	`/usr/bin/java -> /etc/alternatives/java/usr/lib/jvm/java-6-sun/jre/bin/java`<br>
+
+== Setup a new build environment for GTV on a 64-bit machine ==
+Refer to:<br>
+http://blog.csdn.net/lqf20013/article/details/6362267<br>
+
+== Android KeyEvent mapping ==
+`./frameworks/base/core/java/android/view/KeyEvent.java`<br>
+
+== Monitor CPU Usage (better than top) ==
+`mpstat -P ALL 1`<br>
+This guy prints the usage and other stats of each core of cpu every 1 second.<br>
+PS: This is a busybox applet.<br>
+
+%template header-footer
