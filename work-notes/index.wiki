@@ -1,7 +1,6 @@
 = NOTES =
 
 == Content ==
-| [[F.S]]                | F.S                                |
 | [[Git]]                | Everyday Git                       |
 | [[EditorVI]]           | VI related                         |
 | [[Darwin]]             | Mac OS X or later                  |
