@@ -42,6 +42,7 @@
 <li><a href="#toc_0.7">multiple args support</a>
 <li><a href="#toc_0.8">Insert a line before/after target search string</a>
 <li><a href="#toc_0.9">Remove the First Character(s) of Each Line</a>
+<li><a href="#toc_0.10">Check if Directory Exists</a>
 </ul>
 </ul>
 </div>
@@ -578,6 +579,16 @@ sed -i '/target_to_find/a\things_to_add' FILES
 sed 's/^.//' file1.txt &gt; file2.txt
 # remove the first two characters in each line of file1.txt
 sed 's/^..//' file1.txt &gt; file2.txt
+</pre>
+
+<h2 id="toc_0.10">Check if Directory Exists</h2>
+<pre>
+if [ -d "$DIRECTORY" ]; then
+fi
+</pre>
+<pre>
+if [ ! -d "$DIRECTORY" ]; then
+fi
 </pre>
 
 

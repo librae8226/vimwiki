@@ -360,4 +360,13 @@ sed 's/^.//' file1.txt > file2.txt
 sed 's/^..//' file1.txt > file2.txt
 }}}
 
+== Check if Directory Exists ==
+{{{
+if [ -d "$DIRECTORY" ]; then
+fi
+}}}
+{{{
+if [ ! -d "$DIRECTORY" ]; then
+fi
+}}}
 %template header-footer
