@@ -1,34 +1,12 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-		<title>GitHub</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link rel="Stylesheet" type="text/css" href="../style.css" />
-		<script>var root_path = '../';</script>
-		<!--<link href="http://github.com/ktmud/kwiki/commits/master.atom" rel="alternate" title="Kdmud Wiki 的最新更改" type="application/atom+xml" />-->
-	</head>
-	<body>
-		<div id="all">
-			<div id="header">
-				<ul id="top-nav">
-					<li>
-					<a href="../index.html">Home</a>
-					</li>
-					<li>
-					<a href="../tips/index.html" title="Sands to be hower, beads become sea.">Sands and Beads</a>
-					</li>
-					<li>
-					<a href="../diary/diary.html">Trail of Heart</a>
-					</li>
-					<li>
-					<a href="../work-notes/index.html">Work Notes</a>
-					</li>
-				</ul>
-			</div>
-			<div id="cse"></div>
-			<div id="main">
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>GitHub</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
 
-				
 <p>
 <a href="index.html">Hame Page</a>
 </p>
@@ -42,6 +20,7 @@
 <li><a href="#toc_0.4">git restore deleted file(s)</a>
 <li><a href="#toc_0.5">git list remote repo(s)</a>
 <li><a href="#toc_0.6">Fix gitk ugly fonts in ubuntu</a>
+<li><a href="#toc_0.7">force remote a commit of remote</a>
 </ul>
 </ul>
 </div>
@@ -97,14 +76,10 @@ just do this first:<br>
 <a href="http://www.myscienceisbetter.info/fix-gitk-ugly-fonts-in-ubuntu.html">http://www.myscienceisbetter.info/fix-gitk-ugly-fonts-in-ubuntu.html</a>
 </p>
 
+<h2 id="toc_0.7">force remote a commit of remote</h2>
+<p>
+	<code>git push origin +e57588059c4152c30d00520ca53dc1897a175780^:master</code>
+</p>
 
-			</div>
-			<div id="footer">
-				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">丘迟</a></p>
-				<!--<p><a href="../SiteMap.html" title="站点地图">给我一点导航吧</a></p>-->
-			</div>
-		</div>
-		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
-		<script src="../vimwiki.js" type="text/javascript"></script>
-	</body>
+</body>
 </html>

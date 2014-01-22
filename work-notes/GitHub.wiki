@@ -39,5 +39,8 @@ just do this first:<br>
 == Fix gitk ugly fonts in ubuntu ==
 http://www.myscienceisbetter.info/fix-gitk-ugly-fonts-in-ubuntu.html
 
+== force remote a commit of remote ==
+	`git push origin +e57588059c4152c30d00520ca53dc1897a175780^:master`
+
 
 %template header-footer
