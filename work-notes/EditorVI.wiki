@@ -76,4 +76,10 @@ $ cscope -b
 (or specify explicitly: cscope -i cscope.files)
 }}}
 
+== Jump to the Header File under Cursor ==
+{{{
+:set path+=.\**
+gf
+}}}
+
 %template header-footer

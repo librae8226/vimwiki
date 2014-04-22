@@ -50,6 +50,7 @@
 <li><a href="#toc_0.13">Batch Rename Files</a>
 <li><a href="#toc_0.14">Suspend VIM to Shell, then Resume</a>
 <li><a href="#toc_0.15">Use cscope to Add Specific Source Files and Headers</a>
+<li><a href="#toc_0.16">Jump to the Header File under Cursor</a>
 </ul>
 </ul>
 </div>
@@ -156,6 +157,12 @@ Or multiple files &amp; headers:<br>
 $ find PE/ Common/ -name '*.c' -o -name '*.h' &gt; cscope.files
 $ cscope -b
 (or specify explicitly: cscope -i cscope.files)
+</pre>
+
+<h2 id="toc_0.16">Jump to the Header File under Cursor</h2>
+<pre>
+:set path+=.\**
+gf
 </pre>
 
 
