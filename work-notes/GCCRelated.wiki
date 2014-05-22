@@ -115,4 +115,8 @@ make: warning:  Clock skew detected.  Your build may be incomplete.<br>
 `touch Makefile`<br>
 works well.<br>
 
+=== addr2line ===
+e.g.<br>
+`$ arm-marvell-eabi-addr2line -e out/bg2qa1_rdkdmp/obj/sm.elf 0x3204`
+
 %template header-footer

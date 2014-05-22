@@ -5,7 +5,6 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="Stylesheet" type="text/css" href="../style.css" />
 		<script>var root_path = '../';</script>
-		<!--<link href="http://github.com/ktmud/kwiki/commits/master.atom" rel="alternate" title="Kdmud Wiki 的最新更改" type="application/atom+xml" />-->
 	</head>
 	<body>
 		<div id="all">
@@ -40,6 +39,7 @@
 <li><a href="#toc_0.2.1">General Help</a>
 <li><a href="#toc_0.2.2">Shared Library</a>
 <li><a href="#toc_0.2.3">Make Warning Clock skew detected</a>
+<li><a href="#toc_0.2.4">addr2line</a>
 </ul>
 </ul>
 </ul>
@@ -197,11 +197,16 @@ make: warning:  Clock skew detected.  Your build may be incomplete.<br>
 works well.<br>
 </p>
 
+<h3 id="toc_0.2.4">addr2line</h3>
+<p>
+e.g.<br>
+<code>$ arm-marvell-eabi-addr2line -e out/bg2qa1_rdkdmp/obj/sm.elf 0x3204</code>
+</p>
+
 
 			</div>
 			<div id="footer">
-				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">丘迟</a></p>
-				<!--<p><a href="../SiteMap.html" title="站点地图">给我一点导航吧</a></p>-->
+				<p>Copyleft (C) <a href="http://localhost/about/">Librae</a> &nbsp;&nbsp; Driven by Vimwiki. Theme by <a href="http://ktmud.com">ktmud</a></p>
 			</div>
 		</div>
 		<script src="../jquery-1.4.2.min.js" type="text/javascript"></script>
