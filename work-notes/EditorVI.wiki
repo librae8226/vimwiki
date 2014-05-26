@@ -41,6 +41,8 @@ Replace the first "vivian" in each line from the nth line to the last with "sky"
 `:n,$s/vivian/sky/g`<br>
 Replace all "vivian" in each line from the nth line to the last with "sky"<br>
 (n is a numeric, if n is ".", means from the current line to the last.)<br>
+`:n,ms/vivian/sky/g`<br>
+Replace all "vivian" in each line from the nth line to the mth line with "sky"<br>
 
 == Change DOS ending to UNIX ==
 `:e ++ff=unix`<br>
