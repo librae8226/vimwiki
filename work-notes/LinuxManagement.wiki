@@ -438,9 +438,15 @@ ps -e -o 'pid,comm,args,rsz,vsz,user' | sort -nrk4 | head
 }}}
 
 == Check Net Ports Status ==
+Quotes from man nmap:<br>
+The SYN scan and SYN ping (-sS and -PS) are very detailed,<br>
+but the TCP connect scan (-sT) is limited by the implementation of the connect system call.<br>
 {{{
 # nmap -sT -O localhost
+OR
+# nmap -sS -O localhost
 }}}
+And we can also use this:<br>
 {{{
 $ netstat -lntu
 }}}
