@@ -74,6 +74,7 @@
 <li><a href="#toc_0.37">Check What Files Are Opened by A Particular Process</a>
 <li><a href="#toc_0.38">List the First 10 Processes that Consume Most Memory</a>
 <li><a href="#toc_0.39">Check Net Ports Status</a>
+<li><a href="#toc_0.40">Create A swapfile for Linux</a>
 </ul>
 </ul>
 </div>
@@ -690,6 +691,18 @@ And we can also use this:<br>
 <pre>
 $ netstat -lntu
 </pre>
+
+<h2 id="toc_0.40">Create A swapfile for Linux</h2>
+<pre>
+# mkswap /swapfile
+# swapon /swapfile
+# echo "/swapfile       swap    swap    auto      0       0" | tee -a /etc/fstab
+# sysctl -w vm.swappiness=10
+# echo vm.swappiness = 10 | tee -a /etc/sysctl.conf
+</pre>
+<p>
+Referred to: <a href="https://meta.discourse.org/t/create-a-swapfile-for-your-linux-server/13880">https://meta.discourse.org/t/create-a-swapfile-for-your-linux-server/13880</a> <br>
+</p>
 
 
 			</div>
