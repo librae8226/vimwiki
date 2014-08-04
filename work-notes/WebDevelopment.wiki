@@ -58,5 +58,115 @@ http://localhost:4000 <br>
 `Ps: If access from other PCs, ensure the firewall has add port 4000 for trusted.`<br>
 `Thus Xampp could not be needed any more.`<br>
 
+=== Deploy An Nginx Server ===
+
+Refer to official site:<br>
+http://wiki.nginx.org/Install <br>
+
+Brief:<br>
+* `apt-get install nginx`<br>
+* To control: `nginx -s [ stop | quit | reopen | reload ]`<br>
+
+Configuration files are placed in `/etc/nginx/`: <br>
+`sites-enabled/` and `conf.d/*` will be included in `nginx.conf`<br>
+And `sites-available/` is used for customization, linked as symbol into `sites-enabled/`.<br>
+
+1. Basic http server example:<br>
+{{{
+# sites-available/accrete.org.conf
+server
+{
+    server_name .accrete.org;
+
+    access_log /var/log/nginx/accrete.org.access.log;
+
+    error_log /var/log/nginx/accrete.org.error.log;
+
+    root /var/www/accrete.org/html;
+
+    index index.php index.html index.htm;
+
+    # use fastcgi for all php files
+    location ~ \.php$
+    {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    # deny access to apache .htaccess files
+    location ~ /\.ht
+    {
+        deny all;
+    }
+}
+}}}
+
+2. Basic forward proxy example:<br>
+{{{
+# conf.d/http_proxy.conf
+server {
+    resolver 8.8.8.8;
+    resolver_timeout 5s;
+
+    listen 0.0.0.0:8080;
+
+    access_log  /var/log/nginx/proxy.access.log;
+    error_log   /var/log/nginx/proxy.error.log;
+
+    location / {
+        proxy_pass $scheme://$host$request_uri;
+        proxy_set_header Host $http_host;
+
+        proxy_buffers 256 4k;
+        proxy_max_temp_file_size 0;
+
+        proxy_connect_timeout 30;
+
+        proxy_cache_valid 200 302 10m;
+        proxy_cache_valid 301 1h;
+        proxy_cache_valid any 1m;
+    }
+}
+}}}
+
+=== Deploy A Docker for Discourse on DO ===
+
+Refer to official tutorial:<br>
+https://github.com/discourse/discourse/blob/master/docs/INSTALL-digital-ocean.md <br>
+
+To use it along with Nginx, we need below extra steps since default 80 port is occupied already:<br>
+
+1. Modify `/var/docker/containers/app.yml`<br>
+{{{
+## which TCP/IP ports should this container expose?
+expose:
+  - "4578:80"   # fwd host port 4578 to container port 80 (http)
+  - "2222:22" # fwd host port 2222 to container port 22 (ssh)
+}}}
+
+2. Add a conf for Nginx to tell him to forward specific request to port 4578:<br>
+{{{
+# sites-available/forum.accrete.org.conf
+
+upstream discourse {
+#fail_timeout is optional; I throw it in to see errors quickly
+    server 127.0.0.1:4578 fail_timeout=5;
+}
+
+# configure the virtual host
+server {
+    server_name forum.accrete.org;
+
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+# pass to the upstream discourse server mentioned above
+        proxy_pass http://discourse;
+    }
+}
+}}}
 
 %template header-footer

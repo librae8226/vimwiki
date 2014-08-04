@@ -40,6 +40,8 @@
 <ul>
 <li><a href="#toc_0.2.1">Installation on Fedora 16</a>
 <li><a href="#toc_0.2.2">Run A Local Server for Debug</a>
+<li><a href="#toc_0.2.3">Deploy An Nginx Server</a>
+<li><a href="#toc_0.2.4">Deploy A Docker for Discourse on DO</a>
 </ul>
 </ul>
 </ul>
@@ -120,6 +122,141 @@ Then open web browser to access:<br>
 <code>Ps: If access from other PCs, ensure the firewall has add port 4000 for trusted.</code><br>
 <code>Thus Xampp could not be needed any more.</code><br>
 </p>
+
+<h3 id="toc_0.2.3">Deploy An Nginx Server</h3>
+
+<p>
+Refer to official site:<br>
+<a href="http://wiki.nginx.org/Install">http://wiki.nginx.org/Install</a> <br>
+</p>
+
+<p>
+Brief:<br>
+</p>
+<ul>
+<li>
+<code>apt-get install nginx</code><br>
+
+<li>
+To control: <code>nginx -s [ stop | quit | reopen | reload ]</code><br>
+
+</ul>
+
+<p>
+Configuration files are placed in <code>/etc/nginx/</code>: <br>
+<code>sites-enabled/</code> and <code>conf.d/*</code> will be included in <code>nginx.conf</code><br>
+And <code>sites-available/</code> is used for customization, linked as symbol into <code>sites-enabled/</code>.<br>
+</p>
+
+<p>
+1. Basic http server example:<br>
+</p>
+<pre>
+# sites-available/accrete.org.conf
+server
+{
+    server_name .accrete.org;
+
+    access_log /var/log/nginx/accrete.org.access.log;
+
+    error_log /var/log/nginx/accrete.org.error.log;
+
+    root /var/www/accrete.org/html;
+
+    index index.php index.html index.htm;
+
+    # use fastcgi for all php files
+    location ~ \.php$
+    {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    # deny access to apache .htaccess files
+    location ~ /\.ht
+    {
+        deny all;
+    }
+}
+</pre>
+
+<p>
+2. Basic forward proxy example:<br>
+</p>
+<pre>
+# conf.d/http_proxy.conf
+server {
+    resolver 8.8.8.8;
+    resolver_timeout 5s;
+
+    listen 0.0.0.0:8080;
+
+    access_log  /var/log/nginx/proxy.access.log;
+    error_log   /var/log/nginx/proxy.error.log;
+
+    location / {
+        proxy_pass $scheme://$host$request_uri;
+        proxy_set_header Host $http_host;
+
+        proxy_buffers 256 4k;
+        proxy_max_temp_file_size 0;
+
+        proxy_connect_timeout 30;
+
+        proxy_cache_valid 200 302 10m;
+        proxy_cache_valid 301 1h;
+        proxy_cache_valid any 1m;
+    }
+}
+</pre>
+
+<h3 id="toc_0.2.4">Deploy A Docker for Discourse on DO</h3>
+
+<p>
+Refer to official tutorial:<br>
+<a href="https://github.com/discourse/discourse/blob/master/docs/INSTALL-digital-ocean.md">https://github.com/discourse/discourse/blob/master/docs/INSTALL-digital-ocean.md</a> <br>
+</p>
+
+<p>
+To use it along with Nginx, we need below extra steps since default 80 port is occupied already:<br>
+</p>
+
+<p>
+1. Modify <code>/var/docker/containers/app.yml</code><br>
+</p>
+<pre>
+## which TCP/IP ports should this container expose?
+expose:
+  - "4578:80"   # fwd host port 4578 to container port 80 (http)
+  - "2222:22" # fwd host port 2222 to container port 22 (ssh)
+</pre>
+
+<p>
+2. Add a conf for Nginx to tell him to forward specific request to port 4578:<br>
+</p>
+<pre>
+# sites-available/forum.accrete.org.conf
+
+upstream discourse {
+#fail_timeout is optional; I throw it in to see errors quickly
+    server 127.0.0.1:4578 fail_timeout=5;
+}
+
+# configure the virtual host
+server {
+    server_name forum.accrete.org;
+
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+# pass to the upstream discourse server mentioned above
+        proxy_pass http://discourse;
+    }
+}
+</pre>
 
 
 			</div>

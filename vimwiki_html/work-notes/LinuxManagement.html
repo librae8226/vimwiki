@@ -72,6 +72,7 @@
 <li><a href="#toc_0.35">Fedora 16 Make It Work: Bluetooth Dongle with HC-05 rfcomm</a>
 <li><a href="#toc_0.36">Restore Files That Was Removed by rm -rf</a>
 <li><a href="#toc_0.37">Check What Files Are Opened by A Particular Process</a>
+<li><a href="#toc_0.38">List the First 10 Processes that Consume Most Memory</a>
 </ul>
 </ul>
 </div>
@@ -664,6 +665,11 @@ Refer to this link:<br>
 <h2 id="toc_0.37">Check What Files Are Opened by A Particular Process</h2>
 <pre>
 	ls -l /proc/7857/fd
+</pre>
+
+<h2 id="toc_0.38">List the First 10 Processes that Consume Most Memory</h2>
+<pre>
+ps -e -o 'pid,comm,args,rsz,vsz,user' | sort -nrk4 | head
 </pre>
 
 

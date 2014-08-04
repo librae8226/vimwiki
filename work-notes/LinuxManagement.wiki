@@ -432,4 +432,9 @@ http://linux-commands.wikidot.com/howto-s:lxde <br>
 	ls -l /proc/7857/fd
 }}}
 
+== List the First 10 Processes that Consume Most Memory ==
+{{{
+ps -e -o 'pid,comm,args,rsz,vsz,user' | sort -nrk4 | head
+}}}
+
 %template header-footer
