@@ -73,6 +73,7 @@
 <li><a href="#toc_0.36">Restore Files That Was Removed by rm -rf</a>
 <li><a href="#toc_0.37">Check What Files Are Opened by A Particular Process</a>
 <li><a href="#toc_0.38">List the First 10 Processes that Consume Most Memory</a>
+<li><a href="#toc_0.39">Check Net Ports Status</a>
 </ul>
 </ul>
 </div>
@@ -670,6 +671,14 @@ Refer to this link:<br>
 <h2 id="toc_0.38">List the First 10 Processes that Consume Most Memory</h2>
 <pre>
 ps -e -o 'pid,comm,args,rsz,vsz,user' | sort -nrk4 | head
+</pre>
+
+<h2 id="toc_0.39">Check Net Ports Status</h2>
+<pre>
+# nmap -sT -O localhost
+</pre>
+<pre>
+$ netstat -lntu
 </pre>
 
 

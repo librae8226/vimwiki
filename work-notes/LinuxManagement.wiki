@@ -437,4 +437,12 @@ http://linux-commands.wikidot.com/howto-s:lxde <br>
 ps -e -o 'pid,comm,args,rsz,vsz,user' | sort -nrk4 | head
 }}}
 
+== Check Net Ports Status ==
+{{{
+# nmap -sT -O localhost
+}}}
+{{{
+$ netstat -lntu
+}}}
+
 %template header-footer
