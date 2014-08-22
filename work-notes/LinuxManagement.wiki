@@ -463,4 +463,11 @@ $ netstat -lntu
 }}}
 Referred to: https://meta.discourse.org/t/create-a-swapfile-for-your-linux-server/13880 <br>
 
+== Find Regular Files Only (Ignore Directories) ==
+e.g in Makefile:<br>
+{{{
+@find $(SRCDIR) -name \*.o -prune -type f | xargs $(RM)
+@find $(SRCDIR) -name \*.d -prune -type f | xargs $(RM)
+}}}
+
 %template header-footer

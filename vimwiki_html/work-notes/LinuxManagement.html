@@ -75,6 +75,7 @@
 <li><a href="#toc_0.38">List the First 10 Processes that Consume Most Memory</a>
 <li><a href="#toc_0.39">Check Net Ports Status</a>
 <li><a href="#toc_0.40">Create A swapfile for Linux</a>
+<li><a href="#toc_0.41">Find Regular Files Only (Ignore Directories)</a>
 </ul>
 </ul>
 </div>
@@ -705,6 +706,15 @@ $ netstat -lntu
 <p>
 Referred to: <a href="https://meta.discourse.org/t/create-a-swapfile-for-your-linux-server/13880">https://meta.discourse.org/t/create-a-swapfile-for-your-linux-server/13880</a> <br>
 </p>
+
+<h2 id="toc_0.41">Find Regular Files Only (Ignore Directories)</h2>
+<p>
+e.g in Makefile:<br>
+</p>
+<pre>
+@find $(SRCDIR) -name \*.o -prune -type f | xargs $(RM)
+@find $(SRCDIR) -name \*.d -prune -type f | xargs $(RM)
+</pre>
 
 
 			</div>
