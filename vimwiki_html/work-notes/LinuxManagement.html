@@ -76,6 +76,7 @@
 <li><a href="#toc_0.39">Check Net Ports Status</a>
 <li><a href="#toc_0.40">Create A swapfile for Linux</a>
 <li><a href="#toc_0.41">Find Regular Files Only (Ignore Directories)</a>
+<li><a href="#toc_0.42">Sort for Particular Columns</a>
 </ul>
 </ul>
 </div>
@@ -714,6 +715,80 @@ e.g in Makefile:<br>
 <pre>
 @find $(SRCDIR) -name \*.o -prune -type f | xargs $(RM)
 @find $(SRCDIR) -name \*.d -prune -type f | xargs $(RM)
+</pre>
+
+<h2 id="toc_0.42">Sort for Particular Columns</h2>
+<p>
+e.g. in ousia build - sizes file:<br>
+</p>
+<blockquote>
+<code>cat build/ousia.sizes | sort -k1,1n</code><br>
+</blockquote>
+<pre>
+      0	      0	      0	      0	      0	build/core/sys_ds.o
+      0	      0	      0	      0	      0	build/core/sys_ictl.o
+      0	      0	      0	      0	      0	build/framework/vfs/fileops.o
+      0	      0	      0	      0	      0	build/platform/stm32/libmaple/stm32f1/fsmc.o
+      0	      0	      0	      0	      0	build/platform/stm32/libmaple/stm32f1/performance/vector_table.o
+   text	   data	    bss	    dec	    hex	filename
+      2	      0	      0	      2	      2	build/platform/stm32/libmaple/stm32f1/performance/isrs.o
+     20	      0	      0	     20	     14	build/platform/stm32/libmaple/flash.o
+     20	      0	      0	     20	     14	build/platform/stm32/libmaple/gpio.o
+     20	      0	      0	     20	     14	build/platform/stm32/libmaple/pwr.o
+     24	      0	      0	     24	     18	build/core/sys_main.o
+     24	      0	      0	     24	     18	build/platform/stm32/libmaple/start.o
+     28	      0	      0	     28	     1c	build/platform/stm32/libmaple/stm32f1/exti.o
+     36	      0	      0	     36	     24	build/platform/stm32/libmaple/usart_private.o
+     48	      0	      4	     52	     34	build/core/sys_sync.o
+     52	      0	      0	     52	     34	build/platform/stm32/libmaple/iwdg.o
+     56	      0	      0	     56	     38	build/platform/stm32/libmaple/usb/usb_lib/usb_init.o
+     64	      0	      4	     68	     44	build/core/sys_time.o
+     92	      0	      0	     92	     5c	build/platform/stm32/libmaple/usb/usb_lib/usb_mem.o
+     96	      0	      0	     96	     60	build/platform/stm32/libmaple/exc.o
+    104	      0	      0	    104	     68	build/core/sys_debug.o
+    104	      0	      0	    104	     68	build/platform/stm32/libmaple/dma.o
+    112	      0	      0	    112	     70	build/platform/stm32/libmaple/start_c.o
+    116	      0	      0	    116	     74	build/platform/stm32/libmaple/adc.o
+    120	      0	      4	    124	     7c	build/project/sample_stm32/main.o
+    128	      0	      0	    128	     80	build/platform/stm32/libmaple/util_hooks.o
+    132	     24	      0	    156	     9c	build/platform/stm32/libmaple/stm32f1/spi.o
+    140	     24	      0	    164	     a4	build/platform/stm32/libmaple/stm32f1/adc.o
+    144	      0	      0	    144	     90	build/platform/stm32/libmaple/nvic.o
+    152	      0	      0	    152	     98	build/platform/stm32/libmaple/rcc.o
+    188	      8	      0	    196	     c4	build/platform/stm32/libmaple/stm32f1/bkp.o
+    200	      0	      0	    200	     c8	build/platform/stm32/libmaple/dac.o
+    200	      0	      8	    208	     d0	build/platform/stm32/libmaple/systick.o
+    212	     32	      0	    244	     f4	build/platform/stm32/libmaple/stm32f1/gpio.o
+    240	      0	      0	    240	     f0	build/platform/stm32/libmaple/spi.o
+    256	      0	      0	    256	    100	build/platform/stm32/libmaple/usb/stm32f1/usb_reg_map.o
+    288	    112	      0	    400	    190	build/platform/stm32/libmaple/stm32f1/i2c.o
+    344	      0	      4	    348	    15c	build/core/ulib/string.o
+    360	      0	      0	    360	    168	build/core/sys_mm.o
+    368	      0	      0	    368	    170	build/platform/stm32/libmaple/usart.o
+    428	      0	      8	    436	    1b4	build/platform/stm32/libmaple/util.o
+    484	    252	     36	    772	    304	build/platform/stm32/libmaple/stm32f1/usart.o
+    520	      0	      0	    520	    208	build/core/ulib/stdlib.o
+    520	     20	      0	    540	    21c	build/platform/stm32/libmaple/stm32f1/rcc.o
+    556	      0	      0	    556	    22c	build/platform/stm32/libmaple/stm32f1/timer.o
+    572	      0	     64	    636	    27c	build/project/sample_stm32/eeprom.o
+    688	      0	    128	    816	    330	build/platform/stm32/libmaple/exti.o
+    784	      0	     16	    800	    320	build/core/sys_print.o
+    868	      0	      0	    868	    364	build/framework/console/cmd.o
+    908	     20	      0	    928	    3a0	build/platform/stm32/libmaple/usb/stm32f1/usb.o
+    928	    164	      0	   1092	    444	build/platform/stm32/libmaple/timer.o
+   1060	      0	    464	   1524	    5f4	build/framework/console/console.o
+   1188	      0	     36	   1224	    4c8	build/core/sys_utils.o
+   1276	      4	      1	   1281	    501	build/platform/stm32/utils/utils.o
+   1304	     68	      0	   1372	    55c	build/platform/stm32/libmaple/stm32f1/dma.o
+   1460	      0	      0	   1460	    5b4	build/core/mm_std.o
+   1600	    192	     86	   1878	    756	build/platform/stm32/libmaple/usb/stm32f1/usb_cdcacm.o
+   1776	      0	      0	   1776	    6f0	build/platform/stm32/libmaple/i2c.o
+   1852	      0	     16	   1868	    74c	build/platform/stm32/port/ousia_port.o
+   1968	      0	      0	   1968	    7b0	build/platform/stm32/libmaple/usb/usb_lib/usb_regs.o
+   2344	      0	      1	   2345	    929	build/platform/stm32/libmaple/usb/usb_lib/usb_core.o
+   2544	      0	   2048	   4592	   11f0	build/project/sample_stm32/mlcd.o
+   2556	      0	     36	   2592	    a20	build/core/sys_sched.o
+  32674	    920	   2964	  36558	   8ece	(TOTALS)
 </pre>
 
 
