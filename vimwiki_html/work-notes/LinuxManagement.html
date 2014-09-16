@@ -77,6 +77,7 @@
 <li><a href="#toc_0.40">Create A swapfile for Linux</a>
 <li><a href="#toc_0.41">Find Regular Files Only (Ignore Directories)</a>
 <li><a href="#toc_0.42">Sort for Particular Columns</a>
+<li><a href="#toc_0.43">Delete Specific Line(s) in Some File(s)</a>
 </ul>
 </ul>
 </div>
@@ -789,6 +790,14 @@ e.g. in ousia build - sizes file:<br>
    2544	      0	   2048	   4592	   11f0	build/project/sample_stm32/mlcd.o
    2556	      0	     36	   2592	    a20	build/core/sys_sched.o
   32674	    920	   2964	  36558	   8ece	(TOTALS)
+</pre>
+
+<h2 id="toc_0.43">Delete Specific Line(s) in Some File(s)</h2>
+<p>
+Those lines contains "sm_api.h" will be deleted.<br>
+</p>
+<pre>
+sed -i '/sm_api\.h/d' `find . -name \*.c`
 </pre>
 
 

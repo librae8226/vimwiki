@@ -540,4 +540,10 @@ e.g. in ousia build - sizes file:<br>
   32674	    920	   2964	  36558	   8ece	(TOTALS)
 }}}
 
+== Delete Specific Line(s) in Some File(s) ==
+Those lines contains "sm_api.h" will be deleted.<br>
+{{{
+sed -i '/sm_api\.h/d' `find . -name \*.c`
+}}}
+
 %template header-footer
