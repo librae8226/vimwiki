@@ -49,6 +49,8 @@ chmod only for files:<br>
 	`sed -i 's/TO_BE_REPLACED/NEW_STRING/g' FILE_NAME1 FILE_NAME2 ...`<br>
 and we can also use following line to delete the last line:<br>
 	`sed -i '$d' FILE_NAME`<br>
+delete the line matches string "chromium":<br>
+	`sed -i '/chromium/d' FILE_NAME`
 
 == remove trailing white spaces ==
 	`sed -i 's/[ \t]*$//g' FILE_NAME1 FILE_NAME2 ...`<br>

@@ -166,6 +166,8 @@ chmod only for files:<br>
 	<code>sed -i 's/TO_BE_REPLACED/NEW_STRING/g' FILE_NAME1 FILE_NAME2 ...</code><br>
 and we can also use following line to delete the last line:<br>
 	<code>sed -i '$d' FILE_NAME</code><br>
+delete the line matches string "chromium":<br>
+	<code>sed -i '/chromium/d' FILE_NAME</code>
 </p>
 
 <h2 id="toc_0.9">remove trailing white spaces</h2>
