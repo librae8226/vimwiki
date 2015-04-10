@@ -78,6 +78,7 @@
 <li><a href="#toc_0.41">Find Regular Files Only (Ignore Directories)</a>
 <li><a href="#toc_0.42">Sort for Particular Columns</a>
 <li><a href="#toc_0.43">Delete Specific Line(s) in Some File(s)</a>
+<li><a href="#toc_0.44">Reading from a continuously changing logfile</a>
 </ul>
 </ul>
 </div>
@@ -800,6 +801,14 @@ Those lines contains "sm_api.h" will be deleted.<br>
 </p>
 <pre>
 sed -i '/sm_api\.h/d' `find . -name \*.c`
+</pre>
+
+<h2 id="toc_0.44">Reading from a continuously changing logfile</h2>
+<p>
+In below case, btsnoop_hci.log.txt is growing:<br>
+</p>
+<pre>
+tail -f /sdcard/btsnoop_hci.log.txt
 </pre>
 
 

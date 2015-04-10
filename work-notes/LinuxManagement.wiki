@@ -548,4 +548,10 @@ Those lines contains "sm_api.h" will be deleted.<br>
 sed -i '/sm_api\.h/d' `find . -name \*.c`
 }}}
 
+== Reading from a continuously changing logfile ==
+In below case, btsnoop_hci.log.txt is growing:<br>
+{{{
+tail -f /sdcard/btsnoop_hci.log.txt
+}}}
+
 %template header-footer
