@@ -47,6 +47,8 @@ chmod only for files:<br>
 
 == find text and replace ==
 	`sed -i 's/TO_BE_REPLACED/NEW_STRING/g' FILE_NAME1 FILE_NAME2 ...`<br>
+gosh, for OS X, we need another way for this:<br>
+	`sed -i '' -e 's/viewtool-stm32f107/colibri/' FILE_NAME1 FILE_NAME2 ...`<br>
 and we can also use following line to delete the last line:<br>
 	`sed -i '$d' FILE_NAME`<br>
 delete the line matches string "chromium":<br>
