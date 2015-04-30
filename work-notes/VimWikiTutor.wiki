@@ -87,8 +87,8 @@ KernelHacking WikiWord link
 [[VimWikiTutor]] link with an arbitrary name
 
 with descr.<br>
-[[MrvlBug| Desc 1]]
-[[MrvlBug][Desc 2]]
+[[Bug| Desc 1]]
+[[Bug][Desc 2]]
 
 link to a local file:<br>
 [[/home/yliao/Documents/Object-oriented_Programming_with_ANSI-C.pdf]]<br>
