@@ -556,4 +556,9 @@ In below case, btsnoop_hci.log.txt is growing:<br>
 tail -f /sdcard/btsnoop_hci.log.txt
 }}}
 
+== Rstart udev rules ==
+{{{
+# udevadm control --reload-rules
+}}}
+
 %template header-footer

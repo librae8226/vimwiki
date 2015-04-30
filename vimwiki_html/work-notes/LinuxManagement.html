@@ -79,6 +79,7 @@
 <li><a href="#toc_0.42">Sort for Particular Columns</a>
 <li><a href="#toc_0.43">Delete Specific Line(s) in Some File(s)</a>
 <li><a href="#toc_0.44">Reading from a continuously changing logfile</a>
+<li><a href="#toc_0.45">Rstart udev rules</a>
 </ul>
 </ul>
 </div>
@@ -165,6 +166,8 @@ chmod only for files:<br>
 <h2 id="toc_0.8">find text and replace</h2>
 <p>
 	<code>sed -i 's/TO_BE_REPLACED/NEW_STRING/g' FILE_NAME1 FILE_NAME2 ...</code><br>
+gosh, for OS X, we need another way for this:<br>
+	<code>sed -i '' -e 's/TO_BE_REPLACED/NEW_STRING/' FILE_NAME1 FILE_NAME2 ...</code><br>
 and we can also use following line to delete the last line:<br>
 	<code>sed -i '$d' FILE_NAME</code><br>
 delete the line matches string "chromium":<br>
@@ -809,6 +812,11 @@ In below case, btsnoop_hci.log.txt is growing:<br>
 </p>
 <pre>
 tail -f /sdcard/btsnoop_hci.log.txt
+</pre>
+
+<h2 id="toc_0.45">Rstart udev rules</h2>
+<pre>
+# udevadm control --reload-rules
 </pre>
 
 
