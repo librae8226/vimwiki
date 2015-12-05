@@ -561,4 +561,24 @@ tail -f /sdcard/btsnoop_hci.log.txt
 # udevadm control --reload-rules
 }}}
 
+== Cent OS 7 firewall-cmd ==
+List:<br>
+{{{
+# firewall-cmd --list-all
+public (default, active)
+  interfaces: enp0s25
+  sources:
+  services: dhcpv6-client mdns ssh
+  ports: 3000/tcp 80/tcp 5683/tcp 5683/udp 6067/tcp 80/udp 1883/udp 1883/tcp
+  masquerade: no
+  forward-ports:
+  icmp-blocks:
+  rich rules:
+}}}
+Open port:<br>
+{{{
+# firewall-cmd --zone=public --add-port=6067/tcp --permanent
+# firewall-cmd --reload
+}}}
+
 %template header-footer
